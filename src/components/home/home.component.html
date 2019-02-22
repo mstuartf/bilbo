@@ -1,0 +1,63 @@
+<p>
+  HOME page
+</p>
+
+<a routerLink="/login">Logout</a>
+
+<table>
+	<thead>
+		<th>
+			id
+		</th>
+		<th>
+			title
+		</th>
+		<th>
+			description
+		</th>
+		<th>
+			due on
+		</th>
+		<th>
+			amount
+		</th>
+	</thead>
+	<tr *ngFor="let bill of billFeed.list">
+		<td>
+			{{ bill.id }}
+		</td>
+		<td>
+			{{ bill.title }}
+		</td>
+		<td>
+			{{ bill.description }}
+		</td>
+		<td>
+			{{ bill.dueDate }}
+		</td>
+		<td>
+			{{ bill.amount | currency: '£' }}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<input type="string" [(ngModel)]="newBill.id"/>
+		</td>
+		<td>
+			<input type="string" [(ngModel)]="newBill.title"/>
+		</td>
+		<td>
+			<input type="string" [(ngModel)]="newBill.description"/>
+		</td>
+		<td>
+			<input type="number" [(ngModel)]="newBill.dueDate"/>
+		</td>
+		<td>
+			<input type="number" [(ngModel)]="newBill.amount"/>
+		</td>
+	</tr>
+</table>
+
+<button (click)="addBill()">
+	Add
+</button>
