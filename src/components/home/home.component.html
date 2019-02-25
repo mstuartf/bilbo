@@ -4,7 +4,7 @@
 
 <a routerLink="/login">Logout</a>
 
-<table>
+<table *ngIf="billFeed">
 	<thead>
 		<th>
 			id
@@ -67,3 +67,6 @@
 <button (click)="addBill()">
 	Add
 </button>
+
+<app-spinner *ngIf="showSpinner" [text]="spinnerText"></app-spinner>
+

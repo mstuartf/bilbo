@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from '../components/home/home.component';
 import { LoginComponent } from '../components/login/login.component';
+import { SpinnerComponent } from '../components/spinner/spinner.component';
 import { RegisterComponent } from '../components/register/register.component';
 
 import { BillService } from '../providers/bill/bill.service';
@@ -19,7 +20,8 @@ import { BillEffects } from '../providers/bill/bill.effects';
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    SpinnerComponent
   ],
   imports: [
     FormsModule,

@@ -21,7 +21,6 @@ export class BillEffects {
 				map((data: BillQuery) => new BillActions.GetBillsSuccess(data))
 			)
 		)
-
 	)
 
 	@Effect()
