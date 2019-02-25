@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
+import { ActionsSubject } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+
 import { AppState } from '../../app/app.state';
 import { BillService } from '../../providers/bill/bill.service';
 import { BillFeed, BillModel } from '../../providers/bill/bill.model';
@@ -16,9 +19,17 @@ export class HomeComponent implements OnInit {
 
   billFeed: BillFeed;
   newBill: BillModel = new BillModel();
+  actionsSub: Subscription
 
-  constructor(public billService: BillService, private store: Store<AppState>) {
+  constructor(public billService: BillService, private store: Store<AppState>, private actionsSubject: ActionsSubject) {
+
     this.store.dispatch(new BillActions.GetBillsRequest())
+
+    this.actionsSub = actionsSubject.subscribe(action => { 
+       if (action.type === BillActions.ADD_BILL_SUCCESS)
+          this.onAddBillSuccess();
+    });
+
   }
 
   ngOnInit() {
@@ -28,10 +39,19 @@ export class HomeComponent implements OnInit {
   }
 
   addBill() {
-    this.billService.add(this.newBill).subscribe((bills) => {
-       this.billFeed = new BillFeed(bills);
-       this.newBill = new BillModel();
-    })
+    this.store.dispatch(new BillActions.AddBillRequest(this.newBill));    
+  }
+
+  onAddBillSuccess() {
+    this.newBill = new BillModel();
+  }
+
+  removeBill(bill: BillModel) {
+    this.store.dispatch(new BillActions.RemoveBillRequest(bill))
+  }
+
+  ngOnDestroy() {
+    this.actionsSub.unsubscribe();
   }
 
 }

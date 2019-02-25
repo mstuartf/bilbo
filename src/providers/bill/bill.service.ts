@@ -8,7 +8,6 @@ import { BillModel } from './bill.model';
 
 @Injectable()
 export class BillService {
- 
 
   constructor() { }
 
@@ -17,9 +16,11 @@ export class BillService {
   }
 
   add(bill: BillModel) {
-  	mocked.count++;
-  	mocked.results.push(bill.getData());
-  	return of(mocked);
+  	return of(bill.getData());
+  }
+
+  remove(bill: BillModel) {
+  	return of(bill.getData());
   }
 
 }

@@ -21,6 +21,7 @@
 		<th>
 			amount
 		</th>
+		<th></th>
 	</thead>
 	<tr *ngFor="let bill of billFeed.list">
 		<td>
@@ -38,6 +39,9 @@
 		<td>
 			{{ bill.amount | currency: '£' }}
 		</td>
+		<td>
+			<button (click)="removeBill(bill)">X</button>
+		</td>
 	</tr>
 	<tr>
 		<td>
@@ -54,6 +58,8 @@
 		</td>
 		<td>
 			<input type="number" [(ngModel)]="newBill.amount"/>
+		</td>
+		<td>
 		</td>
 	</tr>
 </table>
