@@ -5,11 +5,11 @@
 <ul>
 <!-- routerLink is an Angular 7 attribute that allows you to direct the browser to different routed components-->
 <label>email address 
-	<input type="email"/>
+	<input type="email" [(ngModel)]="user.emailAddress"/>
 </label>
 
 <label>password 
-	<input type="password"/>
+	<input type="password" [(ngModel)]="user.password"/>
 </label>
 
 <button (click)="register()">Register</button>

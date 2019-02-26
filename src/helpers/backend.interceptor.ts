@@ -3,7 +3,7 @@ import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTT
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
-import { fakeBackend } from './backend.handlers';
+import { handlers } from './backend.handlers';
  
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -16,8 +16,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         return of(null).pipe(mergeMap(() => {
 
             // need to assert type as Observable<HttpEvent<any>> when accessing the functions this way
-            if (fakeBackend.hasOwnProperty(request.url) && fakeBackend[request.url].hasOwnProperty(request.method))
-                return fakeBackend[request.url][request.method].handler(request) as Observable<HttpEvent<any>>;
+            if (handlers.hasOwnProperty(request.url) && handlers[request.url].hasOwnProperty(request.method))
+                return handlers[request.url][request.method].handler(request) as Observable<HttpEvent<any>>;
             
             return next.handle(request);
              
