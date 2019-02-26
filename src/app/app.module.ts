@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects'
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -19,6 +20,8 @@ import { UserService } from '../providers/user/user.service';
 import { userReducer } from '../providers/user/user.reducer';
 import { UserEffects } from '../providers/user/user.effects';
 
+import { FakeBackendProvider } from '../helpers/backend.interceptor';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,8 +36,9 @@ import { UserEffects } from '../providers/user/user.effects';
     AppRoutingModule,
     StoreModule.forRoot({ bills: billReducer, user: userReducer }),
     EffectsModule.forRoot([BillEffects, UserEffects]),
+    HttpClientModule
   ],
-  providers: [BillService, UserService],
+  providers: [BillService, UserService, FakeBackendProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

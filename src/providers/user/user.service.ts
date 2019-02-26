@@ -5,6 +5,8 @@ import { delay } from 'rxjs/operators';
 
 import { UserModel } from './user.model';
 
+import { HttpClient } from '@angular/common/http';
+
 @Injectable({
 	providedIn: 'root'
 })
@@ -12,7 +14,7 @@ export class UserService {
 
 	delay: number = 1000;
 
-	constructor() { }
+	constructor(public http: HttpClient) { }
 
 	register(user: UserModel) {
 		let userObj = user.getData();
@@ -25,9 +27,7 @@ export class UserService {
 	}
 
 	login(user: UserModel) {
-		return of(this.loginTask(user)).pipe(
-			delay(this.delay)
-		);
+		return this.http.post('login', user.getData());
 	}
 
 	loginTask(user: UserModel) {
