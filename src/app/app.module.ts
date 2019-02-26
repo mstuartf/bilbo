@@ -15,6 +15,10 @@ import { BillService } from '../providers/bill/bill.service';
 import { billReducer } from '../providers/bill/bill.reducer';
 import { BillEffects } from '../providers/bill/bill.effects';
 
+import { UserService } from '../providers/user/user.service';
+import { userReducer } from '../providers/user/user.reducer';
+import { UserEffects } from '../providers/user/user.effects';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,10 +31,10 @@ import { BillEffects } from '../providers/bill/bill.effects';
     FormsModule,
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot({ bills: billReducer }),
-    EffectsModule.forRoot([BillEffects]),
+    StoreModule.forRoot({ bills: billReducer, user: userReducer }),
+    EffectsModule.forRoot([BillEffects, UserEffects]),
   ],
-  providers: [BillService],
+  providers: [BillService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

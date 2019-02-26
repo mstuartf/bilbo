@@ -4,6 +4,17 @@
 
 <ul>
 <!-- routerLink is an Angular 7 attribute that allows you to direct the browser to different routed components-->
-<li><a routerLink="/">Register</a></li>
+<label>email address 
+	<input type="email"/>
+</label>
+
+<label>password 
+	<input type="password"/>
+</label>
+
+<button (click)="register()">Register</button>
+
 <li><a routerLink="/login">Already a member? Login</a></li>
 </ul>
+
+<app-spinner *ngIf="showSpinner" [text]="spinnerText"></app-spinner>
