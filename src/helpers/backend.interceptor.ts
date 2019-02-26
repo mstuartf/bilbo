@@ -14,7 +14,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
  
         // wrap in delayed observable to simulate server api call
         return of(null).pipe(mergeMap(() => {
-
+            
             // need to assert type as Observable<HttpEvent<any>> when accessing the functions this way
             if (handlers.hasOwnProperty(request.url) && handlers[request.url].hasOwnProperty(request.method))
                 return handlers[request.url][request.method].handler(request) as Observable<HttpEvent<any>>;

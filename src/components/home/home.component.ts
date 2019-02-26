@@ -73,6 +73,10 @@ export class HomeComponent implements OnInit {
 		this.toggleLoadingSpinner(false);
 	}
 
+	logout() {
+		console.log('todo')
+	}
+
 	ngOnDestroy() {
 		this.actionsSub.unsubscribe();
 	}

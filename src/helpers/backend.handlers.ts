@@ -39,7 +39,7 @@ export const handlers = {
 		GET: {
 			handler(request: HttpRequest<any>) {
 
-				const results = database.bills.filter((bill: BillObject) => bill.user_id === '1');
+				const results = database.bills.filter((bill: BillObject) => bill.user_id === request.headers.get("user_id"));
 
 				let feed = {
 					count: results.length,

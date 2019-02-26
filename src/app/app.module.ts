@@ -21,6 +21,7 @@ import { userReducer } from '../providers/user/user.reducer';
 import { UserEffects } from '../providers/user/user.effects';
 
 import { FakeBackendProvider } from '../helpers/backend.interceptor';
+import { TokenProvider } from '../helpers/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { FakeBackendProvider } from '../helpers/backend.interceptor';
     EffectsModule.forRoot([BillEffects, UserEffects]),
     HttpClientModule
   ],
-  providers: [BillService, UserService, FakeBackendProvider],
+  providers: [BillService, UserService, TokenProvider, FakeBackendProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

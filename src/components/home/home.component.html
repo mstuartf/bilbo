@@ -2,7 +2,9 @@
   HOME page
 </p>
 
-<a routerLink="/login">Logout</a>
+<button (click)="logout()">
+	Logout
+</button>
 
 <table *ngIf="billFeed">
 	<thead>

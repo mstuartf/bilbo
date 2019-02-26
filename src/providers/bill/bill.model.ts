@@ -3,6 +3,7 @@ import { BillObject, BillQuery } from './bill.interface';
 export class BillModel {
 
 	id: string;
+	userId: string;
 	title: string;
 	description: string;
 	amount: number;
@@ -11,6 +12,7 @@ export class BillModel {
   	constructor(data?: BillObject) { 
   		if (data) {
   			this.id = data.id;
+  			this.userId = data.user_id;
   			this.title = data.title;
   			this.description = data.description;
   			this.amount = data.amount;
@@ -22,6 +24,7 @@ export class BillModel {
   	getData (): BillObject {
   		return {
   			id: this.id,
+  			user_id: this.userId,
   			title: this.title,
   			description: this.description,
   			amount: this.amount,

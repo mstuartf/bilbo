@@ -18,7 +18,10 @@ export class UserEffects {
 
 		switchMap((action: UserActions.RegisterRequest) => 
 			this.userService.register(action.payload).pipe(
-				map((data: UserObject) => new UserActions.RegisterSuccess(data))
+				map((data: UserObject) => {
+					this.userService.setToken(data.id)
+					return new UserActions.RegisterSuccess(data)
+				})
 			)
 		)
 	)
@@ -30,7 +33,10 @@ export class UserEffects {
 
 		switchMap((action: UserActions.LoginRequest) => 
 			this.userService.login(action.payload).pipe(
-				map((data: UserObject) => new UserActions.LoginSuccess(data))
+				map((data: UserObject) => {
+					this.userService.setToken(data.id)
+					return new UserActions.LoginSuccess(data)
+				})
 			)
 		)
 	)

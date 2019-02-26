@@ -22,4 +22,12 @@ export class UserService {
 		return this.http.post('login', user.getData());
 	}
 
+	getToken(): string {
+		return localStorage.getItem('authToken');
+	}
+
+	setToken(token: string) {
+		localStorage.setItem('authToken', token);
+	}
+
 }
