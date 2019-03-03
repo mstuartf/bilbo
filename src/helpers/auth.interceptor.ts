@@ -14,20 +14,23 @@ export class TokenInterceptor implements HttpInterceptor {
 
 		const token = this.userService.getToken()
 
-		// wrap in delayed observable to simulate server api call
         return of(null).pipe(mergeMap(() => {
 
-            request = request.clone({
-				setHeaders: {
-					user_id: token
-					// Authorization: `Token ${token}`
-				}
-			})
-            console.log(request)
+        	if (token)
+        		request = this.setAuthHeader(request, token);
+
             return next.handle(request);
              
         }))
 
+	}
+
+	setAuthHeader (request: HttpRequest<any>, token: string) {
+		return request.clone({
+			setHeaders: {
+				Authorization: `Token ${token}`
+			}
+		})
 	}
 
 }

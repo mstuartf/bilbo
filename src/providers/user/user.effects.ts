@@ -41,4 +41,19 @@ export class UserEffects {
 		)
 	)
 
+	@Effect() 
+  	logout$ = this.actions$.pipe(
+
+    	ofType(UserActions.LOGOUT_REQUEST),
+
+ 		switchMap((action: UserActions.LogoutRequest) => 
+			this.userService.logout().pipe(
+				map(() => {
+					return new UserActions.LogoutSuccess()
+				})
+			)
+		)
+
+    );
+
 }

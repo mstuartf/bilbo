@@ -6,6 +6,11 @@ import { database } from './backend.database';
 import { UserObject } from '../providers/user/user.interface';
 import { BillObject } from '../providers/bill/bill.interface';
 
+
+function getTokenHeader(request: HttpRequest<any>) {
+	return request.headers.get("Authorization").substr(6);
+}
+
 export const handlers = {
 	login: {
 		POST: {
@@ -39,7 +44,7 @@ export const handlers = {
 		GET: {
 			handler(request: HttpRequest<any>) {
 
-				const results = database.bills.filter((bill: BillObject) => bill.user_id === request.headers.get("user_id"));
+				const results = database.bills.filter((bill: BillObject) => bill.user_id === getTokenHeader(request));
 
 				let feed = {
 					count: results.length,

@@ -30,4 +30,12 @@ export class UserService {
 		localStorage.setItem('authToken', token);
 	}
 
+	logout() {
+		return of(this.removeToken()).pipe(delay(1000))
+	}
+
+	removeToken() {
+		localStorage.removeItem('authToken');
+	}
+
 }

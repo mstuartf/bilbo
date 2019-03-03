@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
 
 import { ActionsSubject } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -9,6 +10,7 @@ import { BillService } from '../../providers/bill/bill.service';
 import { BillFeed, BillModel } from '../../providers/bill/bill.model';
 import { BillQuery } from '../../providers/bill/bill.interface';
 import * as BillActions from '../../providers/bill/bill.actions';
+import * as UserActions from '../../providers/user/user.actions';
 
 @Component({
 	selector: 'app-home',
@@ -24,7 +26,7 @@ export class HomeComponent implements OnInit {
 	showSpinner: boolean;
 	spinnerText: string;
 
-	constructor(public billService: BillService, private store: Store<AppState>, private actionsSubject: ActionsSubject) {
+	constructor(public billService: BillService, private store: Store<AppState>, private actionsSubject: ActionsSubject, private router: Router) {
 
 		this.toggleLoadingSpinner(true, 'Loading...')
 
@@ -35,6 +37,8 @@ export class HomeComponent implements OnInit {
 				this.onAddBillSuccess();
 			else if (action.type === BillActions.REMOVE_BILL_SUCCESS)
 				this.onRemoveBillSuccess();
+			else if (action.type === UserActions.LOGOUT_SUCCESS)
+				this.onLogoutSuccess();
 		});
 
 	}
@@ -74,7 +78,13 @@ export class HomeComponent implements OnInit {
 	}
 
 	logout() {
-		console.log('todo')
+		this.toggleLoadingSpinner(true, 'Logging out...')
+		this.store.dispatch(new UserActions.LogoutRequest());    
+	}
+
+	onLogoutSuccess() {
+		this.toggleLoadingSpinner(false);
+		this.router.navigate(['login'])
 	}
 
 	ngOnDestroy() {

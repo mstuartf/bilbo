@@ -31,4 +31,18 @@ export class LoginSuccess implements Action {
 	constructor (public payload: UserObject) {}
 }
 
-export type Actions = RegisterRequest | RegisterSuccess | LoginRequest | LoginSuccess;
+// LOGOUT ----------------------------------------------
+
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST'
+export class LogoutRequest implements Action {
+	readonly type = LOGOUT_REQUEST;
+	constructor () {}
+}
+
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
+export class LogoutSuccess implements Action {
+	readonly type = LOGOUT_SUCCESS;
+	constructor () {}
+}
+
+export type Actions = RegisterRequest | RegisterSuccess | LoginRequest | LoginSuccess | LogoutRequest | LogoutSuccess;
