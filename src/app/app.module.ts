@@ -20,6 +20,8 @@ import { UserService } from '../providers/user/user.service';
 import { userReducer } from '../providers/user/user.reducer';
 import { UserEffects } from '../providers/user/user.effects';
 
+import { metaReducer } from '../helpers/meta.reducer';
+
 import { FakeBackendProvider } from '../helpers/backend.interceptor';
 import { TokenProvider } from '../helpers/auth.interceptor';
 
@@ -35,7 +37,7 @@ import { TokenProvider } from '../helpers/auth.interceptor';
     FormsModule,
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot({ bills: billReducer, user: userReducer }),
+    StoreModule.forRoot({ bills: billReducer, user: userReducer }, { metaReducers: [metaReducer] }),
     EffectsModule.forRoot([BillEffects, UserEffects]),
     HttpClientModule
   ],
