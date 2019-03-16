@@ -22,7 +22,7 @@ import { UserEffects } from '../providers/user/user.effects';
 
 import { metaReducer } from '../helpers/meta.reducer';
 
-import { FakeBackendProvider } from '../helpers/backend.interceptor';
+import { FakeBackendProvider } from '../helpers/fake-backend/backend.interceptor';
 import { TokenProvider } from '../helpers/auth.interceptor';
 
 @NgModule({

@@ -3,8 +3,8 @@ import { throwError, of } from 'rxjs';
 
 import { database } from './backend.database';
 
-import { UserObject } from '../providers/user/user.interface';
-import { BillObject } from '../providers/bill/bill.interface';
+import { UserObject } from '../../providers/user/user.interface';
+import { BillObject } from '../../providers/bill/bill.interface';
 
 
 function getTokenHeader(request: HttpRequest<any>) {
@@ -62,6 +62,7 @@ export const handlers = {
 
 				if (request.body.title && request.body.description && request.body.amount && request.body.due_date) {
 					request.body.id = Math.round(Math.random() * 100).toString();
+					request.body.user_id = getTokenHeader(request);
 					database.bills.push(request.body);
 					return of(new HttpResponse({ status: 200, body: request.body }));
 				}
