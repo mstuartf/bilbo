@@ -1,27 +1,47 @@
-import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs'
-import { mergeMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+
+import { AppState } from '../app/app.state';
 
 import { UserService} from '../providers/user/user.service';
+import * as UserActions from '../providers/user/user.actions';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 
-	constructor(public userService: UserService) {}
+	constructor(private userService: UserService, private router: Router, private store: Store<AppState>) {}
 
 	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
+		
 		const token = this.userService.getToken()
 
-        return of(null).pipe(mergeMap(() => {
+    	if (token)
+    		request = this.setAuthHeader(request, token);
 
-        	if (token)
-        		request = this.setAuthHeader(request, token);
+        return next.handle(request).pipe(
 
-            return next.handle(request);
-             
-        }))
+        	tap(
+        		(event: HttpEvent<any>) => {
+					if (event instanceof HttpResponse) {
+						// option to modify successful requests here
+						// console.log('success', event);
+					}
+				}, 
+
+				(err: HttpErrorResponse) => {	
+					console.log('failure')
+					if (err.status === 401) {
+						// this.userService.removeToken();
+						// this.router.navigate(['login'])
+						this.store.dispatch(new UserActions.LogoutRequest());
+					}
+				}
+        	)
+        );
 
 	}
 

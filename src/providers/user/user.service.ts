@@ -23,7 +23,7 @@ export class UserService {
 	}
 
 	getToken(): string {
-		return localStorage.getItem('authToken');
+		return JSON.parse(localStorage.getItem('authToken'));
 	}
 
 	setToken(token: string) {

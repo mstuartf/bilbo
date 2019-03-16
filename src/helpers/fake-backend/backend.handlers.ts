@@ -1,4 +1,4 @@
-import { HttpRequest, HttpResponse } from '@angular/common/http';
+import { HttpRequest, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { throwError, of } from 'rxjs';
 
 import { database } from './backend.database';
@@ -8,7 +8,22 @@ import { BillObject } from '../../providers/bill/bill.interface';
 
 
 function getTokenHeader(request: HttpRequest<any>) {
-	return request.headers.get("Authorization").substr(6);
+
+	const tokenHeader = request.headers.get("Authorization");
+
+	if (!tokenHeader) {
+		return null;
+	}
+
+	const authToken = tokenHeader.substr(6);
+
+	const users = database.users.filter((user: UserObject) => user.id === authToken);
+
+	if (!users.length) {
+		return null;
+	}
+
+	return authToken;
 }
 
 export const handlers = {
@@ -44,7 +59,12 @@ export const handlers = {
 		GET: {
 			handler(request: HttpRequest<any>) {
 
-				const results = database.bills.filter((bill: BillObject) => bill.user_id === getTokenHeader(request));
+				const authToken = getTokenHeader(request)
+				
+				if (!authToken)
+					return throwError(new HttpErrorResponse({error: 'fuck off', status: 401}));
+
+				const results = database.bills.filter((bill: BillObject) => bill.user_id === authToken);
 
 				let feed = {
 					count: results.length,
@@ -60,9 +80,14 @@ export const handlers = {
 		POST: {
 			handler(request: HttpRequest<any>) {
 
+				const authToken = getTokenHeader(request)
+
+				if (!authToken)
+					return throwError(new HttpErrorResponse({error: 'fuck off', status: 401}));
+
 				if (request.body.title && request.body.description && request.body.amount && request.body.due_date) {
 					request.body.id = Math.round(Math.random() * 100).toString();
-					request.body.user_id = getTokenHeader(request);
+					request.body.user_id = authToken;
 					database.bills.push(request.body);
 					return of(new HttpResponse({ status: 200, body: request.body }));
 				}
@@ -73,6 +98,11 @@ export const handlers = {
 		},
 		DELETE: {
 			handler(request: HttpRequest<any>) {
+
+				const authToken = getTokenHeader(request)
+
+				if (!authToken)
+					return throwError(new HttpErrorResponse({error: 'fuck off', status: 401}));
 
 				for (var i = 0; i < database.bills.length; i++) {
 					if (database.bills[i].id === request.params.get('id')) {
