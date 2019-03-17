@@ -1,3 +1,5 @@
+import { HttpErrorResponse } from '@angular/common/http';
+
 import { BillQuery, BillObject } from './bill.interface';
 import { BillModel } from './bill.model';
 
@@ -16,6 +18,12 @@ export class GetBillsSuccess implements Action {
 	constructor (public payload: BillQuery) {}
 }
 
+export const GET_BILLS_FAILURE = 'GET_BILLS_FAILURE'
+export class GetBillsFailure implements Action {
+	readonly type = GET_BILLS_FAILURE;
+	constructor (public payload: HttpErrorResponse) {}
+}
+
 // ADDING A NEW BILL ------------------------------------
 
 export const ADD_BILL_REQUEST = 'ADD_BILL_REQUEST'
@@ -28,6 +36,12 @@ export const ADD_BILL_SUCCESS = 'ADD_BILL_SUCCESS'
 export class AddBillSuccess implements Action {
 	readonly type = ADD_BILL_SUCCESS;
 	constructor (public payload: BillObject) {}
+}
+
+export const ADD_BILL_FAILURE = 'ADD_BILL_FAILURE'
+export class AddBillFailure implements Action {
+	readonly type = ADD_BILL_FAILURE;
+	constructor (public payload: HttpErrorResponse) {}
 }
 
 // REMOVING A BILL --------------------------------------
@@ -44,4 +58,10 @@ export class RemoveBillSuccess implements Action {
 	constructor (public payload: BillObject) {}
 }
 
-export type Actions = GetBillsRequest | GetBillsSuccess | AddBillRequest | AddBillSuccess | RemoveBillRequest | RemoveBillSuccess;
+export const REMOVE_BILL_FAILURE = 'REMOVE_BILL_FAILURE'
+export class RemoveBillFailure implements Action {
+	readonly type = REMOVE_BILL_FAILURE;
+	constructor (public payload: HttpErrorResponse) {}
+}
+
+export type Actions = GetBillsRequest | GetBillsSuccess | GetBillsFailure | AddBillRequest | AddBillSuccess | AddBillFailure | RemoveBillRequest | RemoveBillSuccess | RemoveBillFailure;

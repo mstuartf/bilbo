@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects'
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, map, catchError } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { BillService } from './bill.service';
 import * as BillActions from './bill.actions';
@@ -18,7 +20,8 @@ export class BillEffects {
 
 		switchMap((action: BillActions.GetBillsRequest) => 
 			this.billService.query().pipe(
-				map((data: BillQuery) => new BillActions.GetBillsSuccess(data))
+				map((data: BillQuery) => new BillActions.GetBillsSuccess(data)),
+				catchError((err: HttpErrorResponse) => of(new BillActions.GetBillsFailure(err)))  // need to catch the error or the stream will end
 			)
 		)
 	)
@@ -30,7 +33,8 @@ export class BillEffects {
 
 		switchMap((action: BillActions.AddBillRequest) => 
 			this.billService.add(action.payload).pipe(
-				map((data: BillObject) => new BillActions.AddBillSuccess(data))
+				map((data: BillObject) => new BillActions.AddBillSuccess(data)),
+				catchError((err: HttpErrorResponse) => of(new BillActions.AddBillFailure(err)))  // need to catch the error or the stream will end
 			)
 		)
 	)
@@ -42,7 +46,8 @@ export class BillEffects {
 
 		switchMap((action: BillActions.RemoveBillRequest) => 
 			this.billService.remove(action.payload).pipe(
-				map((data: BillObject) => new BillActions.RemoveBillSuccess(data))
+				map((data: BillObject) => new BillActions.RemoveBillSuccess(data)),
+				catchError((err: HttpErrorResponse) => of(new BillActions.RemoveBillFailure(err)))  // need to catch the error or the stream will end
 			)
 		)
 	)
