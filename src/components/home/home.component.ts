@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { ActionsSubject } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { StoreAction } from '../../helpers/store-action.interface';
 
 import { AppState } from '../../app/app.state';
 import { BillService } from '../../providers/bill/bill.service';
@@ -32,11 +34,15 @@ export class HomeComponent implements OnInit {
 
 		this.store.dispatch(new BillActions.GetBillsRequest())
 
-		this.actionsSub = actionsSubject.subscribe(action => { 
+		this.actionsSub = actionsSubject.subscribe((action: StoreAction) => { 
 			if (action.type === BillActions.ADD_BILL_SUCCESS)
 				this.onAddBillSuccess();
 			else if (action.type === BillActions.REMOVE_BILL_SUCCESS)
 				this.onRemoveBillSuccess();
+			else if (action.type === BillActions.ADD_BILL_FAILURE)
+				this.onBillActionFailure(action.payload);
+			else if (action.type === BillActions.REMOVE_BILL_FAILURE)
+				this.onBillActionFailure(action.payload);
 			else if (action.type === UserActions.LOGOUT_SUCCESS)
 				this.onLogoutSuccess();
 		});
@@ -75,6 +81,11 @@ export class HomeComponent implements OnInit {
 
 	onRemoveBillSuccess() {
 		this.toggleLoadingSpinner(false);
+	}
+
+	onBillActionFailure(err: HttpErrorResponse) {
+		this.toggleLoadingSpinner(false);
+		console.log(err);
 	}
 
 	logout() {

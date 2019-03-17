@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { Subscription } from 'rxjs';
-import { Store, Action } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { ActionsSubject } from '@ngrx/store';
 import { AppState } from '../../app/app.state';
+import { StoreAction } from '../../helpers/store-action.interface';
 
 import { UserModel } from '../../providers/user/user.model';
 import { UserService } from '../../providers/user/user.service';
@@ -28,9 +30,11 @@ export class RegisterComponent implements OnInit {
 
 	constructor(public store: Store<AppState>, public userService: UserService, private actionsSubject: ActionsSubject, private router: Router) {
 
-		this.actionsSub = this.actionsSubject.subscribe((action: Action) => {
+		this.actionsSub = this.actionsSubject.subscribe((action: StoreAction) => {
 			if (action.type === UserActions.REGISTER_SUCCESS)
 				this.onRegisterSuccess();
+			if (action.type === UserActions.REGISTER_FAILURE)
+				this.onRegisterFailure(action.payload);
 		})
 
 	}
@@ -46,6 +50,11 @@ export class RegisterComponent implements OnInit {
 	onRegisterSuccess() {
 		this.toggleLoadingSpinner(false);
 		this.router.navigate([''])
+	}
+
+	onRegisterFailure(err: HttpErrorResponse) {
+		this.toggleLoadingSpinner(false);
+		console.log(err);
 	}
 
 	toggleLoadingSpinner(show: boolean, text?: string) {

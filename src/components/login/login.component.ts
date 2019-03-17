@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { Subscription } from 'rxjs';
-import { Store, Action } from '@ngrx/store';
+import { Store } from '@ngrx/store';
+import { StoreAction } from '../../helpers/store-action.interface';
 import { ActionsSubject } from '@ngrx/store';
 import { AppState } from '../../app/app.state';
 
@@ -28,9 +30,11 @@ export class LoginComponent implements OnInit {
 
 	constructor(public store: Store<AppState>, public userService: UserService, private actionsSubject: ActionsSubject, private router: Router) {
 
-		this.actionsSub = this.actionsSubject.subscribe((action: Action) => {
+		this.actionsSub = this.actionsSubject.subscribe((action: StoreAction) => {
 			if (action.type === UserActions.LOGIN_SUCCESS)
 				this.onLoginSuccess();
+			if (action.type === UserActions.LOGIN_FAILURE)
+				this.onLoginFailure(action.payload);
 		})
 
 	}
@@ -46,6 +50,11 @@ export class LoginComponent implements OnInit {
 	onLoginSuccess() {
 		this.toggleLoadingSpinner(false);
 		this.router.navigate([''])
+	}
+
+	onLoginFailure(err: HttpErrorResponse) {
+		this.toggleLoadingSpinner(false);
+		console.log(err)
 	}
 
 	toggleLoadingSpinner(show: boolean, text?: string) {

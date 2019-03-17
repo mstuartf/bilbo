@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects'
 import { switchMap, map, catchError } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { BillService } from './bill.service';

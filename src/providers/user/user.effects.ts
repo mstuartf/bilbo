@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects'
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { UserService } from './user.service';
 import * as UserActions from './user.actions';
@@ -21,7 +23,8 @@ export class UserEffects {
 				map((data: UserObject) => {
 					this.userService.setToken(data.id)
 					return new UserActions.RegisterSuccess(data)
-				})
+				}),
+				catchError((err: HttpErrorResponse) => of(new UserActions.RegisterFailure(err)))  // need to catch the error or the stream will end
 			)
 		)
 	)
@@ -36,7 +39,8 @@ export class UserEffects {
 				map((data: UserObject) => {
 					this.userService.setToken(data.id)
 					return new UserActions.LoginSuccess(data)
-				})
+				}),
+				catchError((err: HttpErrorResponse) => of(new UserActions.LoginFailure(err)))  // need to catch the error or the stream will end
 			)
 		)
 	)
@@ -48,9 +52,8 @@ export class UserEffects {
 
  		switchMap((action: UserActions.LogoutRequest) => 
 			this.userService.logout().pipe(
-				map(() => {
-					return new UserActions.LogoutSuccess()
-				})
+				map(() => new UserActions.LogoutSuccess()),
+				catchError((err: HttpErrorResponse) => of(new UserActions.LogoutFailure()))  // need to catch the error or the stream will end
 			)
 		)
 
