@@ -28,6 +28,11 @@ export class LoginComponent implements OnInit {
 
 	actionsSub: Subscription;
 
+	showErrorPopup: boolean;
+	errorPopupTitle: string;
+	errorPopupMessage: string;
+	errorPopupConfirm: string;
+
 	constructor(public store: Store<AppState>, public userService: UserService, private actionsSubject: ActionsSubject, private router: Router) {
 
 		this.actionsSub = this.actionsSubject.subscribe((action: StoreAction) => {
@@ -54,7 +59,14 @@ export class LoginComponent implements OnInit {
 
 	onLoginFailure(err: HttpErrorResponse) {
 		this.toggleLoadingSpinner(false);
-		console.log(err)
+		this.errorPopupTitle = 'Oops, something went wrong';
+		this.errorPopupMessage = err.error;
+		this.errorPopupConfirm = 'OK';
+		this.showErrorPopup = true;
+	}
+
+	onConfirmPopup() {
+		this.showErrorPopup = false;
 	}
 
 	toggleLoadingSpinner(show: boolean, text?: string) {

@@ -1,0 +1,14 @@
+<div>
+	<div>
+		{{title}}
+	</div>
+	<div>
+		{{message}}
+	</div>
+	<button (click)="triggerOnConfirm()">
+		{{confirm}}
+	</button>
+	<button (click)="triggerOnCancel()" *ngIf="cancel">
+		{{cancel}}
+	</button>
+</div>

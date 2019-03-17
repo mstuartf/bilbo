@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from '../components/home/home.component';
 import { LoginComponent } from '../components/login/login.component';
+import { PopupComponent } from '../components/popup/popup.component';
 import { SpinnerComponent } from '../components/spinner/spinner.component';
 import { RegisterComponent } from '../components/register/register.component';
 
@@ -31,7 +32,8 @@ import { TokenProvider } from '../helpers/auth.interceptor';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    PopupComponent
   ],
   imports: [
     FormsModule,

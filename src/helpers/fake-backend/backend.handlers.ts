@@ -36,7 +36,7 @@ export const handlers = {
 				if (results.length && results[0].password === request.body.password)
 					return of(new HttpResponse({ status: 200, body: results[0] }));
 				 
-				return throwError(new HttpErrorResponse({error: 'fuck off', status: 400}));
+				return throwError(new HttpErrorResponse({error: 'invalid email address or password', status: 400}));
 
 			}
 		}
@@ -45,13 +45,13 @@ export const handlers = {
 		POST: {
 			handler(request: HttpRequest<any>) {
 
-				if (request.body.email_address && request.body.password) {
+				if (request.body.email_address && request.body.password && request.body.password.length > 8) {
 					request.body.id = Math.round(Math.random() * 100).toString();
 					database.users.push(request.body);
 					return of(new HttpResponse({ status: 200, body: request.body }));
 				}
 
-				return throwError(new HttpErrorResponse({error: 'fuck off', status: 400}));
+				return throwError(new HttpErrorResponse({error: 'invalid email address or password', status: 400}));
 			}
 		}
 	},
@@ -62,7 +62,7 @@ export const handlers = {
 				const authToken = getTokenHeader(request)
 				
 				if (!authToken)
-					return throwError(new HttpErrorResponse({error: 'fuck off', status: 401}));
+					return throwError(new HttpErrorResponse({error: 'invalid token', status: 401}));
 
 				const results = database.bills.filter((bill: BillObject) => bill.user_id === authToken);
 
@@ -83,7 +83,7 @@ export const handlers = {
 				const authToken = getTokenHeader(request)
 
 				if (!authToken)
-					return throwError(new HttpErrorResponse({error: 'fuck off', status: 401}));
+					return throwError(new HttpErrorResponse({error: 'invalid token', status: 401}));
 
 				if (request.body.title && request.body.description && request.body.amount && request.body.due_date) {
 					request.body.id = Math.round(Math.random() * 100).toString();
@@ -102,7 +102,7 @@ export const handlers = {
 				const authToken = getTokenHeader(request)
 
 				if (!authToken)
-					return throwError(new HttpErrorResponse({error: 'fuck off', status: 401}));
+					return throwError(new HttpErrorResponse({error: 'invalid token', status: 401}));
 
 				for (var i = 0; i < database.bills.length; i++) {
 					if (database.bills[i].id === request.params.get('id')) {
