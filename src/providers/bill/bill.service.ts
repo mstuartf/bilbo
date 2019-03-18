@@ -13,15 +13,15 @@ export class BillService {
 
 	constructor(public http: HttpClient) { }
 
-	query() {
+	public query() {
 		return this.http.get('bills');
 	}
 
-	add(bill: BillModel) {
+	public add(bill: BillModel) {
 		return this.http.post('bills', bill.getData());
 	}
 
-	remove(bill: BillModel) {
+	public remove(bill: BillModel) {
 		return this.http.delete('bills', {params: {id: bill.id}});
 	}
 

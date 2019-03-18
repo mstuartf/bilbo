@@ -14,7 +14,7 @@ export class UserEffects {
 	constructor(public actions$: Actions, public userService: UserService) {}
 
 	@Effect()
-	register$ = this.actions$.pipe(
+	private register$ = this.actions$.pipe(
 
 		ofType(UserActions.REGISTER_REQUEST),
 
@@ -30,7 +30,7 @@ export class UserEffects {
 	)
 
 	@Effect()
-	login$ = this.actions$.pipe(
+	private login$ = this.actions$.pipe(
 
 		ofType(UserActions.LOGIN_REQUEST),
 
@@ -46,7 +46,7 @@ export class UserEffects {
 	)
 
 	@Effect() 
-  	logout$ = this.actions$.pipe(
+  	private logout$ = this.actions$.pipe(
 
     	ofType(UserActions.LOGOUT_REQUEST),
 

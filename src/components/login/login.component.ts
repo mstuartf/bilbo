@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -20,21 +20,21 @@ import { UserObject } from '../../providers/user/user.interface';
 	templateUrl: './login.component.html',
 	styleUrls: ['./login.component.less']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
-	unsubscribe = new Subject();
+	private unsubscribe = new Subject();
 
-	user: UserModel = new UserModel();
+	public user: UserModel = new UserModel();
 
-	showSpinner: boolean;
-	spinnerText: string;
+	public showSpinner: boolean;
+	public spinnerText: string;
 
-	actionsSub: Subscription;
+	private actionsSub: Subscription;
 
-	showErrorPopup: boolean;
-	errorPopupTitle: string;
-	errorPopupMessage: string;
-	errorPopupConfirm: string;
+	public showErrorPopup: boolean;
+	public errorPopupTitle: string;
+	public errorPopupMessage: string;
+	public errorPopupConfirm: string;
 
 	constructor(public store: Store<AppState>, public userService: UserService, private actionsSubject: ActionsSubject, private router: Router) {
 
@@ -47,20 +47,20 @@ export class LoginComponent implements OnInit {
 
 	}
 
-	ngOnInit() {
+	public ngOnInit() {
 	}
 
-	login() {
+	public login() {
 		this.toggleLoadingSpinner(true, 'Logging in...');
 		this.store.dispatch(new UserActions.LoginRequest(this.user))
 	}
 
-	onLoginSuccess() {
+	private onLoginSuccess() {
 		this.toggleLoadingSpinner(false);
 		this.router.navigate([''])
 	}
 
-	onLoginFailure(err: HttpErrorResponse) {
+	private onLoginFailure(err: HttpErrorResponse) {
 		this.toggleLoadingSpinner(false);
 		this.errorPopupTitle = 'Oops, something went wrong';
 		this.errorPopupMessage = err.error;
@@ -68,17 +68,17 @@ export class LoginComponent implements OnInit {
 		this.showErrorPopup = true;
 	}
 
-	onConfirmPopup() {
+	public onConfirmPopup() {
 		this.showErrorPopup = false;
 	}
 
-	toggleLoadingSpinner(show: boolean, text?: string) {
+	private toggleLoadingSpinner(show: boolean, text?: string) {
 		if (text)
 			this.spinnerText = text;
 		this.showSpinner = show;
 	}
 
-	ngOnDestroy() {
+	public ngOnDestroy() {
 		this.unsubscribe.next();
     	this.unsubscribe.complete();
 	}

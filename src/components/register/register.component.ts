@@ -22,19 +22,19 @@ import { UserObject } from '../../providers/user/user.interface';
 })
 export class RegisterComponent implements OnInit {
 
-	unsubscribe = new Subject();
+	private unsubscribe = new Subject();
 
-	user: UserModel = new UserModel();
+	public user: UserModel = new UserModel();
 
-	showSpinner: boolean;
-	spinnerText: string;
+	public showSpinner: boolean;
+	public spinnerText: string;
 
-	actionsSub: Subscription;
+	private actionsSub: Subscription;
 
-	showErrorPopup: boolean;
-	errorPopupTitle: string;
-	errorPopupMessage: string;
-	errorPopupConfirm: string;
+	public showErrorPopup: boolean;
+	public errorPopupTitle: string;
+	public errorPopupMessage: string;
+	public errorPopupConfirm: string;
 
 	constructor(public store: Store<AppState>, public userService: UserService, private actionsSubject: ActionsSubject, private router: Router) {
 
@@ -47,20 +47,20 @@ export class RegisterComponent implements OnInit {
 
 	}
 
-	ngOnInit() {
+	public ngOnInit() {
 	}
 
-	register() {
+	public register() {
 		this.toggleLoadingSpinner(true, 'Creating your account...');
 		this.store.dispatch(new UserActions.RegisterRequest(this.user))
 	}
 
-	onRegisterSuccess() {
+	private onRegisterSuccess() {
 		this.toggleLoadingSpinner(false);
 		this.router.navigate([''])
 	}
 
-	onRegisterFailure(err: HttpErrorResponse) {
+	private onRegisterFailure(err: HttpErrorResponse) {
 		this.toggleLoadingSpinner(false);
 		this.errorPopupTitle = 'Oops, something went wrong';
 		this.errorPopupMessage = err.error;
@@ -68,17 +68,17 @@ export class RegisterComponent implements OnInit {
 		this.showErrorPopup = true;
 	}
 
-	onConfirmPopup() {
+	public onConfirmPopup() {
 		this.showErrorPopup = false;
 	}
 
-	toggleLoadingSpinner(show: boolean, text?: string) {
+	private toggleLoadingSpinner(show: boolean, text?: string) {
 		if (text)
 			this.spinnerText = text;
 		this.showSpinner = show;
 	}
 
-	ngOnDestroy() {
+	public ngOnDestroy() {
 		this.unsubscribe.next();
     	this.unsubscribe.complete();
 	}

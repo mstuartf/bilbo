@@ -22,19 +22,19 @@ import * as UserActions from '../../providers/user/user.actions';
 })
 export class HomeComponent implements OnInit {
 
-	unsubscribe = new Subject();
+	private unsubscribe = new Subject();
 
-	billFeed: BillFeed;
-	newBill: BillModel = new BillModel();
-	actionsSub: Subscription
+	public billFeed: BillFeed;
+	public newBill: BillModel = new BillModel();
+	private actionsSub: Subscription
 
-	showSpinner: boolean;
-	spinnerText: string;
+	public showSpinner: boolean;
+	public spinnerText: string;
 
-	showErrorPopup: boolean;
-	errorPopupTitle: string;
-	errorPopupMessage: string;
-	errorPopupConfirm: string;
+	public showErrorPopup: boolean;
+	public errorPopupTitle: string;
+	public errorPopupMessage: string;
+	public errorPopupConfirm: string;
 
 	constructor(public billService: BillService, private store: Store<AppState>, private actionsSubject: ActionsSubject, private router: Router) {
 
@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit {
 
 	}
 
-	ngOnInit() {
+	public ngOnInit() {
 		this.store.select('bills').subscribe((bills: BillQuery) => {
 			if (bills) {
 				this.billFeed = new BillFeed(bills);
@@ -66,32 +66,32 @@ export class HomeComponent implements OnInit {
 		})
 	}
 
-	addBill() {
+	public addBill() {
 		this.toggleLoadingSpinner(true, 'Adding bill...')
 		this.store.dispatch(new BillActions.AddBillRequest(this.newBill));    
 	}
 
-	onAddBillSuccess() {
+	private onAddBillSuccess() {
 		this.newBill = new BillModel();
 		this.toggleLoadingSpinner(false);
 	}
 
-	removeBill(bill: BillModel) {
+	public removeBill(bill: BillModel) {
 		this.toggleLoadingSpinner(true, 'Removing bill...')
 		this.store.dispatch(new BillActions.RemoveBillRequest(bill))
 	}
 
-	toggleLoadingSpinner(show: boolean, text?: string) {
+	private toggleLoadingSpinner(show: boolean, text?: string) {
 		if (text)
 			this.spinnerText = text;
 		this.showSpinner = show;
 	}
 
-	onRemoveBillSuccess() {
+	private onRemoveBillSuccess() {
 		this.toggleLoadingSpinner(false);
 	}
 
-	onBillActionFailure(err: HttpErrorResponse) {
+	private onBillActionFailure(err: HttpErrorResponse) {
 		this.toggleLoadingSpinner(false);
 		this.errorPopupTitle = 'Oops, something went wrong';
 		this.errorPopupMessage = err.error;
@@ -99,17 +99,17 @@ export class HomeComponent implements OnInit {
 		this.showErrorPopup = true;
 	}
 
-	logout() {
+	public logout() {
 		this.toggleLoadingSpinner(true, 'Logging out...')
 		this.store.dispatch(new UserActions.LogoutRequest());    
 	}
 
-	onLogoutSuccess() {
+	private onLogoutSuccess() {
 		this.toggleLoadingSpinner(false);
 		this.router.navigate(['login'])
 	}
 
-	ngOnDestroy() {
+	public ngOnDestroy() {
 		this.unsubscribe.next();
     	this.unsubscribe.complete();
 	}

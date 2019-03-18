@@ -14,7 +14,7 @@ export class BillEffects {
 	constructor(public actions$: Actions, public billService: BillService) {}
 
 	@Effect()
-	getBills$ = this.actions$.pipe(
+	private getBills$ = this.actions$.pipe(
 
 		ofType(BillActions.GET_BILLS_REQUEST),
 
@@ -27,7 +27,7 @@ export class BillEffects {
 	)
 
 	@Effect()
-	addBill$ = this.actions$.pipe(
+	private addBill$ = this.actions$.pipe(
 
 		ofType(BillActions.ADD_BILL_REQUEST),
 
@@ -40,7 +40,7 @@ export class BillEffects {
 	)
 
 	@Effect()
-	removeBill$ = this.actions$.pipe(
+	private removeBill$ = this.actions$.pipe(
 
 		ofType(BillActions.REMOVE_BILL_REQUEST),
 

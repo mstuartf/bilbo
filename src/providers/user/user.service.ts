@@ -14,27 +14,27 @@ export class UserService {
 
 	constructor(public http: HttpClient) { }
 
-	register(user: UserModel) {
+	public register(user: UserModel) {
 		return this.http.post('register', user.getData());
 	}
 
-	login(user: UserModel) {
+	public login(user: UserModel) {
 		return this.http.post('login', user.getData());
 	}
 
-	getToken(): string {
+	public getToken(): string {
 		return JSON.parse(localStorage.getItem('authToken'));
 	}
 
-	setToken(token: string) {
+	public setToken(token: string) {
 		localStorage.setItem('authToken', token);
 	}
 
-	logout() {
+	public logout() {
 		return of(this.removeToken()).pipe(delay(1000))
 	}
 
-	removeToken() {
+	public removeToken() {
 		localStorage.removeItem('authToken');
 	}
 
