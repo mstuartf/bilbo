@@ -71,3 +71,10 @@
 
 <app-spinner *ngIf="showSpinner" [text]="spinnerText"></app-spinner>
 
+<app-popup 
+	*ngIf="showErrorPopup" 
+	[title]="errorPopupTitle" 
+	[message]="errorPopupMessage" 
+	[confirm]="errorPopupConfirm" 
+	(onConfirm)="onConfirmPopup()">
+</app-popup>

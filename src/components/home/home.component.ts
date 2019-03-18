@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { ActionsSubject } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { StoreAction } from '../../helpers/store-action.interface';
 
 import { AppState } from '../../app/app.state';
@@ -21,6 +22,8 @@ import * as UserActions from '../../providers/user/user.actions';
 })
 export class HomeComponent implements OnInit {
 
+	unsubscribe = new Subject();
+
 	billFeed: BillFeed;
 	newBill: BillModel = new BillModel();
 	actionsSub: Subscription
@@ -28,13 +31,18 @@ export class HomeComponent implements OnInit {
 	showSpinner: boolean;
 	spinnerText: string;
 
+	showErrorPopup: boolean;
+	errorPopupTitle: string;
+	errorPopupMessage: string;
+	errorPopupConfirm: string;
+
 	constructor(public billService: BillService, private store: Store<AppState>, private actionsSubject: ActionsSubject, private router: Router) {
 
 		this.toggleLoadingSpinner(true, 'Loading...')
 
 		this.store.dispatch(new BillActions.GetBillsRequest())
 
-		this.actionsSub = actionsSubject.subscribe((action: StoreAction) => { 
+		this.actionsSub = actionsSubject.pipe(takeUntil(this.unsubscribe)).subscribe((action: StoreAction) => { 
 			if (action.type === BillActions.ADD_BILL_SUCCESS)
 				this.onAddBillSuccess();
 			else if (action.type === BillActions.REMOVE_BILL_SUCCESS)
@@ -85,7 +93,10 @@ export class HomeComponent implements OnInit {
 
 	onBillActionFailure(err: HttpErrorResponse) {
 		this.toggleLoadingSpinner(false);
-		console.log(err);
+		this.errorPopupTitle = 'Oops, something went wrong';
+		this.errorPopupMessage = err.error;
+		this.errorPopupConfirm = 'OK';
+		this.showErrorPopup = true;
 	}
 
 	logout() {
@@ -99,7 +110,8 @@ export class HomeComponent implements OnInit {
 	}
 
 	ngOnDestroy() {
-		this.actionsSub.unsubscribe();
+		this.unsubscribe.next();
+    	this.unsubscribe.complete();
 	}
 
 }
