@@ -2,21 +2,56 @@
   LOGIN page
 </p>
 
-<ul>
-<!-- routerLink is an Angular 7 attribute that allows you to direct the browser to different routed components-->
+<div class="container">
 
-<label>email address 
-	<input type="email" [(ngModel)]="user.emailAddress"/>
-</label>
+    <form (ngSubmit)="login()" #loginForm="ngForm">
 
-<label>password 
-	<input type="password" [(ngModel)]="user.password"/>
-</label>
+      <div class="form-group">
+        <label for="emailAddress">
+        	email address
+        </label>
+        <input 
+        	type="email" 
+        	class="form-control" 
+        	name="emailAddress" 
+        	[(ngModel)]="user.emailAddress" 
+        	#emailAddress="ngModel"
+        	required email>
+      </div>
 
-<button (click)="login()">Login</button>
+      <div [hidden]="emailAddress.value || emailAddress.pristine">
+		email address is required
+	  </div>
 
-<li><a routerLink="/register">Don't have an account? Register</a></li>
-</ul>
+	  <div class="form-group">
+        <label for="password">
+        	password
+        </label>
+        <input 
+        	type="password" 
+        	class="form-control" 
+        	name="password" 
+        	[(ngModel)]="user.password" 
+        	#password="ngModel"
+        	required>
+      </div>
+
+      <div [hidden]="password.valid || password.pristine">
+		password is required
+	  </div>
+ 
+      <button 
+      	type="submit" 
+      	class="btn btn-success" 
+      	[disabled]="!loginForm.form.valid">
+      	Submit
+      </button>
+ 
+    </form>
+
+</div>
+
+<a routerLink="/register">Don't have an account? Register</a>
 
 <app-spinner *ngIf="showSpinner" [text]="spinnerText"></app-spinner>
 

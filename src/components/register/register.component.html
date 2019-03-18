@@ -2,20 +2,56 @@
   REGISTER page
 </p>
 
-<ul>
-<!-- routerLink is an Angular 7 attribute that allows you to direct the browser to different routed components-->
-<label>email address 
-	<input type="email" [(ngModel)]="user.emailAddress"/>
-</label>
+<div class="container">
 
-<label>password 
-	<input type="password" [(ngModel)]="user.password"/>
-</label>
+    <form (ngSubmit)="register()" #registerForm="ngForm">
 
-<button (click)="register()">Register</button>
+      <div class="form-group">
+        <label for="emailAddress">
+        	email address
+        </label>
+        <input 
+        	type="email" 
+        	class="form-control" 
+        	name="emailAddress" 
+        	[(ngModel)]="user.emailAddress" 
+        	#emailAddress="ngModel"
+        	required email>
+      </div>
 
-<li><a routerLink="/login">Already a member? Login</a></li>
-</ul>
+      <div [hidden]="emailAddress.value || emailAddress.pristine">
+		email address is required
+	  </div>
+
+	  <div class="form-group">
+        <label for="password">
+        	password
+        </label>
+        <input 
+        	type="password" 
+        	class="form-control" 
+        	name="password" 
+        	[(ngModel)]="user.password" 
+        	#password="ngModel"
+        	required>
+      </div>
+
+      <div [hidden]="password.valid || password.pristine">
+		password is required
+	  </div>
+ 
+      <button 
+      	type="submit" 
+      	class="btn btn-success" 
+      	[disabled]="!registerForm.form.valid">
+      	Submit
+      </button>
+ 
+    </form>
+
+</div>
+
+<a routerLink="/login">Already a member? Login</a>
 
 <app-spinner *ngIf="showSpinner" [text]="spinnerText"></app-spinner>
 
