@@ -6,68 +6,93 @@
 	Logout
 </button>
 
-<table *ngIf="billFeed">
-	<thead>
-		<th>
-			id
-		</th>
-		<th>
-			title
-		</th>
-		<th>
-			description
-		</th>
-		<th>
-			due on
-		</th>
-		<th>
-			amount
-		</th>
-		<th></th>
-	</thead>
-	<tr *ngFor="let bill of billFeed.list">
-		<td>
-			{{ bill.id }}
-		</td>
-		<td>
-			{{ bill.title }}
-		</td>
-		<td>
-			{{ bill.description }}
-		</td>
-		<td>
-			{{ bill.dueDate }}
-		</td>
-		<td>
-			{{ bill.amount | currency: '£' }}
-		</td>
-		<td>
-			<button (click)="removeBill(bill)">X</button>
-		</td>
-	</tr>
-	<tr>
-		<td>
-		</td>
-		<td>
-			<input type="string" [(ngModel)]="newBill.title"/>
-		</td>
-		<td>
-			<input type="string" [(ngModel)]="newBill.description"/>
-		</td>
-		<td>
-			<input type="number" [(ngModel)]="newBill.dueDate"/>
-		</td>
-		<td>
-			<input type="number" [(ngModel)]="newBill.amount"/>
-		</td>
-		<td>
-		</td>
-	</tr>
-</table>
+<form (ngSubmit)="addBill()" #newBillForm="ngForm">
 
-<button (click)="addBill()">
-	Add
-</button>
+	<table *ngIf="billFeed">
+		<thead>
+			<th>
+				id
+			</th>
+			<th>
+				title
+			</th>
+			<th>
+				description
+			</th>
+			<th>
+				due on
+			</th>
+			<th>
+				amount
+			</th>
+			<th></th>
+		</thead>
+		<tr *ngFor="let bill of billFeed.list">
+			<td>
+				{{ bill.id }}
+			</td>
+			<td>
+				{{ bill.title }}
+			</td>
+			<td>
+				{{ bill.description }}
+			</td>
+			<td>
+				{{ bill.dueDate }}
+			</td>
+			<td>
+				{{ bill.amount | currency: '£' }}
+			</td>
+			<td>
+				<button (click)="removeBill(bill)">X</button>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+				<input 
+					type="string" 
+					[(ngModel)]="newBill.title"
+		        	name="title" 
+		        	#title="ngModel"
+		        	required />
+			</td>
+			<td>
+				<input 
+					type="string" 
+					[(ngModel)]="newBill.description"
+		        	name="description" 
+		        	#description="ngModel"
+		        	required />
+			</td>
+			<td>
+				<input 
+					type="number" 
+					[(ngModel)]="newBill.dueDate"
+		        	name="dueDate" 
+		        	#dueDate="ngModel"
+		        	required />
+			</td>
+			<td>
+				<input 
+					type="number" 
+					[(ngModel)]="newBill.amount"
+		        	name="amount" 
+		        	#amount="ngModel"
+		        	required />
+			</td>
+			<td></td>
+		</tr>
+	</table>
+
+	<button 
+      	type="submit" 
+      	class="btn btn-success" 
+      	[disabled]="!newBillForm.form.valid">
+      	Submit
+     </button>
+
+</form>
 
 <app-spinner *ngIf="showSpinner" [text]="spinnerText"></app-spinner>
 
