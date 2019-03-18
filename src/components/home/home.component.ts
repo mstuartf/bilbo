@@ -43,16 +43,30 @@ export class HomeComponent implements OnInit {
 		this.store.dispatch(new BillActions.GetBillsRequest())
 
 		this.actionsSub = actionsSubject.pipe(takeUntil(this.unsubscribe)).subscribe((action: StoreAction) => { 
-			if (action.type === BillActions.ADD_BILL_SUCCESS)
-				this.onAddBillSuccess();
-			else if (action.type === BillActions.REMOVE_BILL_SUCCESS)
-				this.onRemoveBillSuccess();
-			else if (action.type === BillActions.ADD_BILL_FAILURE)
-				this.onBillActionFailure(action.payload);
-			else if (action.type === BillActions.REMOVE_BILL_FAILURE)
-				this.onBillActionFailure(action.payload);
-			else if (action.type === UserActions.LOGOUT_SUCCESS)
-				this.onLogoutSuccess();
+
+			switch (action.type) {
+
+				case BillActions.ADD_BILL_SUCCESS:
+					this.onAddBillSuccess();
+					break;
+
+				case BillActions.REMOVE_BILL_SUCCESS:
+					this.onRemoveBillSuccess();
+					break;
+
+				case BillActions.ADD_BILL_FAILURE || BillActions.REMOVE_BILL_FAILURE:
+					this.onBillActionFailure(action.payload);
+					break;
+
+				case UserActions.LOGOUT_SUCCESS:
+					this.onLogoutSuccess();
+					break;
+
+				default:
+					break;
+
+			}
+
 		});
 
 	}

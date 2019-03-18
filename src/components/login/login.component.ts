@@ -39,10 +39,22 @@ export class LoginComponent implements OnInit, OnDestroy {
 	constructor(public store: Store<AppState>, public userService: UserService, private actionsSubject: ActionsSubject, private router: Router) {
 
 		this.actionsSub = this.actionsSubject.pipe(takeUntil(this.unsubscribe)).subscribe((action: StoreAction) => {
-			if (action.type === UserActions.LOGIN_SUCCESS)
-				this.onLoginSuccess();
-			else if (action.type === UserActions.LOGIN_FAILURE)
-				this.onLoginFailure(action.payload);
+
+			switch (action.type) {
+
+				case UserActions.LOGIN_SUCCESS:
+					this.onLoginSuccess();
+					break;
+
+				case UserActions.LOGIN_FAILURE:
+					this.onLoginFailure(action.payload);
+					break;
+
+				default:
+					break;
+
+			}
+			
 		})
 
 	}

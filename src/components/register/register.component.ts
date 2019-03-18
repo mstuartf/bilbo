@@ -39,10 +39,22 @@ export class RegisterComponent implements OnInit {
 	constructor(public store: Store<AppState>, public userService: UserService, private actionsSubject: ActionsSubject, private router: Router) {
 
 		this.actionsSub = this.actionsSubject.pipe(takeUntil(this.unsubscribe)).subscribe((action: StoreAction) => {
-			if (action.type === UserActions.REGISTER_SUCCESS)
-				this.onRegisterSuccess();
-			if (action.type === UserActions.REGISTER_FAILURE)
-				this.onRegisterFailure(action.payload);
+			
+			switch (action.type) {
+
+				case UserActions.REGISTER_SUCCESS:
+					this.onRegisterSuccess();
+					break;
+
+				case UserActions.REGISTER_FAILURE:
+					this.onRegisterFailure(action.payload);
+					break;
+
+				default:
+					break;
+
+			}
+
 		})
 
 	}
