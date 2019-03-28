@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { PopupConfig } from './popup-config.interface';
 
 @Component({
   selector: 'app-popup',
@@ -7,10 +8,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class PopupComponent implements OnInit {
 
-	@Input() title: string;
-	@Input() message: string;
-	@Input() confirm: string;
-	@Input() cancel: string;
+	@Input() config: PopupConfig;
 
 	@Output() onConfirm = new EventEmitter();
 	@Output() onCancel = new EventEmitter();

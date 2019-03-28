@@ -14,6 +14,8 @@ import { UserService } from '../../providers/user/user.service';
 import * as UserActions from '../../providers/user/user.actions';
 import { UserObject } from '../../providers/user/user.interface';
 
+import { PopupConfig } from '../popup/popup-config.interface';
+
 
 @Component({
 	selector: 'app-login',
@@ -31,10 +33,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 	private actionsSub: Subscription;
 
-	public showErrorPopup: boolean;
-	public errorPopupTitle: string;
-	public errorPopupMessage: string;
-	public errorPopupConfirm: string;
+	public showPopup: boolean;
+	public popupConfig: PopupConfig;
+	public onConfirmPopup: Function;
+	public onCancelPopup: Function;
 
 	constructor(public store: Store<AppState>, public userService: UserService, private actionsSubject: ActionsSubject, private router: Router) {
 
@@ -63,6 +65,19 @@ export class LoginComponent implements OnInit, OnDestroy {
 	}
 
 	public login() {
+		this.onConfirmPopup = this.onConfirmLogin;
+		this.onCancelPopup = () => this.showPopup = false;
+		this.popupConfig = {
+			title: 'Confirm',
+			message: 'Please confirm login',
+			confirm: 'OK',
+			cancel: 'Cancel'
+		};
+		this.showPopup = true;
+	}
+
+	public onConfirmLogin() {
+		this.showPopup = false;
 		this.toggleLoadingSpinner(true, 'Logging in...');
 		this.store.dispatch(new UserActions.LoginRequest(this.user))
 	}
@@ -74,14 +89,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 	private onLoginFailure(err: HttpErrorResponse) {
 		this.toggleLoadingSpinner(false);
-		this.errorPopupTitle = 'Oops, something went wrong';
-		this.errorPopupMessage = err.error;
-		this.errorPopupConfirm = 'OK';
-		this.showErrorPopup = true;
-	}
-
-	public onConfirmPopup() {
-		this.showErrorPopup = false;
+		this.onConfirmPopup = () => this.showPopup = false;
+		this.popupConfig = {
+			title: 'Oops, something went wrong',
+			message: err.error,
+			confirm: 'OK'
+		};
+		this.showPopup = true;
 	}
 
 	private toggleLoadingSpinner(show: boolean, text?: string) {

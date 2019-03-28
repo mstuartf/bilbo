@@ -14,6 +14,8 @@ import { UserService } from '../../providers/user/user.service';
 import * as UserActions from '../../providers/user/user.actions';
 import { UserObject } from '../../providers/user/user.interface';
 
+import { PopupConfig } from '../popup/popup-config.interface';
+
 
 @Component({
 	selector: 'app-register',
@@ -31,10 +33,10 @@ export class RegisterComponent implements OnInit {
 
 	private actionsSub: Subscription;
 
-	public showErrorPopup: boolean;
-	public errorPopupTitle: string;
-	public errorPopupMessage: string;
-	public errorPopupConfirm: string;
+	public showPopup: boolean;
+	public popupConfig: PopupConfig;
+	public onConfirmPopup: Function;
+	public onCancelPopup: Function;
 
 	constructor(public store: Store<AppState>, public userService: UserService, private actionsSubject: ActionsSubject, private router: Router) {
 
@@ -63,6 +65,18 @@ export class RegisterComponent implements OnInit {
 	}
 
 	public register() {
+		this.onConfirmPopup = this.onRegisterConfirm;
+		this.onCancelPopup = () => this.showPopup = false;
+		this.popupConfig = {
+			title: 'Confirm',
+			message: 'Are you sure you would like to register?',
+			confirm: 'OK',
+			cancel: 'Cancel'
+		};
+		this.showPopup = true; 
+	}
+
+	public onRegisterConfirm() {
 		this.toggleLoadingSpinner(true, 'Creating your account...');
 		this.store.dispatch(new UserActions.RegisterRequest(this.user))
 	}
@@ -74,14 +88,13 @@ export class RegisterComponent implements OnInit {
 
 	private onRegisterFailure(err: HttpErrorResponse) {
 		this.toggleLoadingSpinner(false);
-		this.errorPopupTitle = 'Oops, something went wrong';
-		this.errorPopupMessage = err.error;
-		this.errorPopupConfirm = 'OK';
-		this.showErrorPopup = true;
-	}
-
-	public onConfirmPopup() {
-		this.showErrorPopup = false;
+		this.onConfirmPopup = () => this.showPopup = false;
+		this.popupConfig = {
+			title: 'Oops, something went wrong',
+			message: err.error,
+			confirm: 'OK'
+		};
+		this.showPopup = true;
 	}
 
 	private toggleLoadingSpinner(show: boolean, text?: string) {
