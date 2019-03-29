@@ -16,6 +16,8 @@ import { UserObject } from '../../providers/user/user.interface';
 
 import { PopupConfig } from '../popup/popup-config.interface';
 
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+
 
 @Component({
 	selector: 'app-login',
@@ -26,8 +28,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 	private unsubscribe = new Subject();
 
-	public user: UserModel = new UserModel();
-
 	public showSpinner: boolean;
 	public spinnerText: string;
 
@@ -37,6 +37,20 @@ export class LoginComponent implements OnInit, OnDestroy {
 	public popupConfig: PopupConfig;
 	public onConfirmPopup: Function;
 	public onCancelPopup: Function;
+
+	// define form and getters so template can access controls
+	public loginForm = new FormGroup({
+		emailAddress: new FormControl('', [Validators.required, Validators.email]),
+		password: new FormControl('', [Validators.required])
+	})
+
+	get emailAddress () {
+		return this.loginForm.get('emailAddress');
+	}
+
+	get password () {
+		return this.loginForm.get('password');
+	}
 
 	constructor(public store: Store<AppState>, public userService: UserService, private actionsSubject: ActionsSubject, private router: Router) {
 
@@ -65,7 +79,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 	}
 
 	public login() {
-		this.onConfirmPopup = this.onConfirmLogin;
+		const user = new UserModel();
+		user.emailAddress = this.emailAddress.value;
+		user.password = this.password.value;
+		this.onConfirmPopup = () => this.onConfirmLogin(user);
 		this.onCancelPopup = () => this.showPopup = false;
 		this.popupConfig = {
 			title: 'Confirm',
@@ -76,10 +93,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 		this.showPopup = true;
 	}
 
-	public onConfirmLogin() {
+	private onConfirmLogin(user: UserModel) {
 		this.showPopup = false;
 		this.toggleLoadingSpinner(true, 'Logging in...');
-		this.store.dispatch(new UserActions.LoginRequest(this.user))
+		this.store.dispatch(new UserActions.LoginRequest(user))
 	}
 
 	private onLoginSuccess() {

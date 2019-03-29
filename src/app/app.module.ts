@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects'
@@ -26,6 +26,8 @@ import { metaReducer } from '../helpers/meta.reducer';
 import { FakeBackendProvider } from '../helpers/fake-backend/backend.interceptor';
 import { TokenProvider } from '../helpers/auth.interceptor';
 
+import { MatModule } from '../helpers/mat.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,11 +39,13 @@ import { TokenProvider } from '../helpers/auth.interceptor';
   ],
   imports: [
     FormsModule,
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
     StoreModule.forRoot({ bills: billReducer, user: userReducer }, { metaReducers: [metaReducer] }),
     EffectsModule.forRoot([BillEffects, UserEffects]),
-    HttpClientModule
+    HttpClientModule,
+    MatModule
   ],
   providers: [BillService, UserService, TokenProvider, FakeBackendProvider],
   bootstrap: [AppComponent]
