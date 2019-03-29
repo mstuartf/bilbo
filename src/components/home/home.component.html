@@ -6,7 +6,7 @@
 	Logout
 </button>
 
-<form (ngSubmit)="addBill()" #newBillForm="ngForm">
+<form #newBillForm="ngForm">
 
 	<table *ngIf="billFeed">
 		<thead>
@@ -87,6 +87,7 @@
 
 	<button 
       	type="submit" 
+      	(click)="addBill()"
       	class="btn btn-success" 
       	[disabled]="!newBillForm.form.valid">
       	Submit

@@ -96,7 +96,8 @@ export class HomeComponent implements OnInit {
 
 	public onAddBillConfirm() {
 		this.toggleLoadingSpinner(true, 'Adding bill...')
-		this.store.dispatch(new BillActions.AddBillRequest(this.newBill));    
+		this.store.dispatch(new BillActions.AddBillRequest(this.newBill));
+		this.showPopup = false; 
 	}
 
 	private onAddBillSuccess() {
@@ -112,7 +113,7 @@ export class HomeComponent implements OnInit {
 	}
 
 	public removeBill(bill: BillModel) {
-		this.onConfirmPopup = this.onRemoveBillConfirm;
+		this.onConfirmPopup = () => this.onRemoveBillConfirm(bill);
 		this.onCancelPopup = () => this.showPopup = false;
 		this.popupConfig = {
 			title: 'Confirm',
@@ -124,8 +125,8 @@ export class HomeComponent implements OnInit {
 	}
 
 	public onRemoveBillConfirm(bill: BillModel) {
-		this.toggleLoadingSpinner(true, 'Removing bill...')
-		this.store.dispatch(new BillActions.RemoveBillRequest(bill))
+		this.toggleLoadingSpinner(true, 'Removing bill...');
+		this.store.dispatch(new BillActions.RemoveBillRequest(bill));
 	}
 
 	private toggleLoadingSpinner(show: boolean, text?: string) {
@@ -136,6 +137,13 @@ export class HomeComponent implements OnInit {
 
 	private onRemoveBillSuccess() {
 		this.toggleLoadingSpinner(false);
+		this.onConfirmPopup = () => this.showPopup = false;
+		this.popupConfig = {
+			title: 'Sucess',
+			message: 'Bill removed',
+			confirm: 'OK'
+		};
+		this.showPopup = true;
 	}
 
 	private onBillActionFailure(err: HttpErrorResponse) {
