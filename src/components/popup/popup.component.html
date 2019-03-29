@@ -1,14 +1,19 @@
-<div>
-	<div>
-		{{config.title}}
-	</div>
-	<div>
-		{{config.message}}
-	</div>
-	<button (click)="triggerOnConfirm()">
-		{{config.confirm}}
-	</button>
-	<button (click)="triggerOnCancel()" *ngIf="config.cancel">
-		{{config.cancel}}
-	</button>
+<h1 mat-dialog-title>
+	{{config.title}}
+</h1>
+
+<div mat-dialog-content>
+  <p>{{config.message}}</p>
+</div>
+
+<div mat-dialog-actions>
+
+  <button mat-button (click)="onCancel()" *ngIf="config.cancel">
+    {{config.cancel}}
+  </button>
+
+  <button mat-button (click)="onConfirm()" cdkFocusInitial>
+    {{config.confirm}}
+  </button>
+
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -15,8 +15,11 @@ import * as UserActions from '../../providers/user/user.actions';
 import { UserObject } from '../../providers/user/user.interface';
 
 import { PopupConfig } from '../popup/popup-config.interface';
+import { PopupComponent } from '../popup/popup.component';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+
+import { MatDialog } from '@angular/material';
 
 
 @Component({
@@ -33,7 +36,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 	private actionsSub: Subscription;
 
-	public showPopup: boolean;
 	public popupConfig: PopupConfig;
 	public onConfirmPopup: Function;
 	public onCancelPopup: Function;
@@ -52,7 +54,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 		return this.loginForm.get('password');
 	}
 
-	constructor(public store: Store<AppState>, public userService: UserService, private actionsSubject: ActionsSubject, private router: Router) {
+	constructor(
+		public store: Store<AppState>, 
+		public userService: UserService, 
+		private actionsSubject: ActionsSubject, 
+		private router: Router,
+		public dialog: MatDialog
+		) {
 
 		this.actionsSub = this.actionsSubject.pipe(takeUntil(this.unsubscribe)).subscribe((action: StoreAction) => {
 
@@ -78,47 +86,50 @@ export class LoginComponent implements OnInit, OnDestroy {
 	public ngOnInit() {
 	}
 
+	public showPopup(config: PopupConfig, onConfirm?: Function): void {
+	    const dialogRef = this.dialog.open(PopupComponent, {
+	      width: '250px',
+	      data: config
+	    });
+
+	    dialogRef.afterClosed().subscribe(result => {
+	      if (result && onConfirm) {
+	      	onConfirm();
+	      }
+	    });
+	  }
+
 	public login() {
-		const user = new UserModel();
-		user.emailAddress = this.emailAddress.value;
-		user.password = this.password.value;
-		this.onConfirmPopup = () => this.onConfirmLogin(user);
-		this.onCancelPopup = () => this.showPopup = false;
-		this.popupConfig = {
+		const popupConfig = {
 			title: 'Confirm',
 			message: 'Please confirm login',
 			confirm: 'OK',
 			cancel: 'Cancel'
 		};
-		this.showPopup = true;
+		this.showPopup(popupConfig, () => this.onConfirmLogin());
 	}
 
-	private onConfirmLogin(user: UserModel) {
-		this.showPopup = false;
-		this.toggleLoadingSpinner(true, 'Logging in...');
+	private onConfirmLogin() {
+		const user = new UserModel();
+		user.emailAddress = this.emailAddress.value;
+		user.password = this.password.value;
+		this.showSpinner = true;
 		this.store.dispatch(new UserActions.LoginRequest(user))
 	}
 
 	private onLoginSuccess() {
-		this.toggleLoadingSpinner(false);
+		this.showSpinner = false;
 		this.router.navigate([''])
 	}
 
 	private onLoginFailure(err: HttpErrorResponse) {
-		this.toggleLoadingSpinner(false);
-		this.onConfirmPopup = () => this.showPopup = false;
-		this.popupConfig = {
+		this.showSpinner = false;
+		const popupConfig = {
 			title: 'Oops, something went wrong',
 			message: err.error,
 			confirm: 'OK'
 		};
-		this.showPopup = true;
-	}
-
-	private toggleLoadingSpinner(show: boolean, text?: string) {
-		if (text)
-			this.spinnerText = text;
-		this.showSpinner = show;
+		this.showPopup(popupConfig);
 	}
 
 	public ngOnDestroy() {

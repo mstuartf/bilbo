@@ -1,29 +1,25 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
 import { PopupConfig } from './popup-config.interface';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
 
 @Component({
   selector: 'app-popup',
   templateUrl: './popup.component.html',
   styleUrls: ['./popup.component.less']
 })
-export class PopupComponent implements OnInit {
+export class PopupComponent {
 
-	@Input() config: PopupConfig;
+   constructor(
+    public dialogRef: MatDialogRef<PopupComponent>,
+    @Inject(MAT_DIALOG_DATA) public config: PopupConfig) {}
 
-	@Output() onConfirm = new EventEmitter();
-	@Output() onCancel = new EventEmitter();
+    onConfirm(): void {
+      this.dialogRef.close(true);
+    }
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-  triggerOnConfirm() {
-  	this.onConfirm.emit();
-  }
-
-  triggerOnCancel() {
-  	this.onCancel.emit();
-  }
+    onCancel(): void {
+      this.dialogRef.close(false);
+    }
 
 }

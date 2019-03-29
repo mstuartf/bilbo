@@ -37,6 +37,11 @@ import { MatModule } from '../helpers/mat.module';
     SpinnerComponent,
     PopupComponent
   ],
+  // For any component loaded into a dialog, you must include your component class in the list of entryComponents 
+  // in your NgModule definition so that the Angular compiler knows to create the ComponentFactory for it.
+  entryComponents: [
+    PopupComponent
+  ],
   imports: [
     FormsModule,
     ReactiveFormsModule,

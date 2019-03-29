@@ -97,9 +97,3 @@
 
 <app-spinner *ngIf="showSpinner" [text]="spinnerText"></app-spinner>
 
-<app-popup 
-	*ngIf="showPopup" 
-	[config]="popupConfig"
-  	(onConfirm)="onConfirmPopup()"
-  	(onCancel)="onCancelPopup()">
-</app-popup>
