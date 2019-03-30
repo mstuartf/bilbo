@@ -1,56 +1,77 @@
-<p>
-  REGISTER page
-</p>
+<div class="register-card-container">
 
-<div class="container">
+  <mat-card class="register-card">
 
-    <form (ngSubmit)="register()" #registerForm="ngForm">
+    <mat-card-header class="register-card-header">
+      <mat-card-title>Register</mat-card-title>
+    </mat-card-header>
 
-      <div class="form-group">
-        <label for="emailAddress">
-        	email address
-        </label>
-        <input 
-        	type="email" 
-        	class="form-control" 
-        	name="emailAddress" 
-        	[(ngModel)]="user.emailAddress" 
-        	#emailAddress="ngModel"
-        	required email>
-      </div>
+    <mat-card-content class="register-card-content">
 
-      <div [hidden]="emailAddress.value || emailAddress.pristine">
-		email address is required
-	  </div>
+      <form (ngSubmit)="register()" class="register-form">
 
-	  <div class="form-group">
-        <label for="password">
-        	password
-        </label>
-        <input 
-        	type="password" 
-        	class="form-control" 
-        	name="password" 
-        	[(ngModel)]="user.password" 
-        	#password="ngModel"
-        	required>
-      </div>
+        <div class="p-mat-row">
 
-      <div [hidden]="password.valid || password.pristine">
-		password is required
-	  </div>
- 
-      <button 
-      	type="submit" 
-      	class="btn btn-success" 
-      	[disabled]="!registerForm.form.valid">
-      	Submit
-      </button>
- 
-    </form>
+          <mat-form-field class="register-full-width">
+
+            <input matInput placeholder="Email" [formControl]="emailAddress">
+
+            <mat-error *ngIf="emailAddress.hasError('email') && !emailAddress.hasError('required')">
+              Please enter a valid email address
+            </mat-error>
+
+            <mat-error *ngIf="emailAddress.hasError('required')">
+              Email is required
+            </mat-error>
+
+          </mat-form-field>
+
+        </div>
+
+        <div class="p-mat-row">
+
+          <mat-form-field class="register-full-width">
+
+            <input matInput placeholder="Password" [formControl]="password" type="password">
+
+            <mat-error *ngIf="password.hasError('required')">
+              Password is required
+            </mat-error>
+
+          </mat-form-field>
+
+        </div>
+
+        <div class="p-mat-btn-row">
+
+          <div class="button-row">
+     
+            <button 
+              type="submit"
+              [disabled]="emailAddress.invalid || password.invalid"
+              mat-raised-button color="primary">
+              Register
+            </button>
+
+            <a
+              routerLink="/login"
+              mat-button color="primary">
+              Already have an account?
+            </a>
+
+          </div>
+
+          <div>
+            <mat-spinner *ngIf="showSpinner" diameter="30"></mat-spinner>
+          </div>
+
+        </div>
+
+      </form>
+
+    </mat-card-content>
+
+  </mat-card>
 
 </div>
 
-<a routerLink="/login">Already a member? Login</a>
-
-<app-spinner *ngIf="showSpinner" [text]="spinnerText"></app-spinner>
