@@ -18,6 +18,8 @@ import * as UserActions from '../../providers/user/user.actions';
 import { PopupConfig } from '../popup/popup-config.interface';
 import { PopupComponent } from '../popup/popup.component';
 
+import { NewBillPopupComponent } from '../new-bill-popup/new-bill-popup.component';
+
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
@@ -32,7 +34,6 @@ export class HomeComponent implements OnInit {
 	private unsubscribe = new Subject();
 
 	public billFeed: BillFeed;
-	public newBill: BillModel = new BillModel();
 	private actionsSub: Subscription
 
 	public showSpinner: boolean;
@@ -132,22 +133,24 @@ export class HomeComponent implements OnInit {
 	  }
 
 	public addBill() {
-		const popupConfig = {
-			title: 'Confirm',
-			message: 'Are you sure you would like to add this bill?',
-			confirm: 'OK',
-			cancel: 'Cancel'
-		};
-		this.showPopup(popupConfig, () => this.onAddBillConfirm());
+		const dialogRef = this.dialog.open(NewBillPopupComponent, {
+	      width: '250px'
+	    });
+
+	    dialogRef.afterClosed().subscribe((newBill?: BillModel) => {
+	    	console.warn(newBill);
+	      if (newBill) {
+	      	this.onAddBillConfirm(newBill);
+	      }
+	    });
 	}
 
-	public onAddBillConfirm() {
+	public onAddBillConfirm(newBill: BillModel) {
 		this.showSpinner = true;
-		this.store.dispatch(new BillActions.AddBillRequest(this.newBill));
+		this.store.dispatch(new BillActions.AddBillRequest(newBill));
 	}
 
 	private onAddBillSuccess() {
-		this.newBill = new BillModel();
 		this.showSpinner = false;
 		const popupConfig = {
 			title: 'Success',
@@ -173,7 +176,6 @@ export class HomeComponent implements OnInit {
 	}
 
 	private onRemoveBillSuccess() {
-		this.newBill = new BillModel();
 		this.showSpinner = false;
 		const popupConfig = {
 			title: 'Success',
