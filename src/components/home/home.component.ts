@@ -16,6 +16,11 @@ import * as BillActions from '../../providers/bill/bill.actions';
 import * as UserActions from '../../providers/user/user.actions';
 
 import { PopupConfig } from '../popup/popup-config.interface';
+import { PopupComponent } from '../popup/popup.component';
+
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+
+import { MatDialog } from '@angular/material';
 
 @Component({
 	selector: 'app-home',
@@ -33,14 +38,33 @@ export class HomeComponent implements OnInit {
 	public showSpinner: boolean;
 	public spinnerText: string;
 
-	public showPopup: boolean;
 	public popupConfig: PopupConfig;
 	public onConfirmPopup: Function;
 	public onCancelPopup: Function;
 
-	constructor(public billService: BillService, private store: Store<AppState>, private actionsSubject: ActionsSubject, private router: Router) {
+	// define form and getters so template can access controls
+	public registerForm = new FormGroup({
+		emailAddress: new FormControl('', [Validators.required, Validators.email]),
+		password: new FormControl('', [Validators.required])
+	})
 
-		this.toggleLoadingSpinner(true, 'Loading...')
+	get emailAddress () {
+		return this.registerForm.get('emailAddress');
+	}
+
+	get password () {
+		return this.registerForm.get('password');
+	}
+
+	constructor(
+		public billService: BillService, 
+		private store: Store<AppState>, 
+		private actionsSubject: ActionsSubject, 
+		private router: Router,
+		public dialog: MatDialog
+		) {
+
+		this.showSpinner = true;
 
 		this.store.dispatch(new BillActions.GetBillsRequest())
 
@@ -77,105 +101,102 @@ export class HomeComponent implements OnInit {
 		this.store.select('bills').subscribe((bills: BillQuery) => {
 			if (bills) {
 				this.billFeed = new BillFeed(bills);
-				this.toggleLoadingSpinner(false);
+				this.showSpinner = true;
 			}
 		})
 	}
 
+	public showPopup(config: PopupConfig, onConfirm?: Function): void {
+	    const dialogRef = this.dialog.open(PopupComponent, {
+	      width: '250px',
+	      data: config
+	    });
+
+	    dialogRef.afterClosed().subscribe(result => {
+	      if (result && onConfirm) {
+	      	onConfirm();
+	      }
+	    });
+	  }
+
 	public addBill() {
-		this.onConfirmPopup = this.onAddBillConfirm;
-		this.onCancelPopup = () => this.showPopup = false;
-		this.popupConfig = {
+		const popupConfig = {
 			title: 'Confirm',
 			message: 'Are you sure you would like to add this bill?',
 			confirm: 'OK',
 			cancel: 'Cancel'
 		};
-		this.showPopup = true; 
+		this.showPopup(popupConfig, () => this.onAddBillConfirm());
 	}
 
 	public onAddBillConfirm() {
-		this.toggleLoadingSpinner(true, 'Adding bill...')
+		this.showSpinner = true;
 		this.store.dispatch(new BillActions.AddBillRequest(this.newBill));
-		this.showPopup = false; 
 	}
 
 	private onAddBillSuccess() {
 		this.newBill = new BillModel();
-		this.toggleLoadingSpinner(false);
-		this.onConfirmPopup = () => this.showPopup = false;
-		this.popupConfig = {
-			title: 'Sucess',
+		this.showSpinner = false;
+		const popupConfig = {
+			title: 'Success',
 			message: 'New bill added',
 			confirm: 'OK'
 		};
-		this.showPopup = true;
+		this.showPopup(popupConfig);
 	}
 
 	public removeBill(bill: BillModel) {
-		this.onConfirmPopup = () => this.onRemoveBillConfirm(bill);
-		this.onCancelPopup = () => this.showPopup = false;
-		this.popupConfig = {
+		const popupConfig = {
 			title: 'Confirm',
 			message: 'Are you sure you would like to remove this bill?',
 			confirm: 'OK',
 			cancel: 'Cancel'
 		};
-		this.showPopup = true; 
+		this.showPopup(popupConfig, () => this.onRemoveBillConfirm(bill));
 	}
 
 	public onRemoveBillConfirm(bill: BillModel) {
-		this.toggleLoadingSpinner(true, 'Removing bill...');
+		this.showSpinner = true;
 		this.store.dispatch(new BillActions.RemoveBillRequest(bill));
 	}
 
-	private toggleLoadingSpinner(show: boolean, text?: string) {
-		if (text)
-			this.spinnerText = text;
-		this.showSpinner = show;
-	}
-
 	private onRemoveBillSuccess() {
-		this.toggleLoadingSpinner(false);
-		this.onConfirmPopup = () => this.showPopup = false;
-		this.popupConfig = {
-			title: 'Sucess',
+		this.newBill = new BillModel();
+		this.showSpinner = false;
+		const popupConfig = {
+			title: 'Success',
 			message: 'Bill removed',
 			confirm: 'OK'
 		};
-		this.showPopup = true;
+		this.showPopup(popupConfig);
 	}
 
 	private onBillActionFailure(err: HttpErrorResponse) {
-		this.toggleLoadingSpinner(false);
-		this.onConfirmPopup = () => this.showPopup = false;
-		this.popupConfig = {
+		this.showSpinner = false;
+		const popupConfig = {
 			title: 'Oops, something went wrong',
 			message: err.error,
 			confirm: 'OK'
 		};
-		this.showPopup = true;
+		this.showPopup(popupConfig);
 	}
 
-	public logout(bill: BillModel) {
-		this.onConfirmPopup = this.onLogoutConfirm;
-		this.onCancelPopup = () => this.showPopup = false;
-		this.popupConfig = {
+	public logout() {const popupConfig = {
 			title: 'Confirm',
 			message: 'Are you sure you would like logout?',
 			confirm: 'OK',
 			cancel: 'Cancel'
 		};
-		this.showPopup = true; 
+		this.showPopup(popupConfig, () => this.onLogoutConfirm()); 
 	}
 
 	public onLogoutConfirm() {
-		this.toggleLoadingSpinner(true, 'Logging out...')
+		this.showSpinner = true;
 		this.store.dispatch(new UserActions.LogoutRequest());    
 	}
 
 	private onLogoutSuccess() {
-		this.toggleLoadingSpinner(false);
+		this.showSpinner = false;
 		this.router.navigate(['login'])
 	}
 
