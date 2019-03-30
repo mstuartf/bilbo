@@ -10,7 +10,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from '../components/home/home.component';
 import { LoginComponent } from '../components/login/login.component';
 import { PopupComponent } from '../components/popup/popup.component';
-import { SpinnerComponent } from '../components/spinner/spinner.component';
 import { RegisterComponent } from '../components/register/register.component';
 
 import { BillService } from '../providers/bill/bill.service';
@@ -34,7 +33,6 @@ import { MatModule } from '../helpers/mat.module';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    SpinnerComponent,
     PopupComponent
   ],
   // For any component loaded into a dialog, you must include your component class in the list of entryComponents 
