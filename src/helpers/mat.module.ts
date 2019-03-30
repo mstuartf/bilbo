@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { MatInputModule } from '@angular/material';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -9,7 +12,29 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
-  imports: [BrowserAnimationsModule, MatInputModule, MatButtonModule, MatCardModule, MatToolbarModule, MatProgressSpinnerModule, MatDialogModule],
-  exports: [BrowserAnimationsModule, MatInputModule, MatButtonModule, MatCardModule, MatToolbarModule, MatProgressSpinnerModule, MatDialogModule],
+  imports: [
+  	BrowserAnimationsModule, 
+  	MatInputModule, 
+  	MatButtonModule, 
+  	MatCardModule, 
+  	MatToolbarModule, 
+  	MatProgressSpinnerModule, 
+  	MatDialogModule,
+  	MatTableModule,
+  	MatIconModule,
+  	MatSortModule
+  ],
+  exports: [
+  	BrowserAnimationsModule, 
+  	MatInputModule, 
+  	MatButtonModule, 
+  	MatCardModule, 
+  	MatToolbarModule, 
+  	MatProgressSpinnerModule, 
+  	MatDialogModule,
+  	MatTableModule,
+  	MatIconModule,
+  	MatSortModule
+  ]
 })
 export class MatModule { }

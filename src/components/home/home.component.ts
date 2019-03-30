@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -20,7 +20,7 @@ import { PopupComponent } from '../popup/popup.component';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
 
 @Component({
 	selector: 'app-home',
@@ -42,6 +42,8 @@ export class HomeComponent implements OnInit {
 	public onConfirmPopup: Function;
 	public onCancelPopup: Function;
 
+	public columnsToDisplay: string[] = ['title', 'description', 'dueDate', 'amount', 'remove'];
+
 	// define form and getters so template can access controls
 	public registerForm = new FormGroup({
 		emailAddress: new FormControl('', [Validators.required, Validators.email]),
@@ -55,6 +57,10 @@ export class HomeComponent implements OnInit {
 	get password () {
 		return this.registerForm.get('password');
 	}
+
+	// need to create a MatTableDataSource and set its sort property for the table data to be sortable
+	public dataSource: MatTableDataSource<BillModel>;
+    @ViewChild(MatSort) sort: MatSort;
 
 	constructor(
 		public billService: BillService, 
@@ -101,9 +107,15 @@ export class HomeComponent implements OnInit {
 		this.store.select('bills').subscribe((bills: BillQuery) => {
 			if (bills) {
 				this.billFeed = new BillFeed(bills);
-				this.showSpinner = true;
+				this.buildTableDataSource();
+				this.showSpinner = false;
 			}
 		})
+	}
+
+	private buildTableDataSource() {
+		this.dataSource = new MatTableDataSource(this.billFeed.list);
+		this.dataSource.sort = this.sort;
 	}
 
 	public showPopup(config: PopupConfig, onConfirm?: Function): void {
