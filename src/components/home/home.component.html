@@ -54,6 +54,10 @@
 
       </table>
 
+      <div *ngIf="!dataSource" class="mat-spinner-container">
+         <mat-spinner diameter="50"></mat-spinner>
+      </div>
+
     </mat-card-content>
 
     <mat-card-footer class="home-card-footer">
