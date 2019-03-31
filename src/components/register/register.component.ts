@@ -100,36 +100,40 @@ export class RegisterComponent implements OnInit {
 	  }
 
 	public register() {
-		const popupConfig = {
-			title: 'Confirm',
-			message: 'Are you sure you would like to register?',
-			confirm: 'OK',
-			cancel: 'Cancel'
-		};
-		this.showPopup(popupConfig, () => this.onRegisterConfirm());
-	}
-
-	public onRegisterConfirm() {
 		const user = new UserModel();
 		user.emailAddress = this.emailAddress.value;
 		user.password = this.password.value;
 		this.showSpinner = true;
+		this.disableInputs(true);
 		this.store.dispatch(new UserActions.RegisterRequest(user))
 	}
 
 	private onRegisterSuccess() {
 		this.showSpinner = false;
+		this.disableInputs(false);
 		this.router.navigate([''])
 	}
 
 	private onRegisterFailure(err: HttpErrorResponse) {
 		this.showSpinner = false;
+		this.disableInputs(false);
 		const popupConfig = {
 			title: 'Oops, something went wrong',
 			message: err.error,
 			confirm: 'OK'
 		};
 		this.showPopup(popupConfig);
+	}
+
+	private disableInputs(disable: boolean) {
+		if (disable) {
+			this.emailAddress.disable();
+			this.password.disable();
+		}
+		else {
+			this.emailAddress.enable();
+			this.password.enable();
+		}
 	}
 
 	public ngOnDestroy() {

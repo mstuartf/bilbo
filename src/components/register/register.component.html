@@ -48,13 +48,14 @@
      
             <button 
               type="submit"
-              [disabled]="emailAddress.invalid || password.invalid"
+              [disabled]="emailAddress.invalid || password.invalid || showSpinner"
               mat-raised-button color="primary">
               Register
             </button>
 
             <a
               routerLink="/login"
+              [class.disabled]="showSpinner"
               mat-button color="primary">
               Already have an account?
             </a>

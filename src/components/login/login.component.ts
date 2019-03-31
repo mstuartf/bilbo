@@ -100,36 +100,40 @@ export class LoginComponent implements OnInit, OnDestroy {
 	  }
 
 	public login() {
-		const popupConfig = {
-			title: 'Confirm',
-			message: 'Please confirm login',
-			confirm: 'OK',
-			cancel: 'Cancel'
-		};
-		this.showPopup(popupConfig, () => this.onConfirmLogin());
-	}
-
-	private onConfirmLogin() {
 		const user = new UserModel();
 		user.emailAddress = this.emailAddress.value;
 		user.password = this.password.value;
 		this.showSpinner = true;
+		this.disableInputs(true);
 		this.store.dispatch(new UserActions.LoginRequest(user))
 	}
 
 	private onLoginSuccess() {
 		this.showSpinner = false;
+		this.disableInputs(false);
 		this.router.navigate([''])
 	}
 
 	private onLoginFailure(err: HttpErrorResponse) {
 		this.showSpinner = false;
+		this.disableInputs(false);
 		const popupConfig = {
 			title: 'Oops, something went wrong',
 			message: err.error,
 			confirm: 'OK'
 		};
 		this.showPopup(popupConfig);
+	}
+
+	private disableInputs(disable: boolean) {
+		if (disable) {
+			this.emailAddress.disable();
+			this.password.disable();
+		}
+		else {
+			this.emailAddress.enable();
+			this.password.enable();
+		}
 	}
 
 	public ngOnDestroy() {
