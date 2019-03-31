@@ -53,7 +53,35 @@ export class UserEffects {
  		switchMap((action: UserActions.LogoutRequest) => 
 			this.userService.logout().pipe(
 				map(() => new UserActions.LogoutSuccess()),
-				catchError((err: HttpErrorResponse) => of(new UserActions.LogoutFailure()))  // need to catch the error or the stream will end
+				catchError((err: HttpErrorResponse) => of(new UserActions.LogoutFailure(err)))  // need to catch the error or the stream will end
+			)
+		)
+
+    );
+
+	@Effect() 
+  	private get$ = this.actions$.pipe(
+
+    	ofType(UserActions.GET_REQUEST),
+
+ 		switchMap((action: UserActions.GetRequest) => 
+			this.userService.getUser().pipe(
+				map((data: UserObject) => new UserActions.GetSuccess(data)),
+				catchError((err: HttpErrorResponse) => of(new UserActions.GetFailure(err)))  // need to catch the error or the stream will end
+			)
+		)
+
+    );
+
+	@Effect() 
+  	private update$ = this.actions$.pipe(
+
+    	ofType(UserActions.UPDATE_REQUEST),
+
+ 		switchMap((action: UserActions.UpdateRequest) => 
+			this.userService.updateUser(action.payload).pipe(
+				map((data: UserObject) => new UserActions.UpdateSuccess(data)),
+				catchError((err: HttpErrorResponse) => of(new UserActions.UpdateFailure(err)))  // need to catch the error or the stream will end
 			)
 		)
 

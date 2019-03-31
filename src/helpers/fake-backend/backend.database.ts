@@ -3,12 +3,14 @@ export let database = {
     	{
             id: '1',
             email_address: 'mike@user.com',
-            password: 'password!'
+            password: 'password!',
+            salary_date: 3
         },
         {
             id: '2',
             email_address: 'mike@another.com',
-            password: 'password!'
+            password: 'password!',
+            salary_date: null
         }
     ],
     bills: [

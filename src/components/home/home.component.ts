@@ -13,6 +13,9 @@ import { BillService } from '../../providers/bill/bill.service';
 import { BillFeed, BillModel } from '../../providers/bill/bill.model';
 import { BillQuery } from '../../providers/bill/bill.interface';
 import * as BillActions from '../../providers/bill/bill.actions';
+
+import { UserModel } from '../../providers/user/user.model';
+import { UserObject } from '../../providers/user/user.interface';
 import * as UserActions from '../../providers/user/user.actions';
 
 import { PopupConfig } from '../popup/popup-config.interface';
@@ -43,6 +46,8 @@ export class HomeComponent implements OnInit {
 	public popupConfig: PopupConfig;
 	public onConfirmPopup: Function;
 	public onCancelPopup: Function;
+
+	public user: UserModel;
 
 	public columnsToDisplay: string[] = ['title', 'description', 'dueDate', 'amount', 'remove'];
 
@@ -94,6 +99,10 @@ export class HomeComponent implements OnInit {
 					this.onLogoutSuccess();
 					break;
 
+				case UserActions.UPDATE_SUCCESS:
+					this.onUpdateUserSuccess();
+					break;
+
 				default:
 					break;
 
@@ -104,12 +113,23 @@ export class HomeComponent implements OnInit {
 	}
 
 	public ngOnInit() {
+
 		this.store.select('bills').subscribe((bills: BillQuery) => {
 			if (bills) {
 				this.billFeed = new BillFeed(bills);
 				this.buildTableDataSource();
 			}
 		})
+
+		this.store.select('user').subscribe((user: UserObject) => {
+			if (user) {
+				this.user = new UserModel(user);
+			}
+			else {
+				this.store.dispatch(new UserActions.GetRequest());
+			}
+		})
+
 	}
 
 	private buildTableDataSource() {
@@ -203,7 +223,7 @@ export class HomeComponent implements OnInit {
 
 	public onLogoutConfirm() {
 		this.showNewSpinner = true;
-		this.store.dispatch(new UserActions.LogoutRequest());    
+		this.store.dispatch(new UserActions.LogoutRequest());
 	}
 
 	private onLogoutSuccess() {
@@ -211,9 +231,13 @@ export class HomeComponent implements OnInit {
 		this.router.navigate(['login'])
 	}
 
-	public updateSalaryDate() {
-		console.log('asdgasdg')
+	public updateUser() {
 		this.showSalarySpinner = true;
+		this.store.dispatch(new UserActions.UpdateRequest(this.user));
+	}
+
+	public onUpdateUserSuccess() {
+		this.showSalarySpinner = false;
 	}
 
 	public ngOnDestroy() {

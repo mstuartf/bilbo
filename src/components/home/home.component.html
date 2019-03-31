@@ -65,14 +65,19 @@
 
 		<div class="d-flex items-center">
 
-			<mat-form-field class="salary-date-form-field">
+			<mat-form-field class="salary-date-form-field" *ngIf="user">
 
 			  <mat-label>Salary date</mat-label>
 			
-			  <mat-select [disabled]="showSalarySpinner || showNewSpinner || !dataSource" (selectionChange)="updateSalaryDate()">
+			  <mat-select 
+			  	[disabled]="showSalarySpinner || showNewSpinner || !dataSource" 
+			  	[(ngModel)]="user.salaryDate"
+			  	(selectionChange)="updateUser()">
+
 			    <mat-option *ngFor="let date of [].constructor(31); let i = index" [value]="i + 1">
 			      {{i + 1}}
 			    </mat-option>
+
 			  </mat-select>
 			
 			</mat-form-field>

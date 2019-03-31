@@ -41,6 +41,38 @@ export const handlers = {
 			}
 		}
 	},
+	user: {
+		GET: {
+			handler(request: HttpRequest<any>) {
+
+				const authToken = getTokenHeader(request);
+
+				const user = database.users.find((user: UserObject) => user.id === authToken);
+
+				if (user)
+					return of(new HttpResponse({ status: 200, body: user }));
+				 
+				return throwError(new HttpErrorResponse({error: 'invalid email address or password', status: 400}));
+
+			}
+		},
+		PUT: {
+			handler(request: HttpRequest<any>) {
+
+				const authToken = getTokenHeader(request);
+
+				const user = database.users.find((user: UserObject) => user.id === authToken);
+
+				if (user) {
+					user.salary_date = request.body.salary_date;
+					return of(new HttpResponse({ status: 200, body: user }));
+				}
+				 
+				return throwError(new HttpErrorResponse({error: 'invalid email address or password', status: 400}));
+
+			}
+		}
+	},
 	register: {
 		POST: {
 			handler(request: HttpRequest<any>) {

@@ -38,4 +38,12 @@ export class UserService {
 		localStorage.removeItem('authToken');
 	}
 
+	public getUser() {
+		return this.http.get('user');
+	}
+
+	public updateUser(user: UserModel) {
+		return this.http.put('user', user.getData());
+	}
+
 }

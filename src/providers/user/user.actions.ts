@@ -62,7 +62,47 @@ export class LogoutSuccess implements StoreAction {
 export const LOGOUT_FAILURE = 'LOGOUT_FAILURE'
 export class LogoutFailure implements StoreAction {
 	readonly type = LOGOUT_FAILURE;
+	constructor (public payload: HttpErrorResponse) {}
+}
+
+// UPDATE ----------------------------------------------
+
+export const UPDATE_REQUEST = 'UPDATE_REQUEST'
+export class UpdateRequest implements StoreAction {
+	readonly type = UPDATE_REQUEST;
+	constructor (public payload: UserModel) {}
+}
+
+export const UPDATE_SUCCESS = 'UPDATE_SUCCESS'
+export class UpdateSuccess implements StoreAction {
+	readonly type = UPDATE_SUCCESS;
+	constructor (public payload: UserObject) {}
+}
+
+export const UPDATE_FAILURE = 'UPDATE_FAILURE'
+export class UpdateFailure implements StoreAction {
+	readonly type = UPDATE_FAILURE;
+	constructor (public payload: HttpErrorResponse) {}
+}
+
+// UPDATE ----------------------------------------------
+
+export const GET_REQUEST = 'GET_REQUEST'
+export class GetRequest implements StoreAction {
+	readonly type = GET_REQUEST;
 	constructor () {}
 }
 
-export type Actions = RegisterRequest | RegisterSuccess | LoginRequest | LoginSuccess | LogoutRequest | LogoutSuccess;
+export const GET_SUCCESS = 'GET_SUCCESS'
+export class GetSuccess implements StoreAction {
+	readonly type = GET_SUCCESS;
+	constructor (public payload: UserObject) {}
+}
+
+export const GET_FAILURE = 'GET_FAILURE'
+export class GetFailure implements StoreAction {
+	readonly type = GET_FAILURE;
+	constructor (public payload: HttpErrorResponse) {}
+}
+
+export type Actions = GetRequest | GetSuccess | GetFailure | UpdateRequest | UpdateSuccess | UpdateFailure | RegisterRequest | RegisterSuccess | LoginRequest | LoginSuccess | LogoutRequest | LogoutSuccess;
