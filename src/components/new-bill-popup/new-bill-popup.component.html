@@ -10,7 +10,7 @@
 	    <input matInput placeholder="Name" [formControl]="title">
 
 	    <mat-error *ngIf="title.hasError('required')">
-	      Email is required
+	      Name is required
 	    </mat-error>
 
 	  </mat-form-field>
@@ -23,13 +23,19 @@
 
 	  <mat-form-field class="new-bill-full-width">
 
-	    <input matInput placeholder="Due date" [formControl]="dueDate" type="number">
+		  <mat-label>Due date</mat-label>
+		
+		  <mat-select [formControl]="dueDate">
+		    <mat-option *ngFor="let date of [1, 2]" [value]="date">
+		      {{date}}
+		    </mat-option>
+		  </mat-select>
 
-	    <mat-error *ngIf="dueDate.hasError('required')">
+		  <mat-error *ngIf="dueDate.hasError('required')">
 	      Due date is required
 	    </mat-error>
-
-	  </mat-form-field>
+		
+		</mat-form-field>
 
 	  <mat-form-field class="new-bill-full-width">
 
