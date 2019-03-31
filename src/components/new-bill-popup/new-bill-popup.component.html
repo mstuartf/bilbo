@@ -3,7 +3,46 @@
 </h1>
 
 <div mat-dialog-content>
-  <p>Enter some info</p>
+  <div class="p-mat-row">
+
+	  <mat-form-field class="new-bill-full-width">
+
+	    <input matInput placeholder="Name" [formControl]="title">
+
+	    <mat-error *ngIf="title.hasError('required')">
+	      Email is required
+	    </mat-error>
+
+	  </mat-form-field>
+
+	  <mat-form-field class="new-bill-full-width">
+
+	    <input matInput placeholder="Description" [formControl]="description">
+
+	  </mat-form-field>
+
+	  <mat-form-field class="new-bill-full-width">
+
+	    <input matInput placeholder="Due date" [formControl]="dueDate" type="number">
+
+	    <mat-error *ngIf="dueDate.hasError('required')">
+	      Due date is required
+	    </mat-error>
+
+	  </mat-form-field>
+
+	  <mat-form-field class="new-bill-full-width">
+
+	    <input matInput placeholder="Amount" [formControl]="amount" type="number">
+
+	    <mat-error *ngIf="amount.hasError('required')">
+	      Amount is required
+	    </mat-error>
+
+	  </mat-form-field>
+
+	</div>
+
 </div>
 
 <div mat-dialog-actions>
@@ -12,7 +51,7 @@
     Cancel
   </button>
 
-  <button mat-button (click)="onConfirm()" cdkFocusInitial>
+  <button mat-button (click)="onConfirm()" [disabled]="title.invalid || dueDate.invalid || amount.invalid">
     OK
   </button>
 

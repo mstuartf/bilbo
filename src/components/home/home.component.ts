@@ -134,11 +134,10 @@ export class HomeComponent implements OnInit {
 
 	public addBill() {
 		const dialogRef = this.dialog.open(NewBillPopupComponent, {
-	      width: '250px'
+	      width: '400px'
 	    });
 
 	    dialogRef.afterClosed().subscribe((newBill?: BillModel) => {
-	    	console.warn(newBill);
 	      if (newBill) {
 	      	this.onAddBillConfirm(newBill);
 	      }

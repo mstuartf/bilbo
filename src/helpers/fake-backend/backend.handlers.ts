@@ -85,7 +85,7 @@ export const handlers = {
 				if (!authToken)
 					return throwError(new HttpErrorResponse({error: 'invalid token', status: 401}));
 
-				if (request.body.title && request.body.description && request.body.amount && request.body.due_date) {
+				if (request.body.title && request.body.amount && request.body.due_date) {
 					request.body.id = Math.round(Math.random() * 100).toString();
 					request.body.user_id = authToken;
 					database.bills.push(request.body);
