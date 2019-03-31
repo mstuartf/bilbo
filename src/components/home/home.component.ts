@@ -36,7 +36,8 @@ export class HomeComponent implements OnInit {
 	public billFeed: BillFeed;
 	private actionsSub: Subscription
 
-	public showSpinner: boolean;
+	public showNewSpinner: boolean;
+	public showSalarySpinner: boolean;
 	public spinnerText: string;
 
 	public popupConfig: PopupConfig;
@@ -142,12 +143,12 @@ export class HomeComponent implements OnInit {
 	}
 
 	public onAddBillConfirm(newBill: BillModel) {
-		this.showSpinner = true;
+		this.showNewSpinner = true;
 		this.store.dispatch(new BillActions.AddBillRequest(newBill));
 	}
 
 	private onAddBillSuccess() {
-		this.showSpinner = false;
+		this.showNewSpinner = false;
 		const popupConfig = {
 			title: 'Success',
 			message: 'New bill added',
@@ -167,12 +168,12 @@ export class HomeComponent implements OnInit {
 	}
 
 	public onRemoveBillConfirm(bill: BillModel) {
-		this.showSpinner = true;
+		this.showNewSpinner = true;
 		this.store.dispatch(new BillActions.RemoveBillRequest(bill));
 	}
 
 	private onRemoveBillSuccess() {
-		this.showSpinner = false;
+		this.showNewSpinner = false;
 		const popupConfig = {
 			title: 'Success',
 			message: 'Bill removed',
@@ -182,7 +183,7 @@ export class HomeComponent implements OnInit {
 	}
 
 	private onBillActionFailure(err: HttpErrorResponse) {
-		this.showSpinner = false;
+		this.showNewSpinner = false;
 		const popupConfig = {
 			title: 'Oops, something went wrong',
 			message: err.error,
@@ -201,13 +202,18 @@ export class HomeComponent implements OnInit {
 	}
 
 	public onLogoutConfirm() {
-		this.showSpinner = true;
+		this.showNewSpinner = true;
 		this.store.dispatch(new UserActions.LogoutRequest());    
 	}
 
 	private onLogoutSuccess() {
-		this.showSpinner = false;
+		this.showNewSpinner = false;
 		this.router.navigate(['login'])
+	}
+
+	public updateSalaryDate() {
+		console.log('asdgasdg')
+		this.showSalarySpinner = true;
 	}
 
 	public ngOnDestroy() {
