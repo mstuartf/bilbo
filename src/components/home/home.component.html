@@ -62,11 +62,16 @@
 
     <mat-card-footer class="home-card-footer">
 
+    	<div class="small-mat-spinner-container">
+    		<mat-spinner diameter="30" *ngIf="showSpinner"></mat-spinner>
+    	</div>
+
 	    <button
 	      (click)="addBill()"
 	      mat-raised-button color="primary">
 	      + New Bill
 	    </button>
+    	
 
     </mat-card-footer>
 

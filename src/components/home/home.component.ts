@@ -71,8 +71,6 @@ export class HomeComponent implements OnInit {
 		public dialog: MatDialog
 		) {
 
-		this.showSpinner = true;
-
 		this.store.dispatch(new BillActions.GetBillsRequest())
 
 		this.actionsSub = actionsSubject.pipe(takeUntil(this.unsubscribe)).subscribe((action: StoreAction) => { 
@@ -109,7 +107,6 @@ export class HomeComponent implements OnInit {
 			if (bills) {
 				this.billFeed = new BillFeed(bills);
 				this.buildTableDataSource();
-				this.showSpinner = false;
 			}
 		})
 	}
