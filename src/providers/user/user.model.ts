@@ -6,6 +6,7 @@ export class UserModel {
 	emailAddress: string;
 	password: string;
 	salaryDate: number;
+	monzoAuth: boolean;
 
 	constructor(data?: UserObject) {
 		if (data) {
@@ -13,6 +14,7 @@ export class UserModel {
 			this.emailAddress = data.email_address;
 			this.password = data.password;
 			this.salaryDate = data.salary_date;
+			this.monzoAuth = data.monzo_auth;
 		}
 	}
 

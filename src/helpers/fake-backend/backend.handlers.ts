@@ -27,6 +27,16 @@ function getTokenHeader(request: HttpRequest<any>) {
 }
 
 export const handlers = {
+	auth: {
+		GET: {
+			handler(request: HttpRequest<any>) {
+
+				const authToken = getTokenHeader(request);
+
+				return of(new HttpResponse({ status: 200, body: {auth_link: 'https://developers.monzo.com/'} }));
+			}
+		}
+	},
 	login: {
 		POST: {
 			handler(request: HttpRequest<any>) {

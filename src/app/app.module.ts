@@ -21,6 +21,10 @@ import { UserService } from '../providers/user/user.service';
 import { userReducer } from '../providers/user/user.reducer';
 import { UserEffects } from '../providers/user/user.effects';
 
+import { AuthService } from '../providers/auth/auth.service';
+import { authReducer } from '../providers/auth/auth.reducer';
+import { AuthEffects } from '../providers/auth/auth.effects';
+
 import { metaReducer } from '../helpers/meta.reducer';
 
 import { FakeBackendProvider } from '../helpers/fake-backend/backend.interceptor';
@@ -48,12 +52,12 @@ import { MatModule } from '../helpers/mat.module';
     ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot({ bills: billReducer, user: userReducer }, { metaReducers: [metaReducer] }),
-    EffectsModule.forRoot([BillEffects, UserEffects]),
+    StoreModule.forRoot({ bills: billReducer, user: userReducer, auth: authReducer }, { metaReducers: [metaReducer] }),
+    EffectsModule.forRoot([BillEffects, UserEffects, AuthEffects]),
     HttpClientModule,
     MatModule
   ],
-  providers: [BillService, UserService, TokenProvider, FakeBackendProvider],
+  providers: [BillService, UserService, TokenProvider, FakeBackendProvider, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

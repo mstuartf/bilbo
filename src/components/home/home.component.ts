@@ -18,6 +18,9 @@ import { UserModel } from '../../providers/user/user.model';
 import { UserObject } from '../../providers/user/user.interface';
 import * as UserActions from '../../providers/user/user.actions';
 
+import * as AuthActions from '../../providers/auth/auth.actions';
+import { AuthLinkResponse } from '../../providers/auth/auth.interface';
+
 import { PopupConfig } from '../popup/popup-config.interface';
 import { PopupComponent } from '../popup/popup.component';
 
@@ -41,7 +44,7 @@ export class HomeComponent implements OnInit {
 
 	public showNewSpinner: boolean;
 	public showSalarySpinner: boolean;
-	public spinnerText: string;
+	public showAuthSpinner: boolean;
 
 	public popupConfig: PopupConfig;
 	public onConfirmPopup: Function;
@@ -101,6 +104,10 @@ export class HomeComponent implements OnInit {
 
 				case UserActions.UPDATE_SUCCESS:
 					this.onUpdateUserSuccess();
+					break;
+
+				case AuthActions.GET_AUTH_LINK_SUCCESS:
+					this.onGetAuthLinkSuccess(action.payload);
 					break;
 
 				default:
@@ -238,6 +245,18 @@ export class HomeComponent implements OnInit {
 
 	public onUpdateUserSuccess() {
 		this.showSalarySpinner = false;
+	}
+
+	public authorise() {
+		this.showAuthSpinner = true;
+		this.store.dispatch(new AuthActions.GetAuthLinkRequest());
+	}
+
+	public onGetAuthLinkSuccess(authLink: AuthLinkResponse) {
+		this.showAuthSpinner = false;
+		console.log(authLink.auth_link);
+		window.open(authLink.auth_link, '_blank');
+
 	}
 
 	public ngOnDestroy() {

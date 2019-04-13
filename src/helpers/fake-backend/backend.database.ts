@@ -14,13 +14,15 @@ export let database: Database = {
             id: '1',
             email_address: 'mike@user.com',
             password: 'password!',
-            salary_date: 3
+            salary_date: 3,
+            monzo_auth: false
         },
         {
             id: '2',
             email_address: 'mike@another.com',
             password: 'password!',
-            salary_date: null
+            salary_date: null,
+            monzo_auth: false
         }
     ],
     bills: [
