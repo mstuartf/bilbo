@@ -25,13 +25,23 @@
 		</ng-container>
 
       	<ng-container matColumnDef="description">
-		  <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+		  <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
 		  <td mat-cell *matCellDef="let bill"> {{bill.description || '-'}} </td>
 		</ng-container>
 
-      	<ng-container matColumnDef="dueDate">
-		  <th mat-header-cell *matHeaderCellDef mat-sort-header> Due on </th>
-		  <td mat-cell *matCellDef="let bill"> {{bill.dueDate}} </td>
+      	<ng-container matColumnDef="periodFrequency">
+		  <th mat-header-cell *matHeaderCellDef mat-sort-header>Every</th>
+		  <td mat-cell *matCellDef="let bill"> {{bill.periodFrequency}} </td>
+		</ng-container>
+
+      	<ng-container matColumnDef="period">
+		  <th mat-header-cell *matHeaderCellDef mat-sort-header>Period</th>
+		  <td mat-cell *matCellDef="let bill"> {{bill.period}} </td>
+		</ng-container>
+
+      	<ng-container matColumnDef="firstPaymentDate">
+		  <th mat-header-cell *matHeaderCellDef mat-sort-header>Starting from</th>
+		  <td mat-cell *matCellDef="let bill"> {{bill.firstPaymentDate | date: 'dd/MM/yyyy'}} </td>
 		</ng-container>
 
       	<ng-container matColumnDef="amount">

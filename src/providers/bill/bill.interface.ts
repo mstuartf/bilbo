@@ -1,10 +1,14 @@
+export type ValidBillPeriod = 'day' | 'week' | 'month';
+
 export interface BillObject {
 	id: string;
 	user_id: string;
 	title: string;
 	description: string;
 	amount: number;
-	due_date: number;  // for now assume monthly and this is the date of the month
+	period: ValidBillPeriod;
+	period_frequency: number;
+	first_payment_date: string;
 }
 
 export interface BillQuery {

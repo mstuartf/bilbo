@@ -21,21 +21,43 @@
 
 	  </mat-form-field>
 
+	  <mat-form-field>
+
+		  <input matInput [matDatepicker]="picker" placeholder="Starting date" [formControl]="firstPaymentDate">
+		  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+		  <mat-datepicker #picker></mat-datepicker>
+
+		  <mat-error *ngIf="firstPaymentDate.hasError('required')">
+	        Starting date is required
+	      </mat-error>
+	      
+	  </mat-form-field>
+
 	  <mat-form-field class="new-bill-full-width">
 
-		  <mat-label>Due date</mat-label>
+	    <input matInput placeholder="Every" [formControl]="periodFrequency" type="number">
+
+	    <mat-error *ngIf="periodFrequency.hasError('required')">
+	      Frequency is required
+	    </mat-error>
+
+	  </mat-form-field>
+
+	  <mat-form-field class="new-bill-full-width">
+
+		  <mat-label>Period</mat-label>
 		
-		  <mat-select [formControl]="dueDate">
-		    <mat-option *ngFor="let date of [].constructor(31); let i = index" [value]="i + 1">
-		      {{i + 1}}
+		  <mat-select [formControl]="period">
+		    <mat-option *ngFor="let period of ['day', 'week', 'month']" value="{{period}}">
+		      {{period}}
 		    </mat-option>
 		  </mat-select>
 
-		  <mat-error *ngIf="dueDate.hasError('required')">
-	      Due date is required
-	    </mat-error>
+		  <mat-error *ngIf="period.hasError('required')">
+	        Period is required
+	      </mat-error>
 		
-		</mat-form-field>
+	  </mat-form-field>
 
 	  <mat-form-field class="new-bill-full-width">
 
@@ -57,7 +79,7 @@
     Cancel
   </button>
 
-  <button mat-button (click)="onConfirm()" [disabled]="title.invalid || dueDate.invalid || amount.invalid">
+  <button mat-button (click)="onConfirm()" [disabled]="title.invalid || firstPaymentDate.invalid || amount.invalid">
     OK
   </button>
 

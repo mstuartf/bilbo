@@ -8,6 +8,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -25,7 +28,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   	MatTableModule,
   	MatIconModule,
   	MatSortModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports: [
   	BrowserAnimationsModule, 
@@ -38,7 +43,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   	MatTableModule,
   	MatIconModule,
   	MatSortModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+  ],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}
   ]
 })
 export class MatModule { }

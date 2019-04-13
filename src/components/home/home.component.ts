@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
 
 	public user: UserModel;
 
-	public columnsToDisplay: string[] = ['title', 'description', 'dueDate', 'amount', 'remove'];
+	public columnsToDisplay: string[] = ['title', 'description', 'periodFrequency', 'period', 'firstPaymentDate', 'amount', 'remove'];
 
 	// define form and getters so template can access controls
 	public registerForm = new FormGroup({

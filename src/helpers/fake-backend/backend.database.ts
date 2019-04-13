@@ -1,4 +1,14 @@
-export let database = {
+import { BillObject } from '../../providers/bill/bill.interface';
+import { UserObject } from '../../providers/user/user.interface';
+
+
+interface Database {
+	users: UserObject[];
+	bills: BillObject[];
+}
+
+
+export let database: Database = {
     users: [
     	{
             id: '1',
@@ -19,7 +29,9 @@ export let database = {
 			user_id: '1',
 			title: 'Bill 1',
 			description: 'NetFlix due on the 8th',
-			due_date: 8,
+			period: 'month',
+			period_frequency: 1,
+			first_payment_date: '2019-02-10',
 			amount: 9.99
 		},
 		{
@@ -27,7 +39,9 @@ export let database = {
 			user_id: '1',
 			title: 'Bill 2',
 			description: 'Spotify',
-			due_date: 12,
+			period: 'month',
+			period_frequency: 1,
+			first_payment_date: '2019-03-12',
 			amount: 9.99
 		},
 		{
@@ -35,7 +49,9 @@ export let database = {
 			user_id: '1',
 			title: 'Bill 3',
 			description: 'Council Tax',
-			due_date: 3,
+			period: 'week',
+			period_frequency: 2,
+			first_payment_date: '2019-01-15',
 			amount: 93
 		},
 		{
@@ -43,7 +59,9 @@ export let database = {
 			user_id: '2',
 			title: 'Bill 4',
 			description: 'Rent',
-			due_date: 9,
+			period: 'day',
+			period_frequency: 30,
+			first_payment_date: '2019-03-19',
 			amount: 725
 		}
     ]

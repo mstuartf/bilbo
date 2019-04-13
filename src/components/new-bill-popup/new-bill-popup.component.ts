@@ -16,7 +16,9 @@ export class NewBillPopupComponent {
 	public newBillForm = new FormGroup({
 		title: new FormControl('', [Validators.required]),
 		description: new FormControl('', []),
-		dueDate: new FormControl('', [Validators.required]),
+		firstPaymentDate: new FormControl('', [Validators.required]),
+		period: new FormControl('', [Validators.required]),
+		periodFrequency: new FormControl('', [Validators.required]),
 		amount: new FormControl('', [Validators.required])
 	})
 
@@ -28,8 +30,16 @@ export class NewBillPopupComponent {
 		return this.newBillForm.get('description');
 	}
 
-	get dueDate () {
-		return this.newBillForm.get('dueDate');
+	get firstPaymentDate () {
+		return this.newBillForm.get('firstPaymentDate');
+	}
+
+	get period () {
+		return this.newBillForm.get('period');
+	}
+
+	get periodFrequency () {
+		return this.newBillForm.get('periodFrequency');
 	}
 
 	get amount () {
@@ -42,7 +52,9 @@ export class NewBillPopupComponent {
     	const newBill = new BillModel();
     	newBill.title = this.title.value;
     	newBill.description = this.description.value;
-    	newBill.dueDate = this.dueDate.value;
+    	newBill.period = this.period.value;
+    	newBill.periodFrequency = this.periodFrequency.value;
+    	newBill.firstPaymentDate = this.firstPaymentDate.value;
     	newBill.amount = this.amount.value;
       	this.dialogRef.close(newBill);
     }

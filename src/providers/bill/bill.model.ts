@@ -1,4 +1,5 @@
-import { BillObject, BillQuery } from './bill.interface';
+import { BillObject, BillQuery, ValidBillPeriod } from './bill.interface';
+
 
 export class BillModel {
 
@@ -7,7 +8,9 @@ export class BillModel {
 	title: string;
 	description: string;
 	amount: number;
-	dueDate: number;
+	period: ValidBillPeriod;
+	periodFrequency: number;
+	firstPaymentDate: Date;
 
   	constructor(data?: BillObject) { 
   		if (data) {
@@ -16,20 +19,31 @@ export class BillModel {
   			this.title = data.title;
   			this.description = data.description;
   			this.amount = data.amount;
-  			this.dueDate = data.due_date;
+  			this.period = data.period;
+  			this.periodFrequency = data.period_frequency;
+  			this.firstPaymentDate = new Date(data.first_payment_date);
   		}
 
   	}
 
-  	getData (): BillObject {
+  	public getData (): BillObject {
   		return {
   			id: this.id,
   			user_id: this.userId,
   			title: this.title,
   			description: this.description,
   			amount: this.amount,
-  			due_date: this.dueDate,
+  			first_payment_date: BillModel.formatDateString(this.firstPaymentDate),
+  			period: this.period,
+  			period_frequency: this.periodFrequency
   		}
+  	}
+
+  	public static formatDateString(date: Date): string {
+  		const day = date.getDate();
+  		const month = date.getMonth() + 1;
+  		const year = date.getFullYear();
+  		return year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2);
   	}
 
 }
