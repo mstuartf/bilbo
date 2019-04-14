@@ -48,7 +48,7 @@
 		  <mat-label>Period</mat-label>
 		
 		  <mat-select [formControl]="period">
-		    <mat-option *ngFor="let period of ['day', 'week', 'month']" value="{{period}}">
+		    <mat-option *ngFor="let period of ['day', 'week', 'month', 'year']" value="{{period}}">
 		      {{period}}
 		    </mat-option>
 		  </mat-select>
@@ -61,7 +61,8 @@
 
 	  <mat-form-field class="new-bill-full-width">
 
-	    <input matInput placeholder="Amount" [formControl]="amount" type="number">
+	    <input matInput placeholder="Amount" [formControl]="amount" type="number" class="text-align-right">
+	    <span matPrefix>£&nbsp;</span>
 
 	    <mat-error *ngIf="amount.hasError('required')">
 	      Amount is required

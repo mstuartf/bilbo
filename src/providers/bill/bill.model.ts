@@ -53,6 +53,7 @@ export class BillFeed {
 	list: BillModel[] = [];
 	count: number;
 	next: boolean;
+  total: number;
 
 	constructor(data?: BillQuery) {
 		
@@ -67,6 +68,13 @@ export class BillFeed {
 
 		}
 
+    this.updateTotal();
+
 	}
+
+  public updateTotal() {
+    this.total = 0;
+    this.list.map(bill => this.total += bill.amount);
+  }
 
 }

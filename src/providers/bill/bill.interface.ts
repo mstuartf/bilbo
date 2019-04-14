@@ -1,4 +1,4 @@
-export type ValidBillPeriod = 'day' | 'week' | 'month';
+export type ValidBillPeriod = 'day' | 'week' | 'month' | 'year';
 
 export interface BillObject {
 	id: string;

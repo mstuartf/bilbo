@@ -88,10 +88,12 @@ export class HomeComponent implements OnInit {
 
 				case BillActions.ADD_BILL_SUCCESS:
 					this.onAddBillSuccess();
+					this.billFeed.updateTotal();
 					break;
 
 				case BillActions.REMOVE_BILL_SUCCESS:
 					this.onRemoveBillSuccess();
+					this.billFeed.updateTotal();
 					break;
 
 				case BillActions.ADD_BILL_FAILURE || BillActions.REMOVE_BILL_FAILURE:
