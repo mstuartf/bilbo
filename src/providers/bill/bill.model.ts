@@ -46,6 +46,25 @@ export class BillModel {
   		return year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2);
   	}
 
+    get monthlyAmount(): number {
+
+      const periodAmount = this.amount / this.periodFrequency;
+
+      switch (this.period) {
+
+        case 'day':
+          return periodAmount * 365.25 / 12;
+
+        case 'week':
+          return periodAmount * 52 / 12;
+
+        default:
+          return periodAmount;
+
+      }
+
+    }
+
 }
 
 export class BillFeed {
@@ -53,7 +72,7 @@ export class BillFeed {
 	list: BillModel[] = [];
 	count: number;
 	next: boolean;
-  total: number;
+  monthlyTotal: number;
 
 	constructor(data?: BillQuery) {
 		
@@ -73,8 +92,8 @@ export class BillFeed {
 	}
 
   public updateTotal() {
-    this.total = 0;
-    this.list.map(bill => this.total += bill.amount);
+    this.monthlyTotal = 0;
+    this.list.map(bill => this.monthlyTotal += bill.monthlyAmount);
   }
 
 }
