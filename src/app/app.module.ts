@@ -29,6 +29,7 @@ import { metaReducer } from '../helpers/meta.reducer';
 
 import { FakeBackendProvider } from '../helpers/fake-backend/backend.interceptor';
 import { TokenProvider } from '../helpers/auth.interceptor';
+import { UrlProvider } from '../helpers/url.interceptor';
 
 import { MatModule } from '../helpers/mat.module';
 
@@ -57,7 +58,7 @@ import { MatModule } from '../helpers/mat.module';
     HttpClientModule,
     MatModule
   ],
-  providers: [BillService, UserService, TokenProvider, FakeBackendProvider, AuthService],
+  providers: [BillService, UserService, UrlProvider, TokenProvider, FakeBackendProvider, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
