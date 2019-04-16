@@ -6,7 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { UserService } from './user.service';
 import * as UserActions from './user.actions';
-import { UserObject } from './user.interface';
+import { UserObject, TokenObject } from './user.interface';
 
 @Injectable()
 export class UserEffects {
@@ -20,10 +20,7 @@ export class UserEffects {
 
 		switchMap((action: UserActions.RegisterRequest) => 
 			this.userService.register(action.payload).pipe(
-				map((data: UserObject) => {
-					this.userService.setToken(data.id)
-					return new UserActions.RegisterSuccess(data)
-				}),
+				map(() => new UserActions.RegisterSuccess()),
 				catchError((err: HttpErrorResponse) => of(new UserActions.RegisterFailure(err)))  // need to catch the error or the stream will end
 			)
 		)
@@ -36,9 +33,9 @@ export class UserEffects {
 
 		switchMap((action: UserActions.LoginRequest) => 
 			this.userService.login(action.payload).pipe(
-				map((data: UserObject) => {
-					this.userService.setToken(data.id)
-					return new UserActions.LoginSuccess(data)
+				map((data: TokenObject) => {
+					this.userService.setToken(data.token)
+					return new UserActions.LoginSuccess()
 				}),
 				catchError((err: HttpErrorResponse) => of(new UserActions.LoginFailure(err)))  // need to catch the error or the stream will end
 			)

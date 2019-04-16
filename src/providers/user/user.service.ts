@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 import { UserModel } from './user.model';
+import { TokenObject } from './user.interface';
 
 import { HttpClient } from '@angular/common/http';
 
@@ -16,19 +17,19 @@ export class UserService {
 
 	constructor(public http: HttpClient) { }
 
-	public register(user: UserModel) {
-		return this.http.post('user', user.create);
+	public register(user: UserModel): Observable<null> {
+		return this.http.post<null>('user', user.create);
 	}
 
-	public login(user: UserModel) {
-		return this.http.post('login', user.login);
+	public login(user: UserModel): Observable<TokenObject> {
+		return this.http.post<TokenObject>('login', user.login);
 	}
 
-	public getToken(): number {
+	public getToken(): string {
 		return JSON.parse(localStorage.getItem(AUTH_TOKEN_STORAGE_KEY));
 	}
 
-	public setToken(token: number) {
+	public setToken(token: string) {
 		localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, JSON.stringify(token));
 	}
 

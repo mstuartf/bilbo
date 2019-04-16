@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -17,7 +17,7 @@ import { UserObject } from '../../providers/user/user.interface';
 import { PopupConfig } from '../popup/popup-config.interface';
 import { PopupComponent } from '../popup/popup.component';
 import { PotDepositDayPopupComponent } from '../pot-deposit-day-popup/pot-deposit-day-popup.component';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormGroupDirective } from '@angular/forms';
 
 import { MatDialog } from '@angular/material';
 
@@ -45,6 +45,8 @@ export class RegisterComponent implements OnInit {
 		emailAddress: new FormControl('', [Validators.required, Validators.email]),
 		password: new FormControl('', [Validators.required])
 	})
+
+	@ViewChild(FormGroupDirective) formElement;  // need to access the form element to reset it after submit
 
 	get emailAddress () {
 		return this.registerForm.get('emailAddress');
@@ -122,7 +124,13 @@ export class RegisterComponent implements OnInit {
 	private onRegisterSuccess() {
 		this.showSpinner = false;
 		this.disableInputs(false);
-		this.router.navigate([''])
+		this.formElement.resetForm();
+		const popupConfig = {
+			title: 'Verify email',
+			message: 'Your account has been created. You just need to click on the verification link in the email we\'ve sent you before logging in.',
+			confirm: 'OK'
+		};
+		this.showPopup(popupConfig);
 	}
 
 	private onRegisterFailure(err: HttpErrorResponse) {

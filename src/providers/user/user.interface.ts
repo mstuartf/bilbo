@@ -9,6 +9,10 @@ export interface UserObject {
 	potDepositDay: number;
 }
 
+export interface TokenObject {
+	token: string;
+}
+
 export namespace UserPayloads {
 
 	export interface Create {

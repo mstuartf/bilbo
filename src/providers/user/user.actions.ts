@@ -16,7 +16,7 @@ export class RegisterRequest implements StoreAction {
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
 export class RegisterSuccess implements StoreAction {
 	readonly type = REGISTER_SUCCESS;
-	constructor (public payload: UserObject) {}
+	constructor () {}
 }
 
 export const REGISTER_FAILURE = 'REGISTER_FAILURE'
@@ -36,7 +36,7 @@ export class LoginRequest implements StoreAction {
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export class LoginSuccess implements StoreAction {
 	readonly type = LOGIN_SUCCESS;
-	constructor (public payload: UserObject) {}
+	constructor () {}
 }
 
 export const LOGIN_FAILURE = 'LOGIN_FAILURE'

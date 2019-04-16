@@ -44,7 +44,7 @@ export const handlers = {
 				const result = database.users.find((user: UserObject) => user.email === request.body.email);
 
 				if (result && result.password === request.body.password)
-					return of(new HttpResponse({ status: 200, body: result }));
+					return of(new HttpResponse({ status: 200, body: {token: result.id} }));
 				 
 				return throwError(new HttpErrorResponse({error: 'invalid email address or password', status: 400}));
 

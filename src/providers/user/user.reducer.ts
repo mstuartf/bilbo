@@ -12,12 +12,6 @@ export function userReducer (state: UserObject, action: UserActions.Actions) {
 		
 		case UserActions.UPDATE_SUCCESS:
 			return action.payload;
-		
-		case UserActions.REGISTER_SUCCESS:
-			return action.payload;
-
-		case UserActions.LOGIN_SUCCESS:
-			return action.payload;
 
 		default:
 			return state;
