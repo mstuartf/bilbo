@@ -32,7 +32,7 @@ export class UserModel {
 		    monzoRefreshToken: null,
 			mainAccountId: null,
 		    bilboPotId: null,
-		    potDepositDay: null
+		    potDepositDay: this.potDepositDay
 		}
 	}
 

@@ -12,6 +12,7 @@ import { LoginComponent } from '../components/login/login.component';
 import { PopupComponent } from '../components/popup/popup.component';
 import { NewBillPopupComponent } from '../components/new-bill-popup/new-bill-popup.component';
 import { RegisterComponent } from '../components/register/register.component';
+import { PotDepositDayPopupComponent } from '../components/pot-deposit-day-popup/pot-deposit-day-popup.component';
 
 import { BillService } from '../providers/bill/bill.service';
 import { billReducer } from '../providers/bill/bill.reducer';
@@ -40,13 +41,15 @@ import { MatModule } from '../helpers/mat.module';
     RegisterComponent,
     HomeComponent,
     PopupComponent,
-    NewBillPopupComponent
+    NewBillPopupComponent,
+    PotDepositDayPopupComponent
   ],
   // For any component loaded into a dialog, you must include your component class in the list of entryComponents 
   // in your NgModule definition so that the Angular compiler knows to create the ComponentFactory for it.
   entryComponents: [
     PopupComponent,
-    NewBillPopupComponent
+    NewBillPopupComponent,
+    PotDepositDayPopupComponent
   ],
   imports: [
     FormsModule,

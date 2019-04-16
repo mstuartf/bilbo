@@ -1,0 +1,46 @@
+<h1 mat-dialog-title>
+	Set salary date
+</h1>
+
+<div mat-dialog-content>
+
+	<p>Please select the date your salary is paid into your account so Bilbo knows when to add bills to his pot each month.</p>
+
+  <div class="p-mat-row">
+
+	  <mat-form-field class="new-bill-full-width">
+
+	    <mat-label>Salary date</mat-label>
+			
+		  <mat-select 
+		    class="text-align-right"
+		  	[formControl]="potDepositDay">
+
+		    <mat-option *ngFor="let date of [].constructor(31); let i = index" [value]="i + 1">
+		      {{i + 1}}
+		    </mat-option>
+
+		  </mat-select>
+		
+
+	    <mat-error *ngIf="potDepositDay.hasError('required')">
+	      Salary date is required
+	    </mat-error>
+
+	  </mat-form-field>
+
+	</div>
+
+</div>
+
+<div mat-dialog-actions>
+
+  <button mat-button (click)="onCancel()">
+    Cancel
+  </button>
+
+  <button mat-button (click)="onConfirm()" [disabled]="potDepositDay.invalid">
+    OK
+  </button>
+
+</div>

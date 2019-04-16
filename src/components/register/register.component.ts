@@ -16,7 +16,7 @@ import { UserObject } from '../../providers/user/user.interface';
 
 import { PopupConfig } from '../popup/popup-config.interface';
 import { PopupComponent } from '../popup/popup.component';
-
+import { PotDepositDayPopupComponent } from '../pot-deposit-day-popup/pot-deposit-day-popup.component';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { MatDialog } from '@angular/material';
@@ -99,10 +99,21 @@ export class RegisterComponent implements OnInit {
 	    });
 	  }
 
-	public register() {
+	public register(): void {
+	    const dialogRef = this.dialog.open(PotDepositDayPopupComponent, {
+	      width: '400px'
+	    });
+
+	    dialogRef.afterClosed().subscribe((potDepositDay: number) => {
+	      this.onRegisterConfirm(potDepositDay);
+	    });
+	  }
+
+	public onRegisterConfirm(potDepositDay: number) {
 		const user = new UserModel();
 		user.emailAddress = this.emailAddress.value;
 		user.password = this.password.value;
+		user.potDepositDay = potDepositDay;
 		this.showSpinner = true;
 		this.disableInputs(true);
 		this.store.dispatch(new UserActions.RegisterRequest(user))

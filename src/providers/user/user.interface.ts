@@ -18,7 +18,7 @@ export namespace UserPayloads {
 	    monzoRefreshToken: null;
 		mainAccountId: null;
 	    bilboPotId: null;
-	    potDepositDay: null
+	    potDepositDay: number
 	}
 
 	export interface Update {
