@@ -7,6 +7,8 @@ import { UserModel } from './user.model';
 
 import { HttpClient } from '@angular/common/http';
 
+const AUTH_TOKEN_STORAGE_KEY = 'authToken';
+
 @Injectable({
 	providedIn: 'root'
 })
@@ -23,11 +25,11 @@ export class UserService {
 	}
 
 	public getToken(): number {
-		return JSON.parse(localStorage.getItem('authToken'));
+		return JSON.parse(localStorage.getItem(AUTH_TOKEN_STORAGE_KEY));
 	}
 
 	public setToken(token: number) {
-		localStorage.setItem('authToken', JSON.stringify(token));
+		localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, JSON.stringify(token));
 	}
 
 	public logout() {
@@ -35,7 +37,7 @@ export class UserService {
 	}
 
 	public removeToken() {
-		localStorage.removeItem('authToken');
+		localStorage.removeItem(AUTH_TOKEN_STORAGE_KEY);
 	}
 
 	public getUser() {

@@ -18,17 +18,17 @@ export namespace UserPayloads {
 	    monzoRefreshToken: null;
 		mainAccountId: null;
 	    bilboPotId: null;
-	    potDepositDay: number
+	    potDepositDay: null
 	}
 
 	export interface Update {
 		id: number;
 	    email: string;
 	    password: string;
-	    monzoToken: null;
-	    monzoRefreshToken: null;
-		mainAccountId: null;
-	    bilboPotId: null;
+	    monzoToken: string;
+	    monzoRefreshToken: string;
+		mainAccountId: string;
+	    bilboPotId: string;
 	    potDepositDay: number
 	}
 

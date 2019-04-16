@@ -9,7 +9,7 @@ export class UserModel {
 	monzoRefreshToken: string;
 	mainAccountId: string;
 	bilboPotId: string;
-	salaryDate: number;
+	potDepositDay: number;
 
 	constructor(data?: UserObject) {
 		if (data) {
@@ -20,7 +20,7 @@ export class UserModel {
 			this.monzoRefreshToken = data.monzoRefreshToken;
 			this.mainAccountId = data.mainAccountId;
 			this.bilboPotId = data.bilboPotId;
-			this.salaryDate = data.potDepositDay;
+			this.potDepositDay = data.potDepositDay;
 		}
 	}
 
@@ -41,11 +41,11 @@ export class UserModel {
 			id: this.id,
 	    	email: this.emailAddress,
 		    password: this.password,
-		    monzoToken: null,
-		    monzoRefreshToken: null,
-			mainAccountId: null,
-		    bilboPotId: null,
-		    potDepositDay: null
+		    monzoToken: this.monzoToken,
+		    monzoRefreshToken: this.monzoRefreshToken,
+			mainAccountId: this.mainAccountId,
+		    bilboPotId: this.bilboPotId,
+		    potDepositDay: this.potDepositDay
 		}
 	}
 

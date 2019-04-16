@@ -15,8 +15,8 @@ function getTokenHeader(request: HttpRequest<any>) {
 		return null;
 	}
 
-	const authToken = parseInt(tokenHeader.substr(6));
-
+	const authToken = parseInt(tokenHeader.substr(7));
+	
 	const users = database.users.filter((user: UserObject) => user.id === authToken);
 
 	if (!users.length) {
@@ -41,10 +41,10 @@ export const handlers = {
 		POST: {
 			handler(request: HttpRequest<any>) {
 
-				const results = database.users.filter((user: UserObject) => user.email === request.body.email);
+				const result = database.users.find((user: UserObject) => user.email === request.body.email);
 
-				if (results.length && results[0].password === request.body.password)
-					return of(new HttpResponse({ status: 200, body: results[0] }));
+				if (result && result.password === request.body.password)
+					return of(new HttpResponse({ status: 200, body: result }));
 				 
 				return throwError(new HttpErrorResponse({error: 'invalid email address or password', status: 400}));
 
@@ -81,14 +81,12 @@ export const handlers = {
 				return throwError(new HttpErrorResponse({error: 'invalid email address or password', status: 400}));
 
 			}
-		}
-	},
-	register: {
+		},
 		POST: {
 			handler(request: HttpRequest<any>) {
-
-				if (request.body.email_address && request.body.password && request.body.password.length > 8) {
-					request.body.id = Math.round(Math.random() * 100).toString();
+				
+				if (request.body.email && request.body.password && request.body.password.length > 8) {
+					request.body.id = Math.round(Math.random() * 100);
 					database.users.push(request.body);
 					return of(new HttpResponse({ status: 200, body: request.body }));
 				}
@@ -128,7 +126,7 @@ export const handlers = {
 					return throwError(new HttpErrorResponse({error: 'invalid token', status: 401}));
 
 				if (request.body.title && request.body.amount && request.body.period && request.body.period_frequency && request.body.first_payment_date) {
-					request.body.id = Math.round(Math.random() * 100).toString();
+					request.body.id = Math.round(Math.random() * 100);
 					request.body.user_id = authToken;
 					database.bills.push(request.body);
 					return of(new HttpResponse({ status: 200, body: request.body }));

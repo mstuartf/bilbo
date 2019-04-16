@@ -107,7 +107,7 @@
 			  <mat-select 
 			    class="text-align-right"
 			  	[disabled]="showSalarySpinner || showAuthSpinner || showNewSpinner || !dataSource" 
-			  	[(ngModel)]="user.salaryDate"
+			  	[(ngModel)]="user.potDepositDay"
 			  	(selectionChange)="updateUser()">
 
 			    <mat-option *ngFor="let date of [].constructor(31); let i = index" [value]="i + 1">
