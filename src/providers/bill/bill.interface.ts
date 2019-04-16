@@ -4,7 +4,6 @@ export interface BillObject {
 	id: string;
 	user_id: string;
 	title: string;
-	description: string;
 	amount: number;
 	period: ValidBillPeriod;
 	period_frequency: number;

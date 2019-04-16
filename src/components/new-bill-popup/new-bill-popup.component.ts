@@ -15,8 +15,7 @@ export class NewBillPopupComponent {
 	// define form and getters so template can access controls
 	public newBillForm = new FormGroup({
 		title: new FormControl('', [Validators.required]),
-		description: new FormControl('', []),
-		firstPaymentDate: new FormControl('', [Validators.required]),
+		firstPaymentDate: new FormControl(new Date, [Validators.required]),
 		period: new FormControl('', [Validators.required]),
 		periodFrequency: new FormControl('', [Validators.required]),
 		amount: new FormControl('', [Validators.required])
@@ -24,10 +23,6 @@ export class NewBillPopupComponent {
 
 	get title () {
 		return this.newBillForm.get('title');
-	}
-
-	get description () {
-		return this.newBillForm.get('description');
 	}
 
 	get firstPaymentDate () {
@@ -51,7 +46,6 @@ export class NewBillPopupComponent {
     onConfirm(): void {
     	const newBill = new BillModel();
     	newBill.title = this.title.value;
-    	newBill.description = this.description.value;
     	newBill.period = this.period.value;
     	newBill.periodFrequency = this.periodFrequency.value;
     	newBill.firstPaymentDate = this.firstPaymentDate.value;

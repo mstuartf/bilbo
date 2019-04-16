@@ -6,7 +6,6 @@ export class BillModel {
 	id: string;
 	userId: string;
 	title: string;
-	description: string;
 	amount: number;
 	period: ValidBillPeriod;
 	periodFrequency: number;
@@ -17,7 +16,6 @@ export class BillModel {
   			this.id = data.id;
   			this.userId = data.user_id;
   			this.title = data.title;
-  			this.description = data.description;
   			this.amount = data.amount;
   			this.period = data.period;
   			this.periodFrequency = data.period_frequency;
@@ -31,7 +29,6 @@ export class BillModel {
   			id: this.id,
   			user_id: this.userId,
   			title: this.title,
-  			description: this.description,
   			amount: this.amount,
   			first_payment_date: BillModel.formatDateString(this.firstPaymentDate),
   			period: this.period,
