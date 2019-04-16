@@ -1,29 +1,58 @@
-import { UserObject } from './user.interface';
+import { UserObject, UserPayloads } from './user.interface';
 
 export class UserModel {
 
-	id: string;
+	id: number;
 	emailAddress: string;
 	password: string;
+	monzoToken: string;
+	monzoRefreshToken: string;
+	mainAccountId: string;
+	bilboPotId: string;
 	salaryDate: number;
-	monzoAuth: boolean;
 
 	constructor(data?: UserObject) {
 		if (data) {
 			this.id = data.id;
-			this.emailAddress = data.email_address;
+			this.emailAddress = data.email;
 			this.password = data.password;
-			this.salaryDate = data.salary_date;
-			this.monzoAuth = data.monzo_auth;
+			this.monzoToken = data.monzoToken;
+			this.monzoRefreshToken = data.monzoRefreshToken;
+			this.mainAccountId = data.mainAccountId;
+			this.bilboPotId = data.bilboPotId;
+			this.salaryDate = data.potDepositDay;
 		}
 	}
 
-	getData() {
+	public get create(): UserPayloads.Create {
 		return {
-			id: null,
-			email_address: this.emailAddress,
-			password: this.password,
-			salary_date: this.salaryDate
+	    	email: this.emailAddress,
+		    password: this.password,
+		    monzoToken: null,
+		    monzoRefreshToken: null,
+			mainAccountId: null,
+		    bilboPotId: null,
+		    potDepositDay: null
+		}
+	}
+
+	public get update(): UserPayloads.Update {
+		return {
+			id: this.id,
+	    	email: this.emailAddress,
+		    password: this.password,
+		    monzoToken: null,
+		    monzoRefreshToken: null,
+			mainAccountId: null,
+		    bilboPotId: null,
+		    potDepositDay: null
+		}
+	}
+
+	public get login(): UserPayloads.Login {
+		return {
+	    	email: this.emailAddress,
+		    password: this.password
 		}
 	}
 

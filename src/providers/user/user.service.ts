@@ -15,19 +15,19 @@ export class UserService {
 	constructor(public http: HttpClient) { }
 
 	public register(user: UserModel) {
-		return this.http.post('register', user.getData());
+		return this.http.post('user', user.create);
 	}
 
 	public login(user: UserModel) {
-		return this.http.post('login', user.getData());
+		return this.http.post('login', user.login);
 	}
 
-	public getToken(): string {
+	public getToken(): number {
 		return JSON.parse(localStorage.getItem('authToken'));
 	}
 
-	public setToken(token: string) {
-		localStorage.setItem('authToken', token);
+	public setToken(token: number) {
+		localStorage.setItem('authToken', JSON.stringify(token));
 	}
 
 	public logout() {
@@ -43,7 +43,7 @@ export class UserService {
 	}
 
 	public updateUser(user: UserModel) {
-		return this.http.put('user', user.getData());
+		return this.http.put('user', user.update);
 	}
 
 }

@@ -1,7 +1,40 @@
 export interface UserObject {
-	id: string;
-	email_address: string;
+	id: number;
+	email: string;
 	password: string;
-	salary_date: number;
-	monzo_auth: boolean;
+	monzoToken: string;
+	monzoRefreshToken: string;
+	mainAccountId: string;
+	bilboPotId: string;
+	potDepositDay: number;
+}
+
+export namespace UserPayloads {
+
+	export interface Create {
+	    email: string;
+	    password: string;
+	    monzoToken: null;
+	    monzoRefreshToken: null;
+		mainAccountId: null;
+	    bilboPotId: null;
+	    potDepositDay: number
+	}
+
+	export interface Update {
+		id: number;
+	    email: string;
+	    password: string;
+	    monzoToken: null;
+	    monzoRefreshToken: null;
+		mainAccountId: null;
+	    bilboPotId: null;
+	    potDepositDay: number
+	}
+
+	export interface Login {
+		email: string;
+	    password: string;
+	}
+
 }

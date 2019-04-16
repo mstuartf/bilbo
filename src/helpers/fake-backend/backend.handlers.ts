@@ -15,7 +15,7 @@ function getTokenHeader(request: HttpRequest<any>) {
 		return null;
 	}
 
-	const authToken = tokenHeader.substr(6);
+	const authToken = parseInt(tokenHeader.substr(6));
 
 	const users = database.users.filter((user: UserObject) => user.id === authToken);
 
@@ -41,7 +41,7 @@ export const handlers = {
 		POST: {
 			handler(request: HttpRequest<any>) {
 
-				const results = database.users.filter((user: UserObject) => user.email_address === request.body.email_address);
+				const results = database.users.filter((user: UserObject) => user.email === request.body.email);
 
 				if (results.length && results[0].password === request.body.password)
 					return of(new HttpResponse({ status: 200, body: results[0] }));
@@ -74,7 +74,7 @@ export const handlers = {
 				const user = database.users.find((user: UserObject) => user.id === authToken);
 
 				if (user) {
-					user.salary_date = request.body.salary_date;
+					user.potDepositDay = request.body.potDepositDay;
 					return of(new HttpResponse({ status: 200, body: user }));
 				}
 				 
@@ -147,7 +147,7 @@ export const handlers = {
 					return throwError(new HttpErrorResponse({error: 'invalid token', status: 401}));
 
 				for (var i = 0; i < database.bills.length; i++) {
-					if (database.bills[i].id === request.params.get('id')) {
+					if (database.bills[i].id === parseInt(request.params.get('id'))) {
 						const bill = database.bills[i];
 						database.bills.splice(i, 1);
 						return of(new HttpResponse({ status: 200, body: bill }));

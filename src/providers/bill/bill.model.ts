@@ -3,8 +3,8 @@ import { BillObject, BillQuery, ValidBillPeriod } from './bill.interface';
 
 export class BillModel {
 
-	id: string;
-	userId: string;
+	id: number;
+	userId: number;
 	title: string;
 	amount: number;
 	period: ValidBillPeriod;

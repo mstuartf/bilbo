@@ -44,10 +44,10 @@ export class TokenInterceptor implements HttpInterceptor {
 
 	}
 
-	setAuthHeader (request: HttpRequest<any>, token: string) {
+	setAuthHeader (request: HttpRequest<any>, token: number) {
 		return request.clone({
 			setHeaders: {
-				Authorization: `Token ${token}`
+				Authorization: `Bearer ${token}`
 			}
 		})
 	}
