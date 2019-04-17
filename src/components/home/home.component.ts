@@ -81,6 +81,7 @@ export class HomeComponent implements OnInit {
 		) {
 
 		this.store.dispatch(new BillActions.GetBillsRequest())
+		this.store.dispatch(new UserActions.GetRequest())
 
 		this.actionsSub = actionsSubject.pipe(takeUntil(this.unsubscribe)).subscribe((action: StoreAction) => { 
 

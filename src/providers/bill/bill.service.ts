@@ -18,7 +18,7 @@ export class BillService {
 	}
 
 	public add(bill: BillModel) {
-		return this.http.post('bills', bill.getData());
+		return this.http.post('bills', bill.create);
 	}
 
 	public remove(bill: BillModel) {
