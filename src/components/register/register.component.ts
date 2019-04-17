@@ -138,7 +138,7 @@ export class RegisterComponent implements OnInit {
 		this.disableInputs(false);
 		const popupConfig = {
 			title: 'Oops, something went wrong',
-			message: err.error,
+			message: `${err.status}: ${err.statusText}`,
 			confirm: 'OK'
 		};
 		this.showPopup(popupConfig);

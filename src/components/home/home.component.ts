@@ -97,7 +97,15 @@ export class HomeComponent implements OnInit {
 					this.billFeed.updateTotal();
 					break;
 
-				case BillActions.ADD_BILL_FAILURE || BillActions.REMOVE_BILL_FAILURE:
+				case BillActions.ADD_BILL_FAILURE:
+					this.onBillActionFailure(action.payload);
+					break;
+
+				case BillActions.REMOVE_BILL_FAILURE:
+					this.onBillActionFailure(action.payload);
+					break;
+
+				case UserActions.UPDATE_FAILURE:
 					this.onBillActionFailure(action.payload);
 					break;
 
@@ -214,9 +222,11 @@ export class HomeComponent implements OnInit {
 
 	private onBillActionFailure(err: HttpErrorResponse) {
 		this.showNewSpinner = false;
+		this.showSalarySpinner = false;
+		this.showAuthSpinner = false;
 		const popupConfig = {
 			title: 'Oops, something went wrong',
-			message: err.error,
+			message: `${err.status}: ${err.statusText}`,
 			confirm: 'OK'
 		};
 		this.showPopup(popupConfig);

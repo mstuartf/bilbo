@@ -10,12 +10,7 @@ export interface BillObject {
 	startDate: number;
 }
 
-export interface BillQuery {
-	count: number;
-	results: BillObject[];
-	next: boolean;
-	previous: boolean;
-}
+export type BillQuery = BillObject[];
 
 export namespace BillPayloads {
 

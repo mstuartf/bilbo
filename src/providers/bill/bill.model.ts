@@ -59,18 +59,14 @@ export class BillModel {
 export class BillFeed {
 
 	list: BillModel[] = [];
-	count: number;
-	next: boolean;
   monthlyTotal: number;
 
 	constructor(data?: BillQuery) {
 		
 		if (data) {
-			this.count = data.count;
-			this.next = data.next;
 
-			for (var i = 0; i < data.results.length; i++) {
-				let bill = new BillModel(data.results[i]);
+			for (var i = 0; i < data.length; i++) {
+				let bill = new BillModel(data[i]);
 				this.list.push(bill);
 			}
 

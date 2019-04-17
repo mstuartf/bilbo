@@ -11,16 +11,15 @@ export function billReducer (state: BillQuery, action: BillActions.Actions) {
 			return action.payload;
 
 		case BillActions.ADD_BILL_SUCCESS:
-			return {...state, results: [...state.results, action.payload], count: state.count + 1}
+			return [...state, action.payload];
 
 		case BillActions.REMOVE_BILL_SUCCESS:
-			// todo: optimise this
 			let results = [];
-			for (var i = 0; i < state.results.length; i++) {
-				if (state.results[i].id !== action.payload.id)
-					results.push(state.results[i])
+			for (var i = 0; i < state.length; i++) {
+				if (state[i].id !== action.payload.id)
+					results.push(state[i])
 			}
-			return {...state, results: results, count: state.count - 1};
+			return results;
 
 		default:
 			return state;
