@@ -5,10 +5,11 @@ import { HomeComponent } from '../components/home/home.component';
 import { LoginComponent } from '../components/login/login.component';
 import { RegisterComponent } from '../components/register/register.component';
 
+import { InternalModule } from '../modules/internal/internal.module';
+
 const routes: Routes = [
-	{path: '', component: HomeComponent},  // todo: this needs a guard / redirect
-	{path: 'login', component: LoginComponent},
-	{path: 'register', component: RegisterComponent},
+	{ path: '',   redirectTo: 'home', pathMatch: 'full' },
+  	// { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({

@@ -7,11 +7,12 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HomeComponent } from '../components/home/home.component';
-import { LoginComponent } from '../components/login/login.component';
+
+import { ExternalModule } from '../modules/external/external.module';
+import { InternalModule } from '../modules/internal/internal.module';
+
 import { PopupComponent } from '../components/popup/popup.component';
 import { NewBillPopupComponent } from '../components/new-bill-popup/new-bill-popup.component';
-import { RegisterComponent } from '../components/register/register.component';
 import { PotDepositDayPopupComponent } from '../components/pot-deposit-day-popup/pot-deposit-day-popup.component';
 
 import { BillService } from '../providers/bill/bill.service';
@@ -41,9 +42,6 @@ import { MatModule } from '../helpers/mat.module';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    RegisterComponent,
-    HomeComponent,
     PopupComponent,
     NewBillPopupComponent,
     PotDepositDayPopupComponent
@@ -59,6 +57,8 @@ import { MatModule } from '../helpers/mat.module';
     FormsModule,
     ReactiveFormsModule,
     BrowserModule,
+    ExternalModule,
+    InternalModule,
     AppRoutingModule,
     StoreModule.forRoot({ bills: billReducer, user: userReducer, auth: authReducer, accounts: accountsReducer }, { metaReducers: [metaReducer] }),
     EffectsModule.forRoot([BillEffects, UserEffects, AuthEffects, AccountsEffects]),
