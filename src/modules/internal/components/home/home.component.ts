@@ -249,7 +249,7 @@ export class HomeComponent implements OnInit {
 
 	private onLogoutSuccess() {
 		this.showNewSpinner = false;
-		this.router.navigate(['login'])
+		this.router.navigate(['external'])
 	}
 
 	public updateUser() {

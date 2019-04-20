@@ -112,7 +112,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 	private onLoginSuccess() {
 		this.showSpinner = false;
 		this.disableInputs(false);
-		this.router.navigate([''])
+		this.router.navigate(['internal'])
 	}
 
 	private onLoginFailure(err: HttpErrorResponse) {

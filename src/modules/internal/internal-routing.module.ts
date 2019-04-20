@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
  
-import { LoggedInComponent } from './components/logged-in/logged-in.component';
+import { InternalComponent } from './internal.component';
 import { HomeComponent } from './components/home/home.component';
  
 const internalRoutes: Routes = [
 	{ 
-		path: 'logged-in', component: LoggedInComponent,
+		path: 'internal', component: InternalComponent,
 	    children: [
 	    	{ path: '', redirectTo: 'home', pathMatch: 'full' },
 	      	{ path: 'home', component: HomeComponent },

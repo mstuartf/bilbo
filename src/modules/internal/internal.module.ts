@@ -11,13 +11,13 @@ import { AccountsModule } from './providers/accounts/accounts.module';
 
 import { SharedModule } from '../shared/shared.module';
 import { InternalRoutingModule } from './internal-routing.module';
-import { LoggedInComponent } from './components/logged-in/logged-in.component';
+import { InternalComponent } from './internal.component';
 
 @NgModule({
   declarations: [
   	HomeComponent,
   	NewBillPopupComponent,
-  	LoggedInComponent
+  	InternalComponent
   ],
   entryComponents: [
     NewBillPopupComponent  // loaded in a dialog so must be included in entryComponents
