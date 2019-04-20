@@ -1,24 +1,24 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
+import { SharedModule } from '../shared/shared.module'
 import { ExternalRoutingModule } from './external-routing.module';
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { PotDepositDayPopupComponent } from './components/pot-deposit-day-popup/pot-deposit-day-popup.component';
 
-import { LoginComponent } from '../../components/login/login.component';
-import { RegisterComponent } from '../../components/register/register.component';
-
-import { MatModule } from '../../helpers/mat.module';
 
 @NgModule({
   declarations: [
   	LoginComponent,
-  	RegisterComponent
+  	RegisterComponent,
+    PotDepositDayPopupComponent
+  ],
+  entryComponents: [
+    PotDepositDayPopupComponent  // loaded in a dialog so must be included in entryComponents
   ],
   imports: [
-    CommonModule,
-    MatModule,
-    FormsModule,
-    ReactiveFormsModule,
+    SharedModule,
     ExternalRoutingModule
   ]
 })

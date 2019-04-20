@@ -8,64 +8,30 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+import { metaReducer } from '../state/meta.reducer';
+
+import { SharedModule } from '../modules/shared/shared.module';
+import { MockBackendModule } from '../mock-backend/backend.module';
 import { ExternalModule } from '../modules/external/external.module';
 import { InternalModule } from '../modules/internal/internal.module';
+import { InterceptorModule } from '../interceptors/interceptor.module';
 
-import { PopupComponent } from '../components/popup/popup.component';
-import { NewBillPopupComponent } from '../components/new-bill-popup/new-bill-popup.component';
-import { PotDepositDayPopupComponent } from '../components/pot-deposit-day-popup/pot-deposit-day-popup.component';
-
-import { BillService } from '../providers/bill/bill.service';
-import { billReducer } from '../providers/bill/bill.reducer';
-import { BillEffects } from '../providers/bill/bill.effects';
-
-import { UserService } from '../providers/user/user.service';
-import { userReducer } from '../providers/user/user.reducer';
-import { UserEffects } from '../providers/user/user.effects';
-
-import { AuthService } from '../providers/auth/auth.service';
-import { authReducer } from '../providers/auth/auth.reducer';
-import { AuthEffects } from '../providers/auth/auth.effects';
-
-import { AccountsService } from '../providers/accounts/accounts.service';
-import { accountsReducer } from '../providers/accounts/accounts.reducer';
-import { AccountsEffects } from '../providers/accounts/accounts.effects';
-
-import { metaReducer } from '../helpers/meta.reducer';
-
-import { FakeBackendProvider } from '../helpers/fake-backend/backend.interceptor';
-import { TokenProvider } from '../helpers/auth.interceptor';
-import { UrlProvider } from '../helpers/url.interceptor';
-
-import { MatModule } from '../helpers/mat.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    PopupComponent,
-    NewBillPopupComponent,
-    PotDepositDayPopupComponent
-  ],
-  // For any component loaded into a dialog, you must include your component class in the list of entryComponents 
-  // in your NgModule definition so that the Angular compiler knows to create the ComponentFactory for it.
-  entryComponents: [
-    PopupComponent,
-    NewBillPopupComponent,
-    PotDepositDayPopupComponent
+    AppComponent
   ],
   imports: [
-    FormsModule,
-    ReactiveFormsModule,
     BrowserModule,
     ExternalModule,
     InternalModule,
+    InterceptorModule,
     AppRoutingModule,
-    StoreModule.forRoot({ bills: billReducer, user: userReducer, auth: authReducer, accounts: accountsReducer }, { metaReducers: [metaReducer] }),
-    EffectsModule.forRoot([BillEffects, UserEffects, AuthEffects, AccountsEffects]),
+    StoreModule.forRoot({}, { metaReducers: [metaReducer] }),
+    EffectsModule.forRoot([]),
     HttpClientModule,
-    MatModule
+    MockBackendModule
   ],
-  providers: [BillService, UserService, UrlProvider, TokenProvider, FakeBackendProvider, AuthService, AccountsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
