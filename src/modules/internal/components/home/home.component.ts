@@ -15,13 +15,6 @@ import { BillFeed, BillModel } from '../../providers/bill/bill.model';
 import { BillQuery } from '../../providers/bill/bill.interface';
 import * as BillActions from '../../providers/bill/bill.actions';
 
-import { UserModel } from '../../../shared/providers/user/user.model';
-import * as UserActions from '../../../shared/providers/user/user.actions';
-import { UserObject } from '../../../shared/providers/user/user.interface';
-
-import * as AuthActions from '../../providers/auth/auth.actions';
-import { AuthLinkResponse } from '../../providers/auth/auth.interface';
-
 import { PopupConfig } from '../../../shared/components/popup/popup-config.interface';
 import { PopupComponent } from '../../../shared/components/popup/popup.component';
 
@@ -44,30 +37,12 @@ export class HomeComponent implements OnInit {
 	private actionsSub: Subscription
 
 	public showNewSpinner: boolean;
-	public showSalarySpinner: boolean;
-	public showAuthSpinner: boolean;
 
 	public popupConfig: PopupConfig;
 	public onConfirmPopup: Function;
 	public onCancelPopup: Function;
 
-	public user: UserModel;
-
 	public columnsToDisplay: string[] = ['title', 'periodFrequency', 'period', 'firstPaymentDate', 'amount', 'remove'];
-
-	// define form and getters so template can access controls
-	public registerForm = new FormGroup({
-		emailAddress: new FormControl('', [Validators.required, Validators.email]),
-		password: new FormControl('', [Validators.required])
-	})
-
-	get emailAddress () {
-		return this.registerForm.get('emailAddress');
-	}
-
-	get password () {
-		return this.registerForm.get('password');
-	}
 
 	// need to create a MatTableDataSource and set its sort property for the table data to be sortable
 	public dataSource: MatTableDataSource<BillModel>;
@@ -82,7 +57,6 @@ export class HomeComponent implements OnInit {
 		) {
 
 		this.store.dispatch(new BillActions.GetBillsRequest())
-		this.store.dispatch(new UserActions.GetRequest())
 
 		this.actionsSub = actionsSubject.pipe(takeUntil(this.unsubscribe)).subscribe((action: StoreAction) => { 
 
@@ -106,22 +80,6 @@ export class HomeComponent implements OnInit {
 					this.onBillActionFailure(action.payload);
 					break;
 
-				case UserActions.UPDATE_FAILURE:
-					this.onBillActionFailure(action.payload);
-					break;
-
-				case UserActions.LOGOUT_SUCCESS:
-					this.onLogoutSuccess();
-					break;
-
-				case UserActions.UPDATE_SUCCESS:
-					this.onUpdateUserSuccess();
-					break;
-
-				case AuthActions.GET_AUTH_LINK_SUCCESS:
-					this.onGetAuthLinkSuccess(action.payload);
-					break;
-
 				default:
 					break;
 
@@ -137,15 +95,6 @@ export class HomeComponent implements OnInit {
 			if (bills) {
 				this.billFeed = new BillFeed(bills);
 				this.buildTableDataSource();
-			}
-		})
-
-		this.store.select('user').subscribe((user: UserObject) => {
-			if (user) {
-				this.user = new UserModel(user);
-			}
-			else {
-				this.store.dispatch(new UserActions.GetRequest());
 			}
 		})
 
@@ -223,53 +172,12 @@ export class HomeComponent implements OnInit {
 
 	private onBillActionFailure(err: HttpErrorResponse) {
 		this.showNewSpinner = false;
-		this.showSalarySpinner = false;
-		this.showAuthSpinner = false;
 		const popupConfig = {
 			title: 'Oops, something went wrong',
 			message: `${err.status}: ${err.statusText}`,
 			confirm: 'OK'
 		};
 		this.showPopup(popupConfig);
-	}
-
-	public logout() {const popupConfig = {
-			title: 'Confirm',
-			message: 'Are you sure you would like logout?',
-			confirm: 'OK',
-			cancel: 'Cancel'
-		};
-		this.showPopup(popupConfig, () => this.onLogoutConfirm()); 
-	}
-
-	public onLogoutConfirm() {
-		this.showNewSpinner = true;
-		this.store.dispatch(new UserActions.LogoutRequest());
-	}
-
-	private onLogoutSuccess() {
-		this.showNewSpinner = false;
-		this.router.navigate(['external'])
-	}
-
-	public updateUser() {
-		this.showSalarySpinner = true;
-		this.store.dispatch(new UserActions.UpdateRequest(this.user));
-	}
-
-	public onUpdateUserSuccess() {
-		this.showSalarySpinner = false;
-	}
-
-	public authorise() {
-		this.showAuthSpinner = true;
-		this.store.dispatch(new AuthActions.GetAuthLinkRequest());
-	}
-
-	public onGetAuthLinkSuccess(authLink: AuthLinkResponse) {
-		this.showAuthSpinner = false;
-		window.open(authLink.url, '_blank');
-
 	}
 
 	public ngOnDestroy() {

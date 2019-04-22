@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
  
 import { InternalComponent } from './internal.component';
 import { HomeComponent } from './components/home/home.component';
+import { SettingsComponent } from './components/settings/settings.component';
  
 const internalRoutes: Routes = [
 	{ 
@@ -10,11 +11,11 @@ const internalRoutes: Routes = [
 	    children: [
 	    	{ path: '', redirectTo: 'home', pathMatch: 'full' },
 	      	{ path: 'home', component: HomeComponent },
-	      	// { path: 'settings', component: Specs }
+	      	{ path: 'settings', component: SettingsComponent }
 	    ]
 	 }
 ];
- 
+
 @NgModule({
   imports: [
     RouterModule.forChild(internalRoutes)

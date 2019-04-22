@@ -1,4 +1,28 @@
-<p>
-  move the floating header to this component
-</p>
-<router-outlet></router-outlet>
+<div class="home-header-container">
+
+	<div class="home-header d-flex justify-center items-center" *ngIf="user && !user.monzoToken">
+
+		<div>
+	    	<mat-spinner diameter="30" class="invisible"></mat-spinner>
+	    </div>
+
+	    <button
+	      (click)="authorise()"
+	      [disabled]="showAuthSpinner"
+	      mat-raised-button color="primary">
+	      Click here to link your Monzo account! 
+	    </button>
+
+	    <div>
+	    	<mat-spinner diameter="30" [ngClass]="{invisible: !showAuthSpinner}"></mat-spinner>
+	    </div>
+
+	</div>
+
+</div>
+
+<div class="home-card-container">
+	<mat-card class="home-card">
+		<router-outlet></router-outlet>
+	</mat-card>
+</div>
