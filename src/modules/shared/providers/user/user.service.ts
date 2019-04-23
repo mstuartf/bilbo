@@ -34,7 +34,7 @@ export class UserService {
 	}
 
 	public logout() {
-		return of(this.removeToken()).pipe(delay(1000))
+		return of(this.removeToken());
 	}
 
 	public removeToken() {

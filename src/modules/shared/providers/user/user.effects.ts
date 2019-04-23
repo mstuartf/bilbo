@@ -3,6 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects'
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 import { UserService } from './user.service';
 import * as UserActions from './user.actions';
@@ -11,7 +12,7 @@ import { UserObject, TokenObject } from './user.interface';
 @Injectable()
 export class UserEffects {
 
-	constructor(public actions$: Actions, public userService: UserService) {}
+	constructor(public actions$: Actions, public userService: UserService, private router: Router) {}
 
 	@Effect()
 	private register$ = this.actions$.pipe(
@@ -49,7 +50,11 @@ export class UserEffects {
 
  		switchMap((action: UserActions.LogoutRequest) => 
 			this.userService.logout().pipe(
-				map(() => new UserActions.LogoutSuccess()),
+				map(() => {
+					this.userService.removeToken();
+					this.router.navigate(['external']);
+					return new UserActions.LogoutSuccess();
+				}),
 				catchError((err: HttpErrorResponse) => of(new UserActions.LogoutFailure(err)))  // need to catch the error or the stream will end
 			)
 		)

@@ -1,28 +1,46 @@
-<div class="home-header-container">
+<div class="internal-header-container" *ngIf="user">
 
-	<div class="home-header d-flex justify-center items-center" *ngIf="user && !user.monzoToken">
+	<div class="internal-header d-flex justify-center items-center">
 
-		<div>
-	    	<mat-spinner diameter="30" class="invisible"></mat-spinner>
-	    </div>
+		<div *ngIf="!user.whitelisted">
 
-	    <button
-	      (click)="authorise()"
-	      [disabled]="showAuthSpinner"
-	      mat-raised-button color="primary">
-	      Click here to link your Monzo account! 
-	    </button>
+			<p class="mat-body">
+				Whitelisting in progress...
+			</p>
 
-	    <div>
-	    	<mat-spinner diameter="30" [ngClass]="{invisible: !showAuthSpinner}"></mat-spinner>
-	    </div>
+		</div>
+
+		<div *ngIf="user.whitelisted && !user.monzoToken">
+
+			<div>
+		    	<mat-spinner diameter="30" class="invisible"></mat-spinner>
+		    </div>
+
+		    <button
+		      (click)="authorise()"
+		      [disabled]="showAuthSpinner"
+		      mat-raised-button color="primary">
+		      Click here to link your Monzo account! 
+		    </button>
+
+		    <div>
+		    	<mat-spinner diameter="30" [ngClass]="{invisible: !showAuthSpinner}"></mat-spinner>
+		    </div>
+
+		</div>
+
+		<div *ngIf="user.monzoToken && (!user.mainAccountId || !user.bilboPotId)">
+
+			Please select your main account and Bilbo's Pot in <a mat-button routerLink="/internal/settings">Settings</a>
+
+		</div>
 
 	</div>
 
 </div>
 
-<div class="home-card-container">
-	<mat-card class="home-card">
+<div class="internal-card-container">
+	<mat-card class="internal-card">
 		<router-outlet></router-outlet>
 	</mat-card>
 </div>

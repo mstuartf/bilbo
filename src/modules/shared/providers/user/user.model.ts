@@ -10,6 +10,7 @@ export class UserModel {
 	mainAccountId: string;
 	bilboPotId: string;
 	potDepositDay: number;
+	whitelisted: boolean;
 
 	constructor(data?: UserObject) {
 		if (data) {

@@ -34,8 +34,6 @@ export class TokenInterceptor implements HttpInterceptor {
 
 				(err: HttpErrorResponse) => {	
 					if (err.status === 401) {
-						// this.userService.removeToken();
-						// this.router.navigate(['login'])
 						this.store.dispatch(new UserActions.LogoutRequest());
 					}
 				}
