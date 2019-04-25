@@ -25,8 +25,8 @@ export class UserModel {
 			this.potDepositDay = data.potDepositDay;
 			this.isActive = data.isActive;
 			this.whitelisted = data.whitelisted;
-			this.isActive = true;  // todo: delete when added to the backend
-			this.whitelisted = true;  // todo: delete when added to the backend
+			// this.isActive = true;  // todo: delete when added to the backend
+			// this.whitelisted = true;  // todo: delete when added to the backend
 		}
 	}
 

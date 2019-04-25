@@ -75,8 +75,4 @@ export class InternalComponent implements OnInit {
 		window.open(authLink.url, '_blank');
 	}
 
-	public getMoreInfo() {
-		window.open('https://docs.monzo.com/#authentication', '_blank');
-	}
-
 }
