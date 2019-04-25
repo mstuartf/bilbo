@@ -30,6 +30,9 @@ import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
 import * as PotsActions from '../../providers/pots/pots.actions';
 import { PotObject, PotsQuery } from '../../providers/pots/pots.interface';
 
+import * as AccountsActions from '../../providers/accounts/accounts.actions';
+import { AccountObject, AccountsQuery } from '../../providers/accounts/accounts.interface';
+
 
 @Component({
   selector: 'app-settings',
@@ -44,6 +47,7 @@ export class SettingsComponent implements OnInit {
 
 	public user: UserModel;
 	public pots: PotObject[];
+	public accounts: AccountObject[];
 
 	public popupConfig: PopupConfig;
 	public onConfirmPopup: Function;
@@ -58,7 +62,8 @@ export class SettingsComponent implements OnInit {
 		public dialog: MatDialog
 		) {
 
-  		this.store.dispatch(new PotsActions.GetPotsRequest())
+  		this.store.dispatch(new PotsActions.GetPotsRequest());
+  		this.store.dispatch(new AccountsActions.GetAccountsRequest());
 
 		this.actionsSub = actionsSubject.pipe(takeUntil(this.unsubscribe)).subscribe((action: StoreAction) => { 
 
@@ -96,6 +101,12 @@ export class SettingsComponent implements OnInit {
 		this.store.select('pots').subscribe((potsQuery: PotsQuery) => {
 			if (potsQuery) {
 				this.pots = potsQuery.pots;
+			}
+		})
+
+		this.store.select('accounts').subscribe((accountsQuery: AccountsQuery) => {
+			if (accountsQuery) {
+				this.accounts = accountsQuery.accounts;
 			}
 		})
 
