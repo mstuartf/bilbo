@@ -27,6 +27,10 @@ import { PopupComponent } from '../../../shared/components/popup/popup.component
 
 import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
 
+import * as PotsActions from '../../providers/pots/pots.actions';
+import { PotObject, PotsQuery } from '../../providers/pots/pots.interface';
+
+
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -39,6 +43,7 @@ export class SettingsComponent implements OnInit {
 	private actionsSub: Subscription
 
 	public user: UserModel;
+	public pots: PotObject[];
 
 	public popupConfig: PopupConfig;
 	public onConfirmPopup: Function;
@@ -53,13 +58,11 @@ export class SettingsComponent implements OnInit {
 		public dialog: MatDialog
 		) {
 
+  		this.store.dispatch(new PotsActions.GetPotsRequest())
+
 		this.actionsSub = actionsSubject.pipe(takeUntil(this.unsubscribe)).subscribe((action: StoreAction) => { 
 
 			switch (action.type) {
-
-				case UserActions.UPDATE_FAILURE:
-					this.onActionFailure(action.payload);
-					break;
 
 				case UserActions.LOGOUT_SUCCESS:
 					this.onLogoutSuccess();
@@ -67,6 +70,10 @@ export class SettingsComponent implements OnInit {
 
 				case UserActions.UPDATE_SUCCESS:
 					this.onUpdateUserSuccess();
+					break;
+
+				case UserActions.UPDATE_FAILURE:
+					this.onActionFailure(action.payload);
 					break;
 
 				default:
@@ -83,6 +90,12 @@ export class SettingsComponent implements OnInit {
 	  	this.store.select('user').subscribe((user: UserObject) => {
 			if (user) {
 				this.user = new UserModel(user);
+			}
+		})
+
+		this.store.select('pots').subscribe((potsQuery: PotsQuery) => {
+			if (potsQuery) {
+				this.pots = potsQuery.pots;
 			}
 		})
 

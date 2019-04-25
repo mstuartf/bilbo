@@ -3,4 +3,6 @@ export interface PotObject {
 	id: string;
 }
 
-export type PotsQuery = PotObject[];
+export interface PotsQuery {
+	pots: PotObject[]
+}
