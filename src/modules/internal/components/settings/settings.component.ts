@@ -84,9 +84,6 @@ export class SettingsComponent implements OnInit {
 			if (user) {
 				this.user = new UserModel(user);
 			}
-			else {
-				this.store.dispatch(new UserActions.GetRequest());
-			}
 		})
 
 	  }
