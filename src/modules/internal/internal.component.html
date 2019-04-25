@@ -1,46 +1,68 @@
-<div class="internal-header-container" *ngIf="user">
-
-	<div class="internal-header">
-
-		<div *ngIf="!user.whitelisted">
-
-			<p class="mat-body">
-				Whitelisting in progress...
-			</p>
-
-		</div>
-
-		<div *ngIf="user.whitelisted && !user.monzoToken" class="d-flex justify-center items-center">
-
-			<div>
-		    	<mat-spinner diameter="30" class="invisible"></mat-spinner>
-		    </div>
-
-		    <button
-		      (click)="authorise()"
-		      [disabled]="showAuthSpinner"
-		      mat-raised-button color="primary">
-		      Click here to link your Monzo account! 
-		    </button>
-
-		    <div>
-		    	<mat-spinner diameter="30" [ngClass]="{invisible: !showAuthSpinner}"></mat-spinner>
-		    </div>
-
-		</div>
-
-		<div *ngIf="user.monzoToken && (!user.mainAccountId || !user.bilboPotId)">
-
-			Please select your main account and Bilbo's Pot in <a mat-button routerLink="/internal/settings">Settings</a>
-
-		</div>
-
-	</div>
-
-</div>
-
 <div class="internal-card-container">
-	<mat-card class="internal-card">
+
+	<mat-card 
+		*ngIf="user && (!user.whitelisted || !user.monzoToken || !user.mainAccountId || !user.bilboPotId)" 
+		class="banner-card">
+
+		<mat-card-content>
+
+			<div *ngIf="!user.whitelisted" class="d-flex content-between">
+
+				<p class="mat-body" >
+					Bilbo is currently white-listing your account before linking to Monzo!
+				</p>
+
+			    <button
+			      (click)="getMoreInfo()"
+			      [disabled]="showAuthSpinner"
+			      mat-button color="primary">
+			      More info
+			    </button>
+
+			</div>
+
+			<div *ngIf="user.whitelisted && !user.monzoToken" class="d-flex content-between">
+
+				<p class="mat-body" >
+					Bilbo needs you to link your Monzo account!
+				</p>
+
+				<div class="d-flex items-center">
+
+					<mat-spinner diameter="20" [ngClass]="{invisible: !showAuthSpinner}" class="auth-spinner"></mat-spinner>
+
+				    <button
+				      (click)="authorise()"
+				      [disabled]="showAuthSpinner"
+				      mat-button color="primary">
+				      Link Monzo
+				    </button>
+
+				</div>
+
+			</div>
+
+			<div *ngIf="user.monzoToken && (!user.mainAccountId || !user.bilboPotId)" class="d-flex content-between">
+
+				<p class="mat-body" >
+					Bilbo needs you to select your <strong>Main Account</strong> and <strong>Pot</strong> in Settings!
+				</p>
+
+			    <button
+			      (click)="getMoreInfo()"
+			      [disabled]="showAuthSpinner"
+			      mat-button color="primary">
+			      More info
+			    </button>
+
+			</div>
+
+		</mat-card-content>
+
+	</mat-card>
+
+	<mat-card class="main-card">
 		<router-outlet></router-outlet>
 	</mat-card>
+
 </div>

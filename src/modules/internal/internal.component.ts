@@ -65,7 +65,7 @@ export class InternalComponent implements OnInit {
   	
   }
 
-  public authorise() {
+  	public authorise() {
 		this.showAuthSpinner = true;
 		this.store.dispatch(new AuthActions.GetAuthLinkRequest());
 	}
@@ -73,6 +73,10 @@ export class InternalComponent implements OnInit {
 	public onGetAuthLinkSuccess(authLink: AuthLinkResponse) {
 		this.showAuthSpinner = false;
 		window.open(authLink.url, '_blank');
+	}
+
+	public getMoreInfo() {
+		window.open('https://docs.monzo.com/#authentication', '_blank');
 	}
 
 }

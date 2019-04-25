@@ -1,132 +1,46 @@
 .internal-card-container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
   padding-top: 10%;
 }
 
-.internal-header-container{
-  position: fixed;
-  width: 100%;
-  z-index: 2;
-}
-
-.internal-card {
+.internal-card-container mat-card {
   width: 100%;
   max-width: 700px;
+  margin-bottom: 8px;
+}
+
+.internal-card-container .main-card {
   min-height: 300px;
-}
-
-.internal-table {
-  width: 100%;
-  margin-bottom: 50px;
-}
-
-.internal-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
-}
-
-.internal-full-width {
-  width: 100%;
-}
-
-.button-row button, .button-row a {
-  margin-right: 8px;
-}
-
-.p-mat-row {
-  padding: 0.5rem 0;
-}
-
-.p-mat-btn-row {
-  padding: 1rem 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.internal-card-content {
-  padding: 16px;
-}
-
-.internal-card-header {
-  padding-top: 16px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.internal-card-header button {
-	margin-right: 16px;
-}
-
-.mat-card-header .mat-card-title {
-     margin-bottom: 0; 
-}
-
-.mat-cell-inner {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.internal-card-footer {
-	display: flex;
-	justify-content: space-between;
-  align-items: center;
-	padding: 16px;
-	margin-bottom: 16px;
-}
-
-.internal-card-footer button {
-	margin-right: 16px;
-}
-
-.mat-spinner-container {
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	padding: 16px;
-}
-
-.small-mat-spinner-container {
-  padding-right: 16px;
-}
-
-.salary-date-form-field {
-  padding-right: 16px;
-  padding-left: 16px;
 }
 
 .d-flex {
   display: flex;
 }
 
+.content-between {
+  justify-content: space-between;
+}
+
 .items-center {
   align-items: center;
 }
 
-.justify-center {
-  justify-content: center;
+.banner-card {
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
-.internal-header {
-  padding: 1rem;
-}
-
-.internal-header div {
-  padding-left: 1rem;
-  padding-right: 1rem;
+.banner-card mat-card-content {
+  padding-left: 16px;
 }
 
 .invisible {
   visibility: hidden;
 }
 
-.text-align-right {
-  text-align: right;
-}
-
-tr.mat-footer-row {
-  font-weight: bold;
+.auth-spinner {
+  margin-right: 16px;
 }
