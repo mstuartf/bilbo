@@ -13,79 +13,87 @@
 
 <mat-card-content class="home-card-content">
 
-	<div class="d-flex items-center">
+	<div *ngIf="!allDataLoaded" class="mat-spinner-container">
+     	<mat-spinner diameter="50"></mat-spinner>
+    </div>
 
-		<mat-form-field class="salary-date-form-field" *ngIf="user">
+	<div *ngIf="allDataLoaded">
 
-		  <mat-label>Salary date</mat-label>
-		
-		  <mat-select 
-		    class="text-align-right"
-		  	[disabled]="showSpinner" 
-		  	[(ngModel)]="user.potDepositDay"
-		  	(selectionChange)="updateUser()">
+		<div class="d-flex items-center">
 
-		    <mat-option *ngFor="let date of [].constructor(31); let i = index" [value]="i + 1">
-		      {{i + 1}}
-		    </mat-option>
+			<mat-form-field class="salary-date-form-field">
 
-		  </mat-select>
-		
-		</mat-form-field>
+			  <mat-label>Salary date</mat-label>
+			
+			  <mat-select 
+			    class="text-align-right"
+			  	[disabled]="showSpinner" 
+			  	[(ngModel)]="user.potDepositDay"
+			  	(selectionChange)="updateSalaryDate()">
 
-		<div>
-    		<mat-spinner diameter="30" *ngIf="showSpinner"></mat-spinner>
-    	</div>
+			    <mat-option *ngFor="let date of [].constructor(31); let i = index" [value]="i + 1">
+			      {{i + 1}}
+			    </mat-option>
 
-	</div>
+			  </mat-select>
+			
+			</mat-form-field>
 
-	<div class="d-flex items-center" *ngIf="pots">
+			<div>
+	    		<mat-spinner diameter="30" *ngIf="showSalarySpinner"></mat-spinner>
+	    	</div>
 
-		<mat-form-field class="salary-date-form-field" *ngIf="user">
+		</div>
 
-		  <mat-label>Bilbo's Pot</mat-label>
-		
-		  <mat-select 
-		  	[disabled]="showSpinner" 
-		  	[(ngModel)]="user.bilboPotId"
-		  	(selectionChange)="updateUser()">
+		<div class="d-flex items-center">
 
-		    <mat-option *ngFor="let pot of pots" [value]="pot.id">
-		      {{pot.name}}
-		    </mat-option>
+			<mat-form-field class="salary-date-form-field">
 
-		  </mat-select>
-		
-		</mat-form-field>
+			  <mat-label>Bilbo's Pot</mat-label>
+			
+			  <mat-select 
+			  	[disabled]="showSpinner || !pots.length" 
+			  	[(ngModel)]="user.bilboPotId"
+			  	(selectionChange)="updateBilboPot()">
 
-		<div>
-    		<mat-spinner diameter="30" *ngIf="showSpinner"></mat-spinner>
-    	</div>
+			    <mat-option *ngFor="let pot of pots" [value]="pot.id">
+			      {{pot.name}}
+			    </mat-option>
 
-	</div>
+			  </mat-select>
+			
+			</mat-form-field>
 
-	<div class="d-flex items-center" *ngIf="pots">
+			<div>
+	    		<mat-spinner diameter="30" *ngIf="showBilboPotSpinner"></mat-spinner>
+	    	</div>
 
-		<mat-form-field class="salary-date-form-field" *ngIf="user">
+		</div>
 
-		  <mat-label>Main Account</mat-label>
-		
-		  <mat-select 
-		  	[disabled]="showSpinner" 
-		  	[(ngModel)]="user.mainAccountId"
-		  	(selectionChange)="updateUser()">
+		<div class="d-flex items-center">
 
-		    <mat-option *ngFor="let account of accounts" [value]="account.id">
-		      {{account.type}}
-		    </mat-option>
+			<mat-form-field class="salary-date-form-field">
 
-		  </mat-select>
-		
-		</mat-form-field>
+			  <mat-label>Main Account</mat-label>
+			
+			  <mat-select 
+			  	[disabled]="showSpinner || !accounts.length"
+			  	[(ngModel)]="user.mainAccountId"
+			  	(selectionChange)="updateMainAccount()">
 
-		<div>
-    		<mat-spinner diameter="30" *ngIf="showSpinner"></mat-spinner>
-    	</div>
+			    <mat-option *ngFor="let account of accounts" [value]="account.id">
+			      {{account.type}}
+			    </mat-option>
+
+			  </mat-select>
+			
+			</mat-form-field>
+
+			<div>
+	    		<mat-spinner diameter="30" *ngIf="showMainAccountSpinner"></mat-spinner>
+	    	</div>
+
+		</div>
 
 	</div>
 
@@ -101,6 +109,7 @@
 
 	    <button
 	      (click)="logout()"
+	      [disabled]="showSpinner"
 	      mat-raised-button color="primary">
 	      Logout
 	    </button>

@@ -46,14 +46,38 @@ export class SettingsComponent implements OnInit {
 	private actionsSub: Subscription
 
 	public user: UserModel;
-	public pots: PotObject[];
-	public accounts: AccountObject[];
+	public pots: PotObject[] = [];
+	public accounts: AccountObject[] = [];
 
 	public popupConfig: PopupConfig;
 	public onConfirmPopup: Function;
 	public onCancelPopup: Function;
 
-	public showSpinner = false;
+	public showMainAccountSpinner = false;
+	public showBilboPotSpinner = false;
+	public showSalarySpinner = false;
+	public showLogoutSpinner = false;
+
+	public get showSpinner(): boolean {
+		return this.showMainAccountSpinner || this.showBilboPotSpinner || this.showSalarySpinner || this.showLogoutSpinner;
+	}
+
+	public hideSpinners() {
+		this.showMainAccountSpinner = false;
+		this.showBilboPotSpinner = false;
+		this.showSalarySpinner = false;
+		this.showLogoutSpinner = false;
+	}
+
+	public get allDataLoaded(): boolean {
+		if (!this.user) {
+			return false;
+		}
+		if (this.user.monzoToken && (!this.pots.length || !this.accounts.length)) {
+			return false;
+		}
+		return true;
+	}
 
   	constructor(
 		private store: Store<AppState>, 
@@ -61,9 +85,6 @@ export class SettingsComponent implements OnInit {
 		private router: Router,
 		public dialog: MatDialog
 		) {
-
-  		this.store.dispatch(new PotsActions.GetPotsRequest());
-  		this.store.dispatch(new AccountsActions.GetAccountsRequest());
 
 		this.actionsSub = actionsSubject.pipe(takeUntil(this.unsubscribe)).subscribe((action: StoreAction) => { 
 
@@ -93,9 +114,18 @@ export class SettingsComponent implements OnInit {
 	  ngOnInit() {
 
 	  	this.store.select('user').subscribe((user: UserObject) => {
+			
 			if (user) {
+
 				this.user = new UserModel(user);
+				
+				if (this.user.monzoToken) {
+					this.store.dispatch(new PotsActions.GetPotsRequest());
+  					this.store.dispatch(new AccountsActions.GetAccountsRequest());
+				}
+
 			}
+
 		})
 
 		this.store.select('pots').subscribe((potsQuery: PotsQuery) => {
@@ -126,7 +156,7 @@ export class SettingsComponent implements OnInit {
 	  }
 
   	private onActionFailure(err: HttpErrorResponse) {
-		this.showSpinner = false;
+		this.hideSpinners();
 		const popupConfig = {
 			title: 'Oops, something went wrong',
 			message: `${err.status}: ${err.statusText}`,
@@ -145,22 +175,36 @@ export class SettingsComponent implements OnInit {
 	}
 
 	public onLogoutConfirm() {
-		this.showSpinner = true;
+		this.showLogoutSpinner = true;
 		this.store.dispatch(new UserActions.LogoutRequest());
 	}
 
 	private onLogoutSuccess() {
-		this.showSpinner = false;
+		this.hideSpinners();
 		this.router.navigate(['external'])
 	}
 
-	public updateUser() {
-		this.showSpinner = true;
+	public updateSalaryDate() {
+		this.showSalarySpinner = true;
+		this.updateUser();
+	}
+
+	public updateBilboPot() {
+		this.showBilboPotSpinner = true;
+		this.updateUser();
+	}
+
+	public updateMainAccount() {
+		this.showMainAccountSpinner = true;
+		this.updateUser();
+	}
+
+	private updateUser() {
 		this.store.dispatch(new UserActions.UpdateRequest(this.user));
 	}
 
 	public onUpdateUserSuccess() {
-		this.showSpinner = false;
+		this.hideSpinners();
 	}
 
 	public ngOnDestroy() {
