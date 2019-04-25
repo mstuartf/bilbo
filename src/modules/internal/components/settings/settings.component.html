@@ -25,26 +25,6 @@
 			<tr>
 
 				<td>
-					<p class="mat-body">Bilbo's Pot</p>
-				</td>
-				<td>
-					<mat-form-field>
-					
-					  <mat-select 
-					  	[disabled]="showSpinner || !pots.length" 
-					  	[(ngModel)]="user.bilboPotId"
-					  	(selectionChange)="updateBilboPot()">
-
-					    <mat-option *ngFor="let pot of pots" [value]="pot.id">
-					      {{pot.name}}
-					    </mat-option>
-
-					  </mat-select>
-					
-					</mat-form-field>
-				</td>
-
-				<td>
 					<p class="mat-body">Email address</p>
 				</td>
 				<td>
@@ -60,32 +40,31 @@
 					</mat-form-field>
 
 				</td>
-				<td>
-					
-				</td>
 
-			</tr>
-
-			<tr>
 				<td>
-					<p class="mat-body">Main account</p>
+					<p class="mat-body">Bilbo's Pot</p>
 				</td>
 				<td>
 					<mat-form-field>
-			
+					
 					  <mat-select 
-					  	[disabled]="showSpinner || !accounts.length"
-					  	[(ngModel)]="user.mainAccountId"
-					  	(selectionChange)="updateMainAccount()">
+					  	[disabled]="showSpinner || !pots.length || !user.monzoToken" 
+					  	[(ngModel)]="user.bilboPotId"
+					  	(selectionChange)="updateBilboPot()">
 
-					    <mat-option *ngFor="let account of accounts" [value]="account.id">
-					      {{account.type}}
+					    <mat-option *ngFor="let pot of pots" [value]="pot.id">
+					      {{pot.name}}
 					    </mat-option>
 
 					  </mat-select>
 					
 					</mat-form-field>
 				</td>
+
+			</tr>
+
+			<tr>
+
 				<td>
 					<p class="mat-body">Password</p>
 				</td>
@@ -100,10 +79,27 @@
 					
 					</mat-form-field>
 				</td>
-					
+
 				<td>
-					
+					<p class="mat-body">Main account</p>
 				</td>
+				<td>
+					<mat-form-field>
+			
+					  <mat-select 
+					  	[disabled]="showSpinner || !accounts.length || !user.monzoToken"
+					  	[(ngModel)]="user.mainAccountId"
+					  	(selectionChange)="updateMainAccount()">
+
+					    <mat-option *ngFor="let account of accounts" [value]="account.id">
+					      {{account.type}}
+					    </mat-option>
+
+					  </mat-select>
+					
+					</mat-form-field>
+				</td>
+				
 			</tr>
 
 			<tr>
@@ -133,7 +129,7 @@
 				<td class="text-align-right">
 					<button
 				      (click)="updateIsActive()"
-				      [disabled]="showSpinner"
+				      [disabled]="showSpinner || !user.monzoToken"
 				      mat-raised-button color="secondary">
 				      {{ user.isActive ? 'Deactivate' : 'Activate' }}
 				    </button>
