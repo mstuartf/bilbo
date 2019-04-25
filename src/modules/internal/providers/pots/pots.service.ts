@@ -2,17 +2,17 @@ import { Injectable } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 
-import { AccountsQuery } from './accounts.interface';
+import { PotsQuery } from './pots.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AccountsService {
+export class PotsService {
 
   constructor(public http: HttpClient) { }
 
-  public getAccounts() {
-  	return this.http.get<AccountsQuery>('user/pots');
+  public list() {
+  	return this.http.get<PotsQuery>('user/pots');
   }
 
 }

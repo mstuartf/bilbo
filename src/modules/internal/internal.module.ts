@@ -7,7 +7,7 @@ import { NewBillPopupComponent } from './components/new-bill-popup/new-bill-popu
 
 import { BillModule } from './providers/bill/bill.module';
 import { AuthModule } from './providers/auth/auth.module';
-import { AccountsModule } from './providers/accounts/accounts.module';
+import { PotsModule } from './providers/pots/pots.module';
 
 import { SharedModule } from '../shared/shared.module';
 import { InternalRoutingModule } from './internal-routing.module';
@@ -28,7 +28,7 @@ import { SettingsComponent } from './components/settings/settings.component';
     SharedModule,
     BillModule,
     AuthModule,
-    AccountsModule,
+    PotsModule,
     InternalRoutingModule
   ]
 })
