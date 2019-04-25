@@ -53,21 +53,7 @@ export class SettingsComponent implements OnInit {
 	public onConfirmPopup: Function;
 	public onCancelPopup: Function;
 
-	public showMainAccountSpinner = false;
-	public showBilboPotSpinner = false;
-	public showSalarySpinner = false;
-	public showLogoutSpinner = false;
-
-	public get showSpinner(): boolean {
-		return this.showMainAccountSpinner || this.showBilboPotSpinner || this.showSalarySpinner || this.showLogoutSpinner;
-	}
-
-	public hideSpinners() {
-		this.showMainAccountSpinner = false;
-		this.showBilboPotSpinner = false;
-		this.showSalarySpinner = false;
-		this.showLogoutSpinner = false;
-	}
+	public showSpinner: boolean;
 
 	public get allDataLoaded(): boolean {
 		if (!this.user) {
@@ -156,46 +142,56 @@ export class SettingsComponent implements OnInit {
 	  }
 
   	private onActionFailure(err: HttpErrorResponse) {
-		this.hideSpinners();
+		this.showSpinner = false;
 		const popupConfig = {
 			title: 'Oops, something went wrong',
 			message: `${err.status}: ${err.statusText}`,
 			confirm: 'OK'
 		};
 		this.showPopup(popupConfig);
-		}
+	}
 
-		public logout() {const popupConfig = {
+	public logout() {
+
+		const popupConfig = {
 			title: 'Confirm',
 			message: 'Are you sure you would like logout?',
 			confirm: 'OK',
 			cancel: 'Cancel'
 		};
+
 		this.showPopup(popupConfig, () => this.onLogoutConfirm()); 
+
 	}
 
 	public onLogoutConfirm() {
-		this.showLogoutSpinner = true;
+		this.showSpinner = true;
 		this.store.dispatch(new UserActions.LogoutRequest());
 	}
 
 	private onLogoutSuccess() {
-		this.hideSpinners();
+		this.showSpinner = false;
 		this.router.navigate(['external'])
 	}
 
+	public updateIsActive() {
+		this.showSpinner = true;
+		this.user.isActive = !this.user.isActive;
+		this.updateUser();
+	}
+
 	public updateSalaryDate() {
-		this.showSalarySpinner = true;
+		this.showSpinner = true;
 		this.updateUser();
 	}
 
 	public updateBilboPot() {
-		this.showBilboPotSpinner = true;
+		this.showSpinner = true;
 		this.updateUser();
 	}
 
 	public updateMainAccount() {
-		this.showMainAccountSpinner = true;
+		this.showSpinner = true;
 		this.updateUser();
 	}
 
@@ -204,7 +200,7 @@ export class SettingsComponent implements OnInit {
 	}
 
 	public onUpdateUserSuccess() {
-		this.hideSpinners();
+		this.showSpinner = false;
 	}
 
 	public ngOnDestroy() {

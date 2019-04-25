@@ -10,7 +10,8 @@ export class UserModel {
 	mainAccountId: string;
 	bilboPotId: string;
 	potDepositDay: number;
-	whitelisted: boolean = true;
+	whitelisted: boolean;
+	isActive: boolean;
 
 	constructor(data?: UserObject) {
 		if (data) {
@@ -22,6 +23,10 @@ export class UserModel {
 			this.mainAccountId = data.mainAccountId;
 			this.bilboPotId = data.bilboPotId;
 			this.potDepositDay = data.potDepositDay;
+			this.isActive = data.isActive;
+			this.whitelisted = data.whitelisted;
+			this.isActive = true;  // todo: delete when added to the backend
+			this.whitelisted = true;  // todo: delete when added to the backend
 		}
 	}
 
@@ -46,7 +51,8 @@ export class UserModel {
 		    monzoRefreshToken: this.monzoRefreshToken,
 			mainAccountId: this.mainAccountId,
 		    bilboPotId: this.bilboPotId,
-		    potDepositDay: this.potDepositDay
+		    potDepositDay: this.potDepositDay,
+		    // isActive: this.isActive
 		}
 	}
 

@@ -7,6 +7,8 @@ export interface UserObject {
 	mainAccountId: string;
 	bilboPotId: string;
 	potDepositDay: number;
+	isActive: boolean;
+	whitelisted: boolean;
 }
 
 export interface TokenObject {
@@ -34,6 +36,7 @@ export namespace UserPayloads {
 		mainAccountId: string;
 	    bilboPotId: string;
 	    potDepositDay: number
+	    // isActive: boolean;
 	}
 
 	export interface Login {

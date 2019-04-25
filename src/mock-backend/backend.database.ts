@@ -19,6 +19,8 @@ export let database: Database = {
 		    monzoRefreshToken: null,
 			mainAccountId: null,
 		    bilboPotId: null,
+		    whitelisted: true,
+		    isActive: true
         },
         {
             id: 2,
@@ -29,6 +31,8 @@ export let database: Database = {
 		    monzoRefreshToken: null,
 			mainAccountId: null,
 		    bilboPotId: null,
+		    whitelisted: true,
+		    isActive: true
         }
     ],
     bills: [
