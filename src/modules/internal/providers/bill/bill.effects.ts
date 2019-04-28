@@ -46,7 +46,7 @@ export class BillEffects {
 
 		switchMap((action: BillActions.RemoveBillRequest) => 
 			this.billService.remove(action.payload).pipe(
-				map((data: BillObject) => new BillActions.RemoveBillSuccess(data)),
+				map((data: BillObject) => new BillActions.RemoveBillSuccess(action.payload.id)),
 				catchError((err: HttpErrorResponse) => of(new BillActions.RemoveBillFailure(err)))  // need to catch the error or the stream will end
 			)
 		)

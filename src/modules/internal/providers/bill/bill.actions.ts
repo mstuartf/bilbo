@@ -55,7 +55,7 @@ export class RemoveBillRequest implements StoreAction {
 export const REMOVE_BILL_SUCCESS = 'REMOVE_BILL_SUCCESS'
 export class RemoveBillSuccess implements StoreAction {
 	readonly type = REMOVE_BILL_SUCCESS;
-	constructor (public payload: BillObject) {}
+	constructor (public payload: number) {}  // id of the bill removed
 }
 
 export const REMOVE_BILL_FAILURE = 'REMOVE_BILL_FAILURE'

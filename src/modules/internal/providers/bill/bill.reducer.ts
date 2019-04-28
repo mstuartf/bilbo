@@ -16,7 +16,7 @@ export function billReducer (state: BillQuery, action: BillActions.Actions) {
 		case BillActions.REMOVE_BILL_SUCCESS:
 			let results = [];
 			for (var i = 0; i < state.length; i++) {
-				if (state[i].id !== action.payload.id)
+				if (state[i].id !== action.payload)
 					results.push(state[i])
 			}
 			return results;

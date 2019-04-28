@@ -22,7 +22,7 @@ export class BillService {
 	}
 
 	public remove(bill: BillModel) {
-		return this.http.delete('bills', {params: {id: bill.id.toString()}});
+		return this.http.delete(`bills/${bill.id}`);
 	}
 
 }

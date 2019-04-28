@@ -19,7 +19,7 @@ export class BillModel {
   			this.amount = data.amount;
   			this.period = data.periodType;
   			this.periodFrequency = data.periodFrequency;
-  			this.firstPaymentDate = new Date(data.startDate * 1000);
+  			this.firstPaymentDate = new Date(data.startDate);
   		}
 
   	}
