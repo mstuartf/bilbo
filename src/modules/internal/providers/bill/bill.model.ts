@@ -16,7 +16,7 @@ export class BillModel {
   			this.id = data.id;
   			this.userId = data.user_id;
   			this.title = data.name;
-  			this.amount = data.amount;
+  			this.amount = data.amount / 100;
   			this.period = data.periodType;
   			this.periodFrequency = data.periodFrequency;
   			this.firstPaymentDate = new Date(data.startDate);
@@ -28,7 +28,7 @@ export class BillModel {
   		return {
   			user_id: this.userId,
   			name: this.title,
-  			amount: this.amount,
+  			amount: this.amount * 100,
   			startDate: this.firstPaymentDate.getTime(),
   			periodType: this.period,
   			periodFrequency: this.periodFrequency
