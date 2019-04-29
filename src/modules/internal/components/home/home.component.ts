@@ -44,7 +44,8 @@ export class HomeComponent implements OnInit {
 	public onConfirmPopup: Function;
 	public onCancelPopup: Function;
 
-	public totalPeriodAmount: number;
+	public periodSum: number;
+	public periodCount: number;
 
 	public columnsToDisplay: string[] = ['title', 'periodFrequency', 'period', 'firstPaymentDate', 'amount', 'remove'];
 
@@ -100,7 +101,7 @@ export class HomeComponent implements OnInit {
 			if (bills) {
 				this.billFeed = new BillFeed(bills);
 				this.buildTableDataSource();
-				this.totalPeriodAmount = this.billCalcService.calculateTotalDueInPeriod(this.billFeed, 28);
+				[this.periodSum, this.periodCount] = this.billCalcService.calculateTotalDueInPeriod(this.billFeed, 28);
 			}
 		})
 

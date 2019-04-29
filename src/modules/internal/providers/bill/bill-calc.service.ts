@@ -29,34 +29,40 @@ export class BillCalculationService {
 
   }
 
-  private calculatePaymentsInWindow(bill: BillModel, startDate: moment.Moment, endDate: moment.Moment): number {
+  private calculatePaymentsInWindow(bill: BillModel, startDate: moment.Moment, endDate: moment.Moment): [number, number] {
 
     const paymentDate = moment(bill.firstPaymentDate);
 
-    let total = 0;
+    let sum = 0, count = 0;
 
     while (paymentDate <= endDate) {
 
       if (paymentDate >= startDate) {
-        total += bill.amount;
+        sum += bill.amount;
+        count += 1;
+
       }
 
       paymentDate.add(bill.period, bill.periodFrequency);
 
     }
 
-    return total;
+    return [sum, count];
 
   }
 
-  public calculateTotalDueInPeriod(billFeed: BillFeed, salaryDate): number {
+  public calculateTotalDueInPeriod(billFeed: BillFeed, salaryDate): [number, number] {
 
   	const [startDate, endDate] = this.calculatePeriodBoundaries(salaryDate);
 
-  	let totalAmount = 0;
-  	billFeed.list.forEach(bill => totalAmount += this.calculatePaymentsInWindow(bill, startDate, endDate));
+  	let sum = 0, count = 0;
+  	billFeed.list.forEach(bill => {
+  		const [billTotal, billCount] = this.calculatePaymentsInWindow(bill, startDate, endDate)
+  		sum += billTotal;
+  		count += billCount;
+  	});
 
-  	return totalAmount;
+  	return [sum, count];
 
   }
 
