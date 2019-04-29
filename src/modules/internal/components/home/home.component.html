@@ -19,7 +19,7 @@
 	  <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
 	  <td mat-cell *matCellDef="let bill"> {{bill.title}} </td>
 	  <td mat-footer-cell *matFooterCellDef>
-	  	Monthly Total
+	  	Total this month
 	  	<span *ngIf="billFeed.list.length === 1">
 	  		({{billFeed.list.length}} bill)
 	  	</span>
@@ -50,7 +50,7 @@
   	<ng-container matColumnDef="amount">
 	  <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
 	  <td mat-cell *matCellDef="let bill"> {{ bill.amount | currency: '£' }} </td>
-	  <td mat-footer-cell *matFooterCellDef> {{ billFeed.monthlyTotal | currency: '£' }} </td>
+	  <td mat-footer-cell *matFooterCellDef> {{ totalPeriodAmount | currency: '£' }} </td>
 	</ng-container>
 
   	<ng-container matColumnDef="remove">

@@ -15,6 +15,8 @@ import { BillFeed, BillModel } from '../../providers/bill/bill.model';
 import { BillQuery } from '../../providers/bill/bill.interface';
 import * as BillActions from '../../providers/bill/bill.actions';
 
+import { BillCalculationService } from '../../providers/bill/bill-calc.service';
+
 import { PopupConfig } from '../../../shared/components/popup/popup-config.interface';
 import { PopupComponent } from '../../../shared/components/popup/popup.component';
 
@@ -42,6 +44,8 @@ export class HomeComponent implements OnInit {
 	public onConfirmPopup: Function;
 	public onCancelPopup: Function;
 
+	public totalPeriodAmount: number;
+
 	public columnsToDisplay: string[] = ['title', 'periodFrequency', 'period', 'firstPaymentDate', 'amount', 'remove'];
 
 	// need to create a MatTableDataSource and set its sort property for the table data to be sortable
@@ -49,7 +53,8 @@ export class HomeComponent implements OnInit {
     @ViewChild(MatSort) sort: MatSort;
 
 	constructor(
-		public billService: BillService, 
+		public billService: BillService,
+		public billCalcService: BillCalculationService,
 		private store: Store<AppState>, 
 		private actionsSubject: ActionsSubject, 
 		private router: Router,
@@ -95,6 +100,7 @@ export class HomeComponent implements OnInit {
 			if (bills) {
 				this.billFeed = new BillFeed(bills);
 				this.buildTableDataSource();
+				this.totalPeriodAmount = this.billCalcService.calculateTotalDueInPeriod(this.billFeed, 28);
 			}
 		})
 

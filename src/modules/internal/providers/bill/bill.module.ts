@@ -7,12 +7,14 @@ import { BillService } from './bill.service';
 import { billReducer } from './bill.reducer';
 import { BillEffects } from './bill.effects';
 
+import { BillCalculationService } from './bill-calc.service';
+
 
 @NgModule({
   imports: [
     StoreModule.forFeature('bills', billReducer),
     EffectsModule.forFeature([BillEffects])
   ],
-  providers: [BillService]
+  providers: [BillService, BillCalculationService]
 })
 export class BillModule { }
