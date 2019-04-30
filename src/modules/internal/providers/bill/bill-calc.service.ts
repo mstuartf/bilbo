@@ -7,37 +7,40 @@ import * as moment from 'moment';
 @Injectable()
 export class BillCalculationService {
 
+	public lastSalaryDate: moment.Moment;
+	public nextSalaryDate: moment.Moment;
+	public periodSum: number;
+	public periodCount: number;
+
 	constructor() { }
 
-	private calculatePeriodBoundaries(salaryDate: number): [moment.Moment, moment.Moment] {
+	private setPeriodBoundaries(salaryDate: number) {
 
-    let startDate = moment(),
-        endDate = moment();
+    this.lastSalaryDate = moment()
+    this.nextSalaryDate = moment();
 
-    startDate.date(salaryDate);
-    endDate.date(salaryDate);
+    this.lastSalaryDate.date(salaryDate);
+    this.nextSalaryDate.date(salaryDate);
 
     if (salaryDate <= (new Date()).getDate()) {
-      endDate.add('month', 1)
+      this.nextSalaryDate.add('month', 1)
     } 
 
     else {
-      startDate.subtract(1, 'months')
+      this.lastSalaryDate.subtract(1, 'months')
     }
-
-    return [startDate, endDate];
 
   }
 
-  private calculatePaymentsInWindow(bill: BillModel, startDate: moment.Moment, endDate: moment.Moment): [number, number] {
+  private calculatePaymentsInWindow(bill: BillModel): [number, number] {
 
     const paymentDate = moment(bill.firstPaymentDate);
 
     let sum = 0, count = 0;
 
-    while (paymentDate <= endDate) {
+    while (paymentDate <= this.nextSalaryDate) {
 
-      if (paymentDate >= startDate) {
+      if (paymentDate >= this.lastSalaryDate) {
         sum += bill.amount;
         count += 1;
 
@@ -51,18 +54,17 @@ export class BillCalculationService {
 
   }
 
-  public calculateTotalDueInPeriod(billFeed: BillFeed, salaryDate): [number, number] {
+  public updateSummary(billFeed: BillFeed, salaryDate) {
 
-  	const [startDate, endDate] = this.calculatePeriodBoundaries(salaryDate);
+  	this.setPeriodBoundaries(salaryDate);
 
-  	let sum = 0, count = 0;
+  	this.periodSum = 0;
+  	this.periodCount = 0;
   	billFeed.list.forEach(bill => {
-  		const [billTotal, billCount] = this.calculatePaymentsInWindow(bill, startDate, endDate)
-  		sum += billTotal;
-  		count += billCount;
+  		const [billTotal, billCount] = this.calculatePaymentsInWindow(bill);
+  		this.periodSum += billTotal;
+  		this.periodCount += billCount;
   	});
-
-  	return [sum, count];
 
   }
 

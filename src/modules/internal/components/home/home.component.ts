@@ -15,6 +15,9 @@ import { BillFeed, BillModel } from '../../providers/bill/bill.model';
 import { BillQuery } from '../../providers/bill/bill.interface';
 import * as BillActions from '../../providers/bill/bill.actions';
 
+import { UserModel } from '../../../shared/providers/user/user.model';
+import { UserObject } from '../../../shared/providers/user/user.interface';
+
 import { BillCalculationService } from '../../providers/bill/bill-calc.service';
 
 import { PopupConfig } from '../../../shared/components/popup/popup-config.interface';
@@ -25,6 +28,8 @@ import { NewBillPopupComponent } from '../new-bill-popup/new-bill-popup.componen
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { MatDialog, MatSort, MatTableDataSource } from '@angular/material';
+
+import * as moment from 'moment';
 
 @Component({
 	selector: 'app-home',
@@ -38,14 +43,18 @@ export class HomeComponent implements OnInit {
 	public billFeed: BillFeed;
 	private actionsSub: Subscription
 
+	private user: UserModel;
+
+	public lastSalaryDate: moment.Moment;
+	public nextSalaryDate: moment.Moment;
+	public periodSum: number;
+	public periodCount: number;
+
 	public showNewSpinner: boolean;
 
 	public popupConfig: PopupConfig;
 	public onConfirmPopup: Function;
 	public onCancelPopup: Function;
-
-	public periodSum: number;
-	public periodCount: number;
 
 	public columnsToDisplay: string[] = ['title', 'periodFrequency', 'period', 'firstPaymentDate', 'amount', 'remove'];
 
@@ -101,10 +110,27 @@ export class HomeComponent implements OnInit {
 			if (bills) {
 				this.billFeed = new BillFeed(bills);
 				this.buildTableDataSource();
-				[this.periodSum, this.periodCount] = this.billCalcService.calculateTotalDueInPeriod(this.billFeed, 28);
+				this.updateSummaryRow();
 			}
 		})
 
+		this.store.select('user').subscribe((userData: UserObject) => {
+			if (userData) {
+				this.user = new UserModel(userData);
+				this.updateSummaryRow();
+			}
+		})
+
+	}
+
+	private updateSummaryRow() {
+		if (this.user && this.billFeed) {
+			this.billCalcService.updateSummary(this.billFeed, this.user.potDepositDay);
+			this.lastSalaryDate = this.billCalcService.lastSalaryDate;
+			this.nextSalaryDate = this.billCalcService.nextSalaryDate;
+			this.periodCount = this.billCalcService.periodCount;
+			this.periodSum = this.billCalcService.periodSum;
+		}
 	}
 
 	private buildTableDataSource() {
