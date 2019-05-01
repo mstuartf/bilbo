@@ -1,4 +1,4 @@
-import * as UserActions from '../modules/shared/providers/user/user.actions';
+import * as UserActions from '../sections/shared/providers/user/user.actions';
 
 
 // all actions are passing through the metareducers before being handed over to the feature reducers

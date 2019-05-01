@@ -3,8 +3,8 @@ import { throwError, of } from 'rxjs';
 
 import { database } from './backend.database';
 
-import { UserObject } from '../modules/shared/providers/user/user.interface';
-import { BillObject } from '../modules/internal/providers/bill/bill.interface';
+import { UserObject } from '../sections/shared/providers/user/user.interface';
+import { BillObject } from '../sections/internal/providers/bill/bill.interface';
 
 
 function getTokenHeader(request: HttpRequest<any>) {

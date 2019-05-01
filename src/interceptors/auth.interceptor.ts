@@ -7,8 +7,8 @@ import { Store } from '@ngrx/store';
 
 import { AppState } from '../state/app.state';
 
-import { UserService} from '../modules/shared/providers/user/user.service';
-import * as UserActions from '../modules/shared/providers/user/user.actions';
+import { UserService} from '../sections/shared/providers/user/user.service';
+import * as UserActions from '../sections/shared/providers/user/user.actions';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
