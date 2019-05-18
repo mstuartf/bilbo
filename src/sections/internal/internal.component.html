@@ -1,12 +1,12 @@
 <div class="internal-card-container">
 
 	<mat-card 
-		*ngIf="user && (!user.whitelisted || !user.monzoToken || !user.mainAccountId || !user.bilboPotId)" 
+		*ngIf="user && ((!user.whitelisted && !user.monzoToken) || !user.monzoToken || !user.mainAccountId || !user.bilboPotId)" 
 		class="banner-card">
 
 		<mat-card-content>
 
-			<div *ngIf="!user.whitelisted" class="d-flex content-between">
+			<div *ngIf="!user.whitelisted && !user.monzoToken" class="d-flex content-between">
 
 				<p class="mat-body" >
 					Bilbo is currently white-listing your account before linking to Monzo!

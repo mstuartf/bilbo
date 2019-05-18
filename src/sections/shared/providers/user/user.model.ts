@@ -23,10 +23,8 @@ export class UserModel {
 			this.mainAccountId = data.mainAccountId;
 			this.bilboPotId = data.bilboPotId;
 			this.potDepositDay = data.potDepositDay;
-			this.isActive = data.isActive;
+			this.isActive = data.active;
 			this.whitelisted = data.whitelisted;
-			this.isActive = true;  // todo: delete when added to the backend
-			this.whitelisted = true;  // todo: delete when added to the backend
 		}
 	}
 
@@ -52,7 +50,7 @@ export class UserModel {
 			mainAccountId: this.mainAccountId,
 		    bilboPotId: this.bilboPotId,
 		    potDepositDay: this.potDepositDay,
-		    // isActive: this.isActive
+		    active: this.isActive
 		}
 	}
 
