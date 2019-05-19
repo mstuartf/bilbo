@@ -14,15 +14,18 @@ import { SharedModule } from '../shared/shared.module';
 import { InternalRoutingModule } from './internal-routing.module';
 import { InternalComponent } from './internal.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { DateFilterComponent } from './components/date-filter/date-filter.component';
 
 @NgModule({
   declarations: [
   	HomeComponent,
   	NewBillPopupComponent,
   	InternalComponent,
-  	SettingsComponent
+  	SettingsComponent,
+  	DateFilterComponent
   ],
   entryComponents: [
+    DateFilterComponent,
     NewBillPopupComponent  // loaded in a dialog so must be included in entryComponents
   ],
   imports: [

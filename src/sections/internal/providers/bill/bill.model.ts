@@ -1,5 +1,5 @@
 import { BillObject, BillQuery, ValidBillPeriod, BillPayloads } from './bill.interface';
-
+import * as moment from 'moment';
 
 export class BillModel {
 
@@ -11,54 +11,56 @@ export class BillModel {
 	periodFrequency: number;
 	firstPaymentDate: Date;
 
-  	constructor(data?: BillObject) { 
-  		if (data) {
-  			this.id = data.id;
-  			this.userId = data.user_id;
-  			this.title = data.name;
-  			this.amount = data.amount / 100;
-  			this.period = data.periodType;
-  			this.periodFrequency = data.periodFrequency;
-  			this.firstPaymentDate = new Date(data.startDate);
-  		}
+	constructor(data?: BillObject) { 
 
-  	}
+		if (data) {
+			this.id = data.id;
+			this.userId = data.user_id;
+			this.title = data.name;
+			this.amount = data.amount / 100;
+			this.period = data.periodType;
+			this.periodFrequency = data.periodFrequency;
+			this.firstPaymentDate = new Date(data.startDate);
+		}
 
-  	public get create (): BillPayloads.Create {
-  		return {
-  			user_id: this.userId,
-  			name: this.title,
-  			amount: this.amount * 100,
-  			startDate: this.firstPaymentDate.getTime(),
-  			periodType: this.period,
-  			periodFrequency: this.periodFrequency
-  		}
-  	}
+	}
 
-    get monthlyAmount(): number {
+  public isDueOnDate(date: Date): boolean {
 
-      const periodAmount = this.amount / this.periodFrequency;
+    const dueDate = moment(this.firstPaymentDate);
+    const checkDate = moment(date);
 
-      switch (this.period) {
+    while (dueDate <= checkDate) {
 
-        case 'day':
-          return periodAmount * 365.25 / 12;
-
-        case 'week':
-          return periodAmount * 52 / 12;
-
-        default:
-          return periodAmount;
-
+      if (dueDate.isSame(checkDate, 'day')) {
+        return true;
       }
+      
+      dueDate.add(this.period, this.periodFrequency);
 
     }
+
+    return false;
+
+  }
+
+	public get create (): BillPayloads.Create {
+		return {
+			user_id: this.userId,
+			name: this.title,
+			amount: this.amount * 100,
+			startDate: this.firstPaymentDate.getTime(),
+			periodType: this.period,
+			periodFrequency: this.periodFrequency
+		}
+	}
 
 }
 
 export class BillFeed {
 
 	list: BillModel[] = [];
+  rawList: BillModel[] = [];
   monthlyTotal: number;
 
 	constructor(data?: BillQuery) {
@@ -67,10 +69,12 @@ export class BillFeed {
 
 			for (var i = 0; i < data.length; i++) {
 				let bill = new BillModel(data[i]);
-				this.list.push(bill);
+				this.rawList.push(bill);
 			}
 
 		}
+
+    this.list = [ ...this.rawList ];
 
     this.updateTotal();
 
@@ -78,7 +82,11 @@ export class BillFeed {
 
   public updateTotal() {
     this.monthlyTotal = 0;
-    this.list.map(bill => this.monthlyTotal += bill.monthlyAmount);
+    this.list.map(bill => this.monthlyTotal += bill.amount);
+  }
+
+  public filterByDate(date: Date) {
+    this.list = this.rawList.filter(bill => date? bill.isDueOnDate(date) : true );
   }
 
 }

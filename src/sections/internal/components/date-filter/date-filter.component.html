@@ -1,0 +1,30 @@
+<h1 mat-dialog-title>
+	Show bills due on
+</h1>
+
+<div mat-dialog-content>
+  <div class="p-mat-row">
+
+	  <mat-form-field>
+
+		  <input matInput [matDatepicker]="picker" placeholder="Select date" [formControl]="filterDate">
+		  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+		  <mat-datepicker #picker></mat-datepicker>
+	      
+	  </mat-form-field>
+
+	</div>
+
+</div>
+
+<div mat-dialog-actions>
+
+  <button mat-button (click)="onCancel()">
+    Cancel
+  </button>
+
+  <button mat-button (click)="onConfirm()" [disabled]="filterDate.invalid">
+    OK
+  </button>
+
+</div>

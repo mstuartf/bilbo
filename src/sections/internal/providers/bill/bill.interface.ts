@@ -24,3 +24,8 @@ export namespace BillPayloads {
 	}
 
 }
+
+export interface BillData {
+  query: BillQuery;
+  dateFilter: string;  // yyyy-MM-dd
+}

@@ -12,7 +12,7 @@ import { StoreAction } from '../../../../state/store-action.interface';
 
 import { BillService } from '../../providers/bill/bill.service';
 import { BillFeed, BillModel } from '../../providers/bill/bill.model';
-import { BillQuery } from '../../providers/bill/bill.interface';
+import { BillData } from '../../providers/bill/bill.interface';
 import * as BillActions from '../../providers/bill/bill.actions';
 
 import { UserModel } from '../../../shared/providers/user/user.model';
@@ -24,6 +24,7 @@ import { PopupConfig } from '../../../shared/components/popup/popup-config.inter
 import { PopupComponent } from '../../../shared/components/popup/popup.component';
 
 import { NewBillPopupComponent } from '../new-bill-popup/new-bill-popup.component';
+import { DateFilterComponent } from '../date-filter/date-filter.component';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
@@ -55,6 +56,8 @@ export class HomeComponent implements OnInit {
 	public popupConfig: PopupConfig;
 	public onConfirmPopup: Function;
 	public onCancelPopup: Function;
+
+	public dateFilter: Date;
 
 	public columnsToDisplay: string[] = ['title', 'periodFrequency', 'period', 'firstPaymentDate', 'amount', 'remove'];
 
@@ -106,11 +109,12 @@ export class HomeComponent implements OnInit {
 
 	public ngOnInit() {
 
-		this.store.select('bills').subscribe((bills: BillQuery) => {
-			if (bills) {
-				this.billFeed = new BillFeed(bills);
+		this.store.select('bills').subscribe((billData: BillData) => {
+			if (billData) {
+				this.billFeed = new BillFeed(billData.query);
 				this.buildTableDataSource();
 				this.updateSummaryRow();
+				this.filterDateSelected(billData.dateFilter)
 			}
 		})
 
@@ -124,13 +128,24 @@ export class HomeComponent implements OnInit {
 	}
 
 	private updateSummaryRow() {
-		if (this.user && this.billFeed) {
+
+		if (!(this.user && this.billFeed)) {
+			return;
+		}
+
+		if (!this.dateFilter) {
 			this.billCalcService.updateSummary(this.billFeed, this.user.potDepositDay);
 			this.lastSalaryDate = this.billCalcService.lastSalaryDate;
 			this.nextSalaryDate = this.billCalcService.nextSalaryDate;
 			this.periodCount = this.billCalcService.periodCount;
 			this.periodSum = this.billCalcService.periodSum;
 		}
+
+		else {
+			this.billFeed.updateTotal()
+			this.periodSum = this.billFeed.monthlyTotal;
+		}
+
 	}
 
 	private buildTableDataSource() {
@@ -211,6 +226,32 @@ export class HomeComponent implements OnInit {
 			confirm: 'OK'
 		};
 		this.showPopup(popupConfig);
+	}
+
+	public selectFilterDate() {
+		const dialogRef = this.dialog.open(DateFilterComponent, {
+	      width: '400px',
+	      data: {
+	      	dateFilter: this.dateFilter
+	      }
+	    });
+
+	    dialogRef.afterClosed().subscribe((dateFilter: Date) => {
+	      if (dateFilter) {
+	      	this.store.dispatch(new BillActions.SetDateFilter(moment(dateFilter).format('YYYY-MM-DD')));
+	      }
+	      else {
+	      	this.store.dispatch(new BillActions.RemoveDateFilter());
+	      }
+	    });
+	}
+
+	public filterDateSelected(dateFilterString: string) {
+		const dateFilter = dateFilterString? new Date(dateFilterString) : null;
+		this.dateFilter = dateFilter;
+		this.billFeed.filterByDate(dateFilter);
+		this.buildTableDataSource();
+		this.updateSummaryRow();
 	}
 
 	public ngOnDestroy() {

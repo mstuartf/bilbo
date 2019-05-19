@@ -64,4 +64,18 @@ export class RemoveBillFailure implements StoreAction {
 	constructor (public payload: HttpErrorResponse) {}
 }
 
-export type Actions = GetBillsRequest | GetBillsSuccess | GetBillsFailure | AddBillRequest | AddBillSuccess | AddBillFailure | RemoveBillRequest | RemoveBillSuccess | RemoveBillFailure;
+// FILTERING BY DATE ------------------------------------
+
+export const SET_DATE_FILTER = 'SET_DATE_FILTER'
+export class SetDateFilter implements StoreAction {
+	readonly type = SET_DATE_FILTER;
+	constructor (public payload: string) {}
+}
+
+export const REMOVE_DATE_FILTER = 'REMOVE_DATE_FILTER'
+export class RemoveDateFilter implements StoreAction {
+	readonly type = REMOVE_DATE_FILTER;
+	constructor () {}
+}
+
+export type Actions = RemoveDateFilter | SetDateFilter | GetBillsRequest | GetBillsSuccess | GetBillsFailure | AddBillRequest | AddBillSuccess | AddBillFailure | RemoveBillRequest | RemoveBillSuccess | RemoveBillFailure;
