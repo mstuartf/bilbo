@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, DefaultUrlSerializer, UrlTree } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 
 import { Subscription, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -60,6 +61,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 		public userService: UserService, 
 		private actionsSubject: ActionsSubject, 
 		private router: Router,
+		private route: ActivatedRoute,
 		public dialog: MatDialog
 		) {
 
@@ -84,8 +86,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 	}
 
-	public ngOnInit() {
-	}
+	public ngOnInit() {}
 
 	public showPopup(config: PopupConfig, onConfirm?: Function): void {
 	    const dialogRef = this.dialog.open(PopupComponent, {
@@ -112,7 +113,21 @@ export class LoginComponent implements OnInit, OnDestroy {
 	private onLoginSuccess() {
 		this.showSpinner = false;
 		this.disableInputs(false);
-		this.router.navigate(['internal'])
+		const redirectUrl = this.route.snapshot.queryParamMap.get('redirectUrl');
+		if (redirectUrl) {
+			this.continueToRedirect(redirectUrl);
+		}
+		else {
+			this.router.navigate(['internal'])
+		}
+	}
+
+	public continueToRedirect(redirectUrl: string) {
+		const urlSerializer = new DefaultUrlSerializer();
+		const redirectUrlTree: UrlTree = urlSerializer.parse(redirectUrl);
+		const path = redirectUrl.split('?')[0];
+		const params = redirectUrlTree.queryParams;
+		this.router.navigate([path], {queryParams: params})
 	}
 
 	private onLoginFailure(err: HttpErrorResponse) {

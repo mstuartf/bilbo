@@ -13,13 +13,13 @@ export class InternalGuard implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
-  	// let url: string = state.url;  todo: could save this URL to redirect after login
+  	let redirectUrl: string = state.url;
 
   	if (this.userService.getToken()) {
   		return true;
   	}
 
-    this.router.navigate(['external/login']);
+    this.router.navigate(['external/login'], {queryParams: {redirectUrl: redirectUrl}});
 
     return false;
 
