@@ -19,7 +19,7 @@ export function billReducer (state: BillData, action: BillActions.Actions) {
 				if (state.query[i].id !== action.payload)
 					results.push(state.query[i])
 			}
-			return results;
+			return { ...state, query: results };
 
 		case BillActions.SET_DATE_FILTER:
 			return { ...state, dateFilter: action.payload }

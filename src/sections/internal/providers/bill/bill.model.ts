@@ -30,7 +30,7 @@ export class BillModel {
     const dueDate = moment(this.firstPaymentDate);
     const checkDate = moment(date);
 
-    while (dueDate <= checkDate) {
+    while (checkDate.isSameOrAfter(dueDate, 'day')) {
 
       if (dueDate.isSame(checkDate, 'day')) {
         return true;
@@ -60,8 +60,8 @@ export class BillModel {
 export class BillFeed {
 
 	list: BillModel[] = [];
-  rawList: BillModel[] = [];
-  monthlyTotal: number;
+  	rawList: BillModel[] = [];
+  	monthlyTotal: number;
 
 	constructor(data?: BillQuery) {
 		
