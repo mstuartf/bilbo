@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 
 import { ActionsSubject } from '@ngrx/store';
 import { Subscription, Subject } from 'rxjs';
@@ -71,7 +72,8 @@ export class HomeComponent implements OnInit {
 		private store: Store<AppState>, 
 		private actionsSubject: ActionsSubject, 
 		private router: Router,
-		public dialog: MatDialog
+		public dialog: MatDialog,
+		private route: ActivatedRoute
 		) {
 
 		this.store.dispatch(new BillActions.GetBillsRequest())
@@ -109,12 +111,14 @@ export class HomeComponent implements OnInit {
 
 	public ngOnInit() {
 
+		this.loadUrlFilterDate();
+
 		this.store.select('bills').subscribe((billData: BillData) => {
 			if (billData) {
 				this.billFeed = new BillFeed(billData.query);
 				this.buildTableDataSource();
 				this.updateSummaryRow();
-				this.filterDateSelected(billData.dateFilter)
+				this.updateLocalFilterDate(billData.dateFilter)
 			}
 		})
 
@@ -228,6 +232,13 @@ export class HomeComponent implements OnInit {
 		this.showPopup(popupConfig);
 	}
 
+	private loadUrlFilterDate() {
+		const urlFilterDate = this.route.snapshot.queryParamMap.get('date');
+		if (urlFilterDate) {
+			this.store.dispatch(new BillActions.SetDateFilter(urlFilterDate));
+		}
+	}
+
 	public selectFilterDate() {
 		const dialogRef = this.dialog.open(DateFilterComponent, {
 	      width: '400px',
@@ -241,17 +252,22 @@ export class HomeComponent implements OnInit {
 	      	this.store.dispatch(new BillActions.SetDateFilter(moment(dateFilter).format('YYYY-MM-DD')));
 	      }
 	      else {
-	      	this.store.dispatch(new BillActions.RemoveDateFilter());
+	      	this.removeFilterDate();
 	      }
 	    });
 	}
 
-	public filterDateSelected(dateFilterString: string) {
+	public removeFilterDate() {
+		this.store.dispatch(new BillActions.RemoveDateFilter());
+	}
+
+	public updateLocalFilterDate(dateFilterString: string) {
 		const dateFilter = dateFilterString? new Date(dateFilterString) : null;
 		this.dateFilter = dateFilter;
 		this.billFeed.filterByDate(dateFilter);
 		this.buildTableDataSource();
 		this.updateSummaryRow();
+		this.router.navigate(['/internal/home'], {queryParams: {date: dateFilterString}});
 	}
 
 	public ngOnDestroy() {
