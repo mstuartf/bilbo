@@ -16,6 +16,8 @@ import { InternalModule } from '../sections/internal/internal.module';
 import { MessagesModule } from '../sections/messages/messages.module';
 import { InterceptorModule } from '../interceptors/interceptor.module';
 
+import 'hammerjs';  // needed for Angular Material - console warning without this import
+
 
 @NgModule({
   declarations: [

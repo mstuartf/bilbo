@@ -16,18 +16,18 @@ export class BillCalculationService {
 
 	private setPeriodBoundaries(salaryDate: number) {
 
-    this.lastSalaryDate = moment()
+    this.lastSalaryDate = moment();
     this.nextSalaryDate = moment();
 
     this.lastSalaryDate.date(salaryDate);
     this.nextSalaryDate.date(salaryDate);
 
     if (salaryDate <= (new Date()).getDate()) {
-      this.nextSalaryDate.add('month', 1)
+      this.nextSalaryDate.add(1, 'month');
     } 
 
     else {
-      this.lastSalaryDate.subtract(1, 'months')
+      this.lastSalaryDate.subtract(1, 'months');
     }
 
   }
@@ -46,7 +46,7 @@ export class BillCalculationService {
 
       }
 
-      paymentDate.add(bill.period, bill.periodFrequency);
+      paymentDate.add(bill.periodFrequency, bill.period);
 
     }
 

@@ -36,7 +36,7 @@ export class BillModel {
         return true;
       }
       
-      dueDate.add(this.period, this.periodFrequency);
+      dueDate.add(this.periodFrequency, this.period);
 
     }
 
