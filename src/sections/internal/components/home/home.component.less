@@ -45,7 +45,6 @@ mat-icon.small-mat-icon {
 }
 
 .home-card-header {
-  padding-top: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -125,11 +124,28 @@ tr.mat-footer-row {
   display: none;
 }
 
-#mobileNewBillButton {
-  display: none;
+.mat-cell, .mat-header-cell, .mat-footer-cell {
+  font-size: 16px;
 }
 
+#newBillButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
 
+table.mat-table {
+  margin: 0;
+}
+
+.payment-summary {
+  padding-left: 24px;
+  font-size: 16px;
+}
+
+.total-cell {
+  cursor: pointer;
+}
 
 @media screen and (max-width: 960px) {
 
@@ -216,26 +232,9 @@ tr.mat-footer-row {
     margin-bottom: 0;
   }
 
-  .home-card-footer {
-    display: block;
-    margin: 0;
-    padding: 0 15px 0 15px;
-  }
-
   .mat-card.main-card {
     padding: 0;
     box-shadow: none;
-  }
-
-  .home-card-footer {
-    display: none;
-  }
-
-  #mobileNewBillButton {
-    display: block;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
   }
 
 }

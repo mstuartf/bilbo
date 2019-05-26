@@ -1,0 +1,25 @@
+<h1 mat-dialog-title>
+	Info
+</h1>
+
+<div mat-dialog-content>
+  
+	<span>
+		{{config.periodCount}} payment<span *ngIf="periodCount!==1">s</span>
+		for 
+		{{config.billCount}} bill<span *ngIf="config.billCount!==1">s</span>
+		due between 
+		{{config.lastSalaryDate | date: 'dd/MM/yyyy'}}
+		and
+		{{config.nextSalaryDate | date: 'dd/MM/yyyy'}}.
+  	</span>
+	
+</div>
+
+<div mat-dialog-actions>
+
+  <button mat-button (click)="close()">
+    OK
+  </button>
+
+</div>

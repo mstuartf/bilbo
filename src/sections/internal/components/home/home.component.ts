@@ -26,6 +26,7 @@ import { PopupComponent } from '../../../shared/components/popup/popup.component
 
 import { NewBillPopupComponent } from '../new-bill-popup/new-bill-popup.component';
 import { DateFilterComponent } from '../date-filter/date-filter.component';
+import { BillSummaryComponent, BillSummary } from '../bill-summary/bill-summary.component';
 
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
@@ -269,6 +270,16 @@ export class HomeComponent implements OnInit {
 		this.updateSummaryRow();
 		this.router.navigate(['/internal/home'], {queryParams: {date: dateFilterString}});
 	}
+
+	public showInfo(): void {
+		const summary: BillSummary = {
+			billCount: this.billFeed.list.length,
+			periodCount: this.periodCount,
+			lastSalaryDate: this.lastSalaryDate,
+			nextSalaryDate: this.nextSalaryDate
+		}
+	    this.dialog.open(BillSummaryComponent, { data: summary });
+	  }
 
 	public ngOnDestroy() {
 		this.unsubscribe.next();

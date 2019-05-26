@@ -8,6 +8,7 @@
 }
 
 .internal-card-container {
+  background: white;
   top: 64px;
   position: absolute;
   width: 100%;
@@ -18,7 +19,7 @@
   box-sizing: border-box;
 }
 
-.internal-card-container mat-card {
+.internal-card-container .main-card {
   width: 100%;
 }
 
@@ -38,15 +39,6 @@
   align-items: center;
 }
 
-.banner-card {
-  padding-top: 8px;
-  padding-bottom: 8px;
-}
-
-.banner-card mat-card-content {
-  padding-left: 16px;
-}
-
 .invisible {
   visibility: hidden;
 }
@@ -61,6 +53,12 @@
 
 .mobile-title {
   display: none;
+}
+
+.btns-div {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 @media screen and (max-width: 960px) {

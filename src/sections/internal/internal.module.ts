@@ -15,6 +15,7 @@ import { InternalRoutingModule } from './internal-routing.module';
 import { InternalComponent } from './internal.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { DateFilterComponent } from './components/date-filter/date-filter.component';
+import { BillSummaryComponent } from './components/bill-summary/bill-summary.component';
 
 @NgModule({
   declarations: [
@@ -22,10 +23,12 @@ import { DateFilterComponent } from './components/date-filter/date-filter.compon
   	NewBillPopupComponent,
   	InternalComponent,
   	SettingsComponent,
-  	DateFilterComponent
+  	DateFilterComponent,
+  	BillSummaryComponent
   ],
   entryComponents: [
     DateFilterComponent,
+    BillSummaryComponent,
     NewBillPopupComponent  // loaded in a dialog so must be included in entryComponents
   ],
   imports: [

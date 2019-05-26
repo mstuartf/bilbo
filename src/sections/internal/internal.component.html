@@ -58,15 +58,18 @@
 
 	</div>
 
-	<div class="w-25"></div>
+	<div class="w-25 btns-div">
+		<a mat-button routerLink="/internal/home">My Bills</a>
+		<a mat-button routerLink="/internal/settings">Settings</a>
+	</div>
 
 </mat-toolbar>
 
 
 <div class="internal-card-container">
 
-	<mat-card class="main-card">
+	<div class="main-card">
 		<router-outlet></router-outlet>
-	</mat-card>
+	</div>
 
 </div>
