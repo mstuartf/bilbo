@@ -4,13 +4,14 @@
 
   	<div class="date-filter-buttons">
 
-  		<button *ngIf="!dateFilter" mat-icon-button (click)="selectFilterDate()" [disabled]="showNewSpinner || !dataSource">
+  		<button 
+  			[matBadgeHidden]="!dateFilter"
+			matBadge="1"
+			matBadgeColor="secondary"
+  			mat-icon-button 
+  			(click)="selectFilterDate()" 
+  			[disabled]="showNewSpinner || !dataSource">
 	    	<mat-icon>filter_list</mat-icon>
-	  	</button>
-
-	  	<button *ngIf="dateFilter" mat-stroked-button (click)="removeFilterDate()" [disabled]="showNewSpinner || !dataSource">
-	    	due on {{ dateFilter | date: 'dd/MM/yyyy' }}
-	    	<mat-icon class="small-mat-icon">close</mat-icon>
 	  	</button>
 
   	</div>
@@ -123,3 +124,12 @@
 	</div>
 
 </mat-card-footer>
+
+<button 
+	mat-fab color="primary" 
+	(click)="addBill()"
+	[disabled]="showNewSpinner || !dataSource"
+	id="mobileNewBillButton">
+	<mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+</button>
+

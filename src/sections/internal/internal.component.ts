@@ -16,6 +16,12 @@ import { UserObject } from '../shared/providers/user/user.interface';
 import * as AuthActions from './providers/auth/auth.actions';
 import { AuthLinkResponse } from './providers/auth/auth.interface';
 
+import { MatDialog } from '@angular/material';
+
+import { PopupConfig } from '../shared/components/popup/popup-config.interface';
+import { PopupComponent } from '../shared/components/popup/popup.component';
+
+
 @Component({
   selector: 'app-internal',
   templateUrl: './internal.component.html',
@@ -32,6 +38,7 @@ export class InternalComponent implements OnInit {
 	public user: UserModel;
 
   constructor(
+  		public dialog: MatDialog,
 		private store: Store<AppState>, 
 		private actionsSubject: ActionsSubject, 
 		) {
@@ -65,6 +72,35 @@ export class InternalComponent implements OnInit {
   	
   }
 
+
+  public authorisePopup() {
+  	const popupConfig = {
+		title: 'Action needed',
+		message: 'Bilbo needs you to link your Monzo account!',
+		cancel: 'Cancel',
+		confirm: 'OK'
+	};
+	this.showPopup(popupConfig, () => this.authorise());
+  }
+
+  public whitelistInfo() {
+  	const popupConfig = {
+		title: 'Info',
+		message: 'Bilbo is currently white-listing your account before linking to Monzo!',
+		confirm: 'OK'
+	};
+	this.showPopup(popupConfig);
+  }
+
+  public settingsAction() {
+  	const popupConfig = {
+		title: 'Action needed',
+		message: 'Bilbo needs you to select your Main Account and Pot in Settings!',
+		confirm: 'OK'
+	};
+	this.showPopup(popupConfig);
+  }
+
   	public authorise() {
 		this.showAuthSpinner = true;
 		this.store.dispatch(new AuthActions.GetAuthLinkRequest());
@@ -74,5 +110,30 @@ export class InternalComponent implements OnInit {
 		this.showAuthSpinner = false;
 		window.open(authLink.url, '_blank');
 	}
+
+	public checkUserAction() {
+		if (!this.user.whitelisted) {
+			this.whitelistInfo();
+		} 
+		else if (!this.user.monzoToken) {
+			this.authorisePopup();
+		}
+		else if (!this.user.bilboPotId || !this.user.mainAccountId) {
+			this.settingsAction();
+		}
+	}
+
+	public showPopup(config: PopupConfig, onConfirm?: Function): void {
+	    const dialogRef = this.dialog.open(PopupComponent, {
+	      width: '250px',
+	      data: config
+	    });
+
+	    dialogRef.afterClosed().subscribe(result => {
+	      if (result && onConfirm) {
+	      	onConfirm();
+	      }
+	    });
+	  }
 
 }

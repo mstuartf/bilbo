@@ -125,6 +125,10 @@ tr.mat-footer-row {
   display: none;
 }
 
+#mobileNewBillButton {
+  display: none;
+}
+
 
 
 @media screen and (max-width: 960px) {
@@ -166,7 +170,13 @@ tr.mat-footer-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
+    border: none;
+
+    &:first-child {
+      background: rgba(0, 0, 0, .03);
+      padding: 0 15px;
+      height: 56px;
+    }
 
     &:first-child span {
       display: none;
@@ -177,8 +187,8 @@ tr.mat-footer-row {
     }
 
     &:not(:first-child) {
-      border: none;
       text-align: right;
+      padding: 15px;
     }
 
     &:last-child {
@@ -190,10 +200,8 @@ tr.mat-footer-row {
   // add labels to each cell (aligned left)
 
   .mat-table .mat-cell:before {
-
     content: attr(data-label);
     float: left;
-
   }
 
   .mat-table .mat-cell:last-child {
@@ -219,15 +227,15 @@ tr.mat-footer-row {
     box-shadow: none;
   }
 
-  #newBillButton {
-    width: 100%;
-    height: 3rem;
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
+  .home-card-footer {
+    display: none;
   }
 
-  .small-mat-spinner-container {
-    display: none;
+  #mobileNewBillButton {
+    display: block;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
   }
 
 }

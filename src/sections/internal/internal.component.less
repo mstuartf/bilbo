@@ -1,15 +1,25 @@
+.main-header {
+  position: fixed;
+  z-index: 2;
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+  display: flex;
+  justify-content: space-between;
+  top: 0;
+}
+
 .internal-card-container {
+  top: 64px;
+  position: absolute;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 10%;
+  box-sizing: border-box;
 }
 
 .internal-card-container mat-card {
   width: 100%;
-  max-width: 700px;
-  margin-bottom: 8px;
 }
 
 .internal-card-container .main-card {
@@ -45,6 +55,14 @@
   margin-right: 16px;
 }
 
+.w-25 {
+  width: 25%;
+}
+
+.mobile-title {
+  display: none;
+}
+
 @media screen and (max-width: 960px) {
 
   .mat-card-content div {
@@ -54,6 +72,14 @@
   .mat-card {
     padding: 0;
     box-shadow: none;
+  }
+
+  .alert-banner, .browser-title {
+    display: none;
+  }
+
+  .mobile-title {
+    display: inline;
   }
 
 }
