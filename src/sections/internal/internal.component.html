@@ -59,8 +59,14 @@
 	</div>
 
 	<div class="w-25 btns-div">
-		<a mat-button routerLink="/internal/home">My Bills</a>
-		<a mat-button routerLink="/internal/settings">Settings</a>
+		<a mat-button routerLink="/internal/home" class="header-btn" [ngClass]="{'hide-btn': activeUrl === '/internal/home'}">
+			<span>My Bills</span>
+			<mat-icon>view_list</mat-icon>
+		</a>
+		<a mat-button routerLink="/internal/settings" class="header-btn" [ngClass]="{'hide-btn': activeUrl === '/internal/settings'}">
+			<span>Settings</span>
+			<mat-icon>settings</mat-icon>
+		</a>
 	</div>
 
 </mat-toolbar>

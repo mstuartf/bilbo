@@ -61,7 +61,24 @@
   justify-content: flex-end;
 }
 
+.header-btn mat-icon {
+  display: none;
+}
+
 @media screen and (max-width: 960px) {
+
+  .header-btn mat-icon {
+    display: inline-block;
+  }
+
+  .header-btn {
+    padding: 0;
+    min-width: 0;
+  }
+
+  .header-btn span {
+    display: none;
+  }
 
   .mat-card-content div {
     display: block;
@@ -78,6 +95,10 @@
 
   .mobile-title {
     display: inline;
+  }
+
+  .hide-btn {
+    display: none;
   }
 
 }

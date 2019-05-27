@@ -4,9 +4,10 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../state/app.state';
 
 import { ActionsSubject } from '@ngrx/store';
+import { Router, NavigationEnd } from '@angular/router';
 
 import { Subscription, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, filter } from 'rxjs/operators';
 import { StoreAction } from '../../state/store-action.interface';
 
 import { UserModel } from '../shared/providers/user/user.model';
@@ -30,18 +31,21 @@ import { PopupComponent } from '../shared/components/popup/popup.component';
 export class InternalComponent implements OnInit {
 
 	private unsubscribe = new Subject();
-
 	public showAuthSpinner: boolean;
-
 	private actionsSub: Subscription
-
 	public user: UserModel;
+	public activeUrl: string;
 
   constructor(
+  		private router: Router,
   		public dialog: MatDialog,
 		private store: Store<AppState>, 
 		private actionsSubject: ActionsSubject, 
 		) {
+
+  		router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((val: NavigationEnd) => {
+	        this.activeUrl = val.url;
+	    });
 
   		this.store.dispatch(new UserActions.GetRequest())
 
