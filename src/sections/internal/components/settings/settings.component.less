@@ -1,25 +1,76 @@
 .settings-card-content {
   padding: 16px;
+  display: flex;
+  justify-content: center;
 }
 
 .settings-card-header button {
   margin-right: 16px;
 }
 
-.settings-table {
+.logout-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.logout-button div {
+  padding-right: 24px;
+}
+
+.logout-button button {
+  font-size: 16px;
+}
+
+.main-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.main-container .sub-container {
+  width: 50%;
+}
+
+.main-container .sub-container:first-child {
+  padding-right: 25px;
+}
+
+.main-container .sub-container:last-child {
+  padding-left: 25px;
+}
+
+.settings-row {
+  display: flex;
+}
+
+.settings-row p {
+  font-size: 16px;
+}
+
+mat-form-field {
   width: 100%;
 }
 
-.settings-table tr td {
-  width: 25%;
+.settings-row div:first-child {
+  width: 33%;
+  display: flex;
+  align-items: center;
 }
 
-.settings-table tr td:nth-child(2) {
-  padding-right: 12px;
+.settings-row div:last-child {
+  width: 66%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
-.settings-table tr td:nth-child(3) {
-  padding-left: 12px;
+.settings-row div:last-child div {
+  max-width: 300px;
 }
 
 .text-align-right {
@@ -40,5 +91,25 @@
   display: flex;
   justify-content: center;
   padding: 16px;
+}
+
+@media screen and (max-width: 960px) {
+
+  .main-container {
+    flex-direction: column;
+  }
+
+  .main-container .sub-container {
+    width: 100%;
+  }
+
+  .main-container .sub-container:first-child {
+    padding-right: 0;
+  }
+
+  .main-container .sub-container:last-child {
+    padding-left: 0;
+  }
+
 }
 
