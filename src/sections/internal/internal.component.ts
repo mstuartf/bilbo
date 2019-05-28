@@ -43,7 +43,7 @@ export class InternalComponent implements OnInit {
 		private actionsSubject: ActionsSubject, 
 		) {
 
-  		router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((val: NavigationEnd) => {
+  		this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((val: NavigationEnd) => {
 	        this.activeUrl = val.url;
 	    });
 

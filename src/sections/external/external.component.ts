@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-external',
-  templateUrl: './external.component.html'
+  templateUrl: './external.component.html',
+  styleUrls: ['./external.component.less']
 })
 export class ExternalComponent implements OnInit {
 
-  constructor() { }
+	activeUrl: string;
+
+  constructor() {}
 
   ngOnInit() {
   }

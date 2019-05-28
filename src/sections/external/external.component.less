@@ -1,0 +1,42 @@
+.main-header {
+  position: fixed;
+  z-index: 2;
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
+  display: flex;
+  justify-content: space-between;
+  top: 0;
+}
+
+.section {
+	height: 100vh; width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+
+
+.bg-purple {
+	background: #673ab7;
+}
+
+.bg-purple-light {
+	background: #efebf7;
+}
+
+@media screen and (max-width: 960px) {
+
+  .header-btn {
+    padding: 0;
+    min-width: 0;
+  }
+
+  .header-btn span {
+    display: none;
+  }
+
+  .hide-btn {
+    display: none;
+  }
+
+}
