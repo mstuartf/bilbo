@@ -59,11 +59,11 @@
 	</div>
 
 	<div class="w-25 btns-div">
-		<a mat-button routerLink="/internal/home" class="header-btn" [ngClass]="{'hide-btn': activeUrl === '/internal/home'}">
+		<a mat-button routerLink="/internal/home" class="header-btn" [ngClass]="{'hide-btn': activeUrl.indexOf('/home')>-1}">
 			<span>My Bills</span>
 			<mat-icon>view_list</mat-icon>
 		</a>
-		<a mat-button routerLink="/internal/settings" class="header-btn" [ngClass]="{'hide-btn': activeUrl === '/internal/settings'}">
+		<a mat-button routerLink="/internal/settings" class="header-btn" [ngClass]="{'hide-btn': activeUrl.indexOf('/settings')>-1}">
 			<span>Settings</span>
 			<mat-icon>settings</mat-icon>
 		</a>
