@@ -278,7 +278,7 @@ export class HomeComponent implements OnInit {
 			lastSalaryDate: this.lastSalaryDate,
 			nextSalaryDate: this.nextSalaryDate
 		}
-	    this.dialog.open(BillSummaryComponent, { data: summary });
+	    this.dialog.open(BillSummaryComponent, { width: '400px', data: summary });
 	  }
 
 	public ngOnDestroy() {

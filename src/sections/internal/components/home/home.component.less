@@ -3,6 +3,12 @@ mat-icon.small-mat-icon {
   height: 14px;
 }
 
+.mobile-total-cont {
+  border-bottom: 2px solid #3f51b5; 
+  width: 100%; 
+  margin-bottom: 5px;
+}
+
 .date-filter-buttons {
   flex: auto; 
   height: 40px; 
@@ -42,6 +48,7 @@ mat-icon.small-mat-icon {
 
 .home-card-content {
   padding: 16px;
+  margin-bottom: 76px;
 }
 
 .home-card-header {
@@ -99,6 +106,10 @@ mat-icon.small-mat-icon {
   justify-content: center;
 }
 
+.justify-between {
+  justify-content: space-between;
+}
+
 .home-header {
   padding: 1rem;
 }
@@ -138,6 +149,14 @@ table.mat-table {
   margin: 0;
 }
 
+.mb-30 {
+  margin-bottom: 30px;
+}
+
+.ml-15 {
+  margin-left: 15px;
+}
+
 .payment-summary {
   padding-left: 24px;
   font-size: 16px;
@@ -147,7 +166,20 @@ table.mat-table {
   cursor: pointer;
 }
 
+.my-0 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.mobile-total {
+  display: none;
+}
+
 @media screen and (max-width: 960px) {
+
+  .mobile-total {
+    display: flex;
+  }
 
   .mat-table {
     border: 0;
