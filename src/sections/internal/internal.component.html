@@ -1,19 +1,22 @@
 <mat-toolbar color="primary" class="main-header">
 
-	<div class="w-25">
-		<span 
-			(click)="checkUserAction()"
-			class="mobile-title"
-			[matBadgeHidden]="user && user.whitelisted && user.monzoToken && user.mainAccountId && user.bilboPotId"
-			matBadge="!"
-			matBadgePosition="after"
-			matBadgeColor="accent"
-			matBadgeOverlap="false">
-			Bilbo for Bills
-		</span>
-		<span class="browser-title">
-			Bilbo for Bills
-		</span>
+	<div class="lg-w-25 h-full d-flex items-center">
+		<div class="header-img"></div>
+		<div>
+			<span 
+				(click)="checkUserAction()"
+				class="mobile-title"
+				[matBadgeHidden]="user && user.whitelisted && user.monzoToken && user.mainAccountId && user.bilboPotId"
+				matBadge="!"
+				matBadgePosition="after"
+				matBadgeColor="accent"
+				matBadgeOverlap="false">
+				Bilbo
+			</span>
+			<span class="browser-title">
+				Bilbo
+			</span>
+		</div>
 
 	</div>
 
@@ -78,5 +81,7 @@
 	<div class="main-card">
 		<router-outlet></router-outlet>
 	</div>
+
+	<app-attributions></app-attributions>
 
 </div>

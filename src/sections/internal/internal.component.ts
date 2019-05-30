@@ -47,7 +47,7 @@ export class InternalComponent implements OnInit {
 		) {
 
   		this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((val: NavigationEnd) => {
-	        this.activeUrl = val.url;
+	        this.activeUrl = val.urlAfterRedirects;
 	    });
 
   		this.store.dispatch(new UserActions.GetRequest())

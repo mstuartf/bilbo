@@ -7,11 +7,13 @@ import { MatModule } from './modules/mat.module';
 import { PopupComponent } from './components/popup/popup.component';
 
 import { UserModule } from './providers/user/user.module';
+import { AttributionsComponent } from './components/attributions/attributions.component';
 
 
 @NgModule({
   declarations: [
-  	PopupComponent
+  	PopupComponent,
+  	AttributionsComponent
   ],
   entryComponents: [
     PopupComponent
@@ -28,7 +30,8 @@ import { UserModule } from './providers/user/user.module';
     MatModule,
     FormsModule,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    AttributionsComponent
   ]
 })
 export class SharedModule { }

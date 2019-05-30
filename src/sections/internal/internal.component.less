@@ -10,12 +10,13 @@
 .internal-card-container {
   background: white;
   top: 64px;
+  min-height: calc(100vh - 64px);
   position: absolute;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   box-sizing: border-box;
 }
 
@@ -47,8 +48,10 @@
   margin-right: 16px;
 }
 
-.w-25 {
-  width: 25%;
+@media screen and (min-width: 960px) {
+  .lg-w-25 {
+    width: 25%;
+  }
 }
 
 .mobile-title {
