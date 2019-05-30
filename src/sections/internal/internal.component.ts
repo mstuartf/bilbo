@@ -79,7 +79,7 @@ export class InternalComponent implements OnInit {
 
   public authorisePopup() {
   	const dialogRef = this.dialog.open(MonzoAuthComponent, {
-	      width: '250px',
+	      width: '400px',
 	      data: this.authLink
 	    });
   }
@@ -116,7 +116,7 @@ export class InternalComponent implements OnInit {
 
 	public showPopup(config: PopupConfig, onConfirm?: Function): void {
 	    const dialogRef = this.dialog.open(PopupComponent, {
-	      width: '250px',
+	      width: '400px',
 	      data: config
 	    });
 

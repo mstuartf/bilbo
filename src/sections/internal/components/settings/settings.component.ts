@@ -130,7 +130,7 @@ export class SettingsComponent implements OnInit {
 
 	  public showPopup(config: PopupConfig, onConfirm?: Function): void {
 	    const dialogRef = this.dialog.open(PopupComponent, {
-	      width: '250px',
+	      width: '400px',
 	      data: config
 	    });
 
