@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>
+	Action needed
+</h1>
+
+<div mat-dialog-content>
+  <p>Bilbo needs you to link your Monzo account!</p>
+</div>
+
+<div mat-dialog-actions>
+
+  <button mat-button (click)="onCancel()">
+    Cancel
+  </button>
+
+  <a mat-button cdkFocusInitial [href]="authLink" target="_blank">
+    OK
+  </a>
+
+</div>

@@ -27,7 +27,7 @@
 
 		</div>
 
-		<div *ngIf="user.whitelisted && !user.monzoToken" class="d-flex content-between">
+		<div *ngIf="user.whitelisted && !user.monzoToken && authLink" class="d-flex content-between">
 
 			<p class="mat-body" >
 				Bilbo needs you to link your Monzo account!
@@ -37,12 +37,13 @@
 
 				<mat-spinner diameter="20" [ngClass]="{invisible: !showAuthSpinner}" class="auth-spinner"></mat-spinner>
 
-			    <button
-			      (click)="authorise()"
+			    <a
+			      [href]="authLink"
+			      target="_blank"
 			      [disabled]="showAuthSpinner"
 			      mat-raised-button>
 			      Link Monzo
-			    </button>
+			    </a>
 
 			</div>
 

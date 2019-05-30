@@ -22,6 +22,8 @@ import { MatDialog } from '@angular/material';
 import { PopupConfig } from '../shared/components/popup/popup-config.interface';
 import { PopupComponent } from '../shared/components/popup/popup.component';
 
+import { MonzoAuthComponent } from './components/monzo-auth/monzo-auth.component';
+
 
 @Component({
   selector: 'app-internal',
@@ -35,6 +37,7 @@ export class InternalComponent implements OnInit {
 	private actionsSub: Subscription
 	public user: UserModel;
 	public activeUrl: string;
+	public authLink: string;
 
   constructor(
   		private router: Router,
@@ -49,28 +52,25 @@ export class InternalComponent implements OnInit {
 
   		this.store.dispatch(new UserActions.GetRequest())
 
-		this.actionsSub = actionsSubject.pipe(takeUntil(this.unsubscribe)).subscribe((action: StoreAction) => { 
-
-			switch (action.type) {
-
-				case AuthActions.GET_AUTH_LINK_SUCCESS:
-					this.onGetAuthLinkSuccess(action.payload);
-					break;
-
-				default:
-					break;
-
-			}
-
-		});
-
 	}
 
   ngOnInit() {
 
   	this.store.select('user').subscribe((user: UserObject) => {
 			if (user) {
+
 				this.user = new UserModel(user);
+
+				if (this.user.whitelisted && !this.user.monzoToken) {
+					this.store.dispatch(new AuthActions.GetAuthLinkRequest());
+				}
+
+			}
+		})
+
+  	this.store.select('auth').subscribe((authLink: AuthLinkResponse) => {
+			if (authLink) {
+				this.authLink = authLink.url;
 			}
 		})
   	
@@ -78,13 +78,10 @@ export class InternalComponent implements OnInit {
 
 
   public authorisePopup() {
-  	const popupConfig = {
-		title: 'Action needed',
-		message: 'Bilbo needs you to link your Monzo account!',
-		cancel: 'Cancel',
-		confirm: 'OK'
-	};
-	this.showPopup(popupConfig, () => this.authorise());
+  	const dialogRef = this.dialog.open(MonzoAuthComponent, {
+	      width: '250px',
+	      data: this.authLink
+	    });
   }
 
   public whitelistInfo() {
@@ -104,16 +101,6 @@ export class InternalComponent implements OnInit {
 	};
 	this.showPopup(popupConfig);
   }
-
-  	public authorise() {
-		this.showAuthSpinner = true;
-		this.store.dispatch(new AuthActions.GetAuthLinkRequest());
-	}
-
-	public onGetAuthLinkSuccess(authLink: AuthLinkResponse) {
-		this.showAuthSpinner = false;
-		window.open(authLink.url, '_blank');
-	}
 
 	public checkUserAction() {
 		if (!this.user.whitelisted) {

@@ -16,6 +16,8 @@ import { InternalComponent } from './internal.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { DateFilterComponent } from './components/date-filter/date-filter.component';
 import { BillSummaryComponent } from './components/bill-summary/bill-summary.component';
+import { MonzoAuthComponent } from './components/monzo-auth/monzo-auth.component';
+
 
 @NgModule({
   declarations: [
@@ -24,11 +26,13 @@ import { BillSummaryComponent } from './components/bill-summary/bill-summary.com
   	InternalComponent,
   	SettingsComponent,
   	DateFilterComponent,
-  	BillSummaryComponent
+  	BillSummaryComponent,
+  	MonzoAuthComponent
   ],
   entryComponents: [
     DateFilterComponent,
     BillSummaryComponent,
+    MonzoAuthComponent,
     NewBillPopupComponent  // loaded in a dialog so must be included in entryComponents
   ],
   imports: [
